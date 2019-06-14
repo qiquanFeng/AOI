@@ -4,7 +4,7 @@
 
 AOI::AOI(QWidget *parent)
 	: QMainWindow(parent), m_widDebug(tr("OutputPannel")), m_widFrame(tr("Preview Frame")), m_widIOStatus(tr("IO Status")), m_labImage(""),
-	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_tabIOStatus(2,16)
+	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16)
 {
 	ui.setupUi(this);
 
@@ -12,19 +12,24 @@ AOI::AOI(QWidget *parent)
 	Motion_thread *th = new Motion_thread(this);
 	th->moveToThread(thr1);
 	thr1->start();
-	
 
 	for (int i = 0; i < 16; i++)
 	{
+		short status0 = dmc_read_outbit(0, i);
+		short status1 = dmc_read_outbit(1, i);
+
 		m_butIO_Card0[i] = new PushButtonEx("", i, 0);
 		m_butIO_Card1[i] = new PushButtonEx("", i, 1);
 		m_tabIOStatus.setCellWidget(0, i, m_butIO_Card0[i]);
 		m_tabIOStatus.setCellWidget(1, i, m_butIO_Card1[i]);
+		m_butIO_Card0[i]->slot_statusChange(status0);
+		m_butIO_Card1[i]->slot_statusChange(status1);
 
 		connect(m_butIO_Card0[i], SIGNAL(sig_sendIO(int,int)), th, SLOT(slot_sendChangeIO(int, int)));
 		connect(m_butIO_Card1[i], SIGNAL(sig_sendIO(int, int)), th, SLOT(slot_sendChangeIO(int, int)));
+		
 	}
-	
+	connect(this, SIGNAL(git_resetAxis()),th,SLOT(slot_resetAxis()),Qt::BlockingQueuedConnection);
 	//*****************************
 	setChildsAttribute();
 	createLayout();
@@ -78,6 +83,7 @@ int AOI::createLayout(){
 	m_vLayout1.addWidget(&m_butLoad);
 	m_vLayout1.addWidget(&m_butUnLoad);
 	m_vLayout1.addWidget(&m_butRun);
+	m_vLayout1.addWidget(&m_butReset);
 	
 	m_vLayout1.addStretch(10);
 
@@ -97,10 +103,14 @@ int AOI::setChildsAttribute() {
 	connect(&m_butLoad, SIGNAL(pressed()), this, SLOT(slot_butLoad()));
 	connect(&m_butUnLoad, SIGNAL(pressed()), this, SLOT(slot_butUnLoad()));
 	connect(&m_butRun, SIGNAL(pressed()), this, SLOT(slot_butRun()));
+	connect(&m_butReset, SIGNAL(pressed()), this, SLOT(slot_butReset()));
 	return 0;
 }
 void AOI::slot_butLoad() {
 	emit sig_logOutput("load",QColor(255,0,0));
+
+	dmc_set_profile(1, 0, 10000,20000,0.1, 0.1, 0);
+	dmc_pmove(1, 0, 300000, 1);
 }
 void AOI::slot_butUnLoad() {
 	emit sig_logOutput("unload", QColor(0, 255, 0));
@@ -108,7 +118,19 @@ void AOI::slot_butUnLoad() {
 void AOI::slot_butRun() {
 	emit sig_logOutput("run");
 }
+void AOI::slot_butReset() {
+	emit git_resetAxis();
+};
 void AOI::slot_outputLog(QString text,QColor color) {
 	m_editLog.setTextColor(color);
-	m_editLog.append(text);
+	QTime time = QTime::currentTime();
+	m_editLog.append(time.toString("hh:mm:ss:zzz ")+text);
+}
+void AOI::slot_IOChangeInfo(int iIoNumber, int iCard, int status) {
+	if (iCard == 0) {
+		m_butIO_Card0[iIoNumber]->slot_statusChange(status);
+	}
+	else {
+		m_butIO_Card1[iIoNumber]->slot_statusChange(status);
+	}
 }

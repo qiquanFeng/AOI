@@ -31,12 +31,14 @@ public:
 
 signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
+	void git_resetAxis();
 
 	public slots:
 	void slot_outputLog(QString,QColor);
 	void slot_butLoad();
 	void slot_butUnLoad();
 	void slot_butRun();
+	void slot_butReset();
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 
@@ -61,6 +63,7 @@ public:
 	QPushButton m_butLoad;
 	QPushButton m_butUnLoad;
 	QPushButton m_butRun;
+	QPushButton m_butReset;
 
 	PushButtonEx* m_butIO_Card0[16];
 	PushButtonEx* m_butIO_Card1[16];
@@ -96,7 +99,7 @@ private:
 	}
 
 	public slots:
-
+	void slot_IOChangeInfo(int iIoNumber, int iCard, int status);
 
 
 };

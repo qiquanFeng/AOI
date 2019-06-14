@@ -27,10 +27,10 @@ void PushButtonEx::slot_statusChange(int status) {
 	switch (status)
 	{
 	case 0:
-		setStyleSheet("QPushButton{background-color:red;}");
+		setStyleSheet("QPushButton{background-color:green;}");
 		break;
 	case 1:
-		setStyleSheet("background-color:green;");
+		setStyleSheet("background-color:red;");
 		break;
 	case 2:
 		setStyleSheet("background-color:yellow;");

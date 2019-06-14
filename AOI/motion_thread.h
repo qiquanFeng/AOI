@@ -22,14 +22,19 @@ public:
 
 	int motion_Init();
 signals:
-	void sig_statusChange();
+	void sig_statusChange(int iIoNumber, int iCard,int status);
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
 
 	public slots:
 		void slot_sendChangeIO(int iIoNumber,int iCard);
+		void slot_resetAxis();
 protected:
 	virtual void run();
 private:
+	int m_CardNum;
+	QString configFilePath[2];
+
+	
 	
 };
 

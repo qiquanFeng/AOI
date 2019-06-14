@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_AOI_t {
-    QByteArrayData data[1];
-    char stringdata0[4];
+    QByteArrayData data[9];
+    char stringdata0[85];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -31,10 +31,20 @@ struct qt_meta_stringdata_AOI_t {
     )
 static const qt_meta_stringdata_AOI_t qt_meta_stringdata_AOI = {
     {
-QT_MOC_LITERAL(0, 0, 3) // "AOI"
+QT_MOC_LITERAL(0, 0, 3), // "AOI"
+QT_MOC_LITERAL(1, 4, 13), // "sig_logOutput"
+QT_MOC_LITERAL(2, 18, 0), // ""
+QT_MOC_LITERAL(3, 19, 4), // "text"
+QT_MOC_LITERAL(4, 24, 5), // "color"
+QT_MOC_LITERAL(5, 30, 14), // "slot_outputLog"
+QT_MOC_LITERAL(6, 45, 12), // "slot_butLoad"
+QT_MOC_LITERAL(7, 58, 14), // "slot_butUnLoad"
+QT_MOC_LITERAL(8, 73, 11) // "slot_butRun"
 
     },
-    "AOI"
+    "AOI\0sig_logOutput\0\0text\0color\0"
+    "slot_outputLog\0slot_butLoad\0slot_butUnLoad\0"
+    "slot_butRun"
 };
 #undef QT_MOC_LITERAL
 
@@ -44,22 +54,61 @@ static const uint qt_meta_data_AOI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       2,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    2,   44,    2, 0x06 /* Public */,
+       1,    1,   49,    2, 0x26 /* Public | MethodCloned */,
+
+ // slots: name, argc, parameters, tag, flags
+       5,    2,   52,    2, 0x0a /* Public */,
+       6,    0,   57,    2, 0x0a /* Public */,
+       7,    0,   58,    2, 0x0a /* Public */,
+       8,    0,   59,    2, 0x0a /* Public */,
+
+ // signals: parameters
+    QMetaType::Void, QMetaType::QString, QMetaType::QColor,    3,    4,
+    QMetaType::Void, QMetaType::QString,    3,
+
+ // slots: parameters
+    QMetaType::Void, QMetaType::QString, QMetaType::QColor,    2,    2,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
 
 void AOI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    Q_UNUSED(_o);
-    Q_UNUSED(_id);
-    Q_UNUSED(_c);
-    Q_UNUSED(_a);
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        AOI *_t = static_cast<AOI *>(_o);
+        Q_UNUSED(_t)
+        switch (_id) {
+        case 0: _t->sig_logOutput((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QColor(*)>(_a[2]))); break;
+        case 1: _t->sig_logOutput((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->slot_outputLog((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QColor(*)>(_a[2]))); break;
+        case 3: _t->slot_butLoad(); break;
+        case 4: _t->slot_butUnLoad(); break;
+        case 5: _t->slot_butRun(); break;
+        default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
+        {
+            typedef void (AOI::*_t)(QString , QColor );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&AOI::sig_logOutput)) {
+                *result = 0;
+                return;
+            }
+        }
+    }
 }
 
 const QMetaObject AOI::staticMetaObject = {
@@ -86,7 +135,23 @@ int AOI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     _id = QMainWindow::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 6)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 6;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 6)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 6;
+    }
     return _id;
+}
+
+// SIGNAL 0
+void AOI::sig_logOutput(QString _t1, QColor _t2)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

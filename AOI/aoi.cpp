@@ -4,7 +4,7 @@
 
 AOI::AOI(QWidget *parent)
 	: QMainWindow(parent), m_widDebug(tr("OutputPannel")), m_widFrame(tr("Preview Frame")), m_widIOStatus(tr("IO Status")), m_labImage(""),
-	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16)
+	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16), uiRows(3), uiColumns(11)
 {
 	ui.setupUi(this);
 
@@ -12,6 +12,7 @@ AOI::AOI(QWidget *parent)
 	Motion_thread *th = new Motion_thread(this);
 	th->moveToThread(thr1);
 	thr1->start();
+	th->start();
 
 	for (int i = 0; i < 16; i++)
 	{
@@ -29,7 +30,10 @@ AOI::AOI(QWidget *parent)
 		connect(m_butIO_Card1[i], SIGNAL(sig_sendIO(int, int)), th, SLOT(slot_sendChangeIO(int, int)));
 		
 	}
-	connect(this, SIGNAL(git_resetAxis()),th,SLOT(slot_resetAxis()),Qt::BlockingQueuedConnection);
+	connect(this, SIGNAL(sig_resetAxis()),th,SLOT(slot_resetAxis()));
+	connect(this, SIGNAL(sig_load()), th, SLOT(slot_load()));
+	connect(this, SIGNAL(sig_unload()), th, SLOT(slot_unload()));
+	connect(this, SIGNAL(sig_test()), th, SLOT(slot_test()));
 	//*****************************
 	setChildsAttribute();
 	createLayout();
@@ -107,19 +111,16 @@ int AOI::setChildsAttribute() {
 	return 0;
 }
 void AOI::slot_butLoad() {
-	emit sig_logOutput("load",QColor(255,0,0));
-
-	dmc_set_profile(1, 0, 10000,20000,0.1, 0.1, 0);
-	dmc_pmove(1, 0, 300000, 1);
+	emit sig_load();
 }
 void AOI::slot_butUnLoad() {
-	emit sig_logOutput("unload", QColor(0, 255, 0));
+	emit sig_unload();
 }
 void AOI::slot_butRun() {
-	emit sig_logOutput("run");
+	emit sig_test();
 }
 void AOI::slot_butReset() {
-	emit git_resetAxis();
+	emit sig_resetAxis();
 };
 void AOI::slot_outputLog(QString text,QColor color) {
 	m_editLog.setTextColor(color);

@@ -20,6 +20,7 @@
 #include "interface.h"
 #include "pushbuttonex.h"
 #include "motion_thread.h"
+#include <Windows.h>
 
 class AOI : public QMainWindow
 {
@@ -31,7 +32,10 @@ public:
 
 signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
-	void git_resetAxis();
+	void sig_resetAxis();
+	void sig_load();
+	void sig_unload();
+	void sig_test();
 
 	public slots:
 	void slot_outputLog(QString,QColor);
@@ -80,6 +84,9 @@ public:
 
 private:
 	Ui::AOIClass ui;
+
+	unsigned int uiRows;
+	unsigned int uiColumns;
 
 	__inline void saveLayout() {
 		QSettings settings("layout.ini",QSettings::Format::IniFormat);

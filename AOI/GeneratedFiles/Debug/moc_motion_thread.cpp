@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Motion_thread_t {
-    QByteArrayData data[11];
-    char stringdata0[113];
+    QByteArrayData data[19];
+    char stringdata0[189];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,13 +41,23 @@ QT_MOC_LITERAL(6, 55, 13), // "sig_logOutput"
 QT_MOC_LITERAL(7, 69, 4), // "text"
 QT_MOC_LITERAL(8, 74, 5), // "color"
 QT_MOC_LITERAL(9, 80, 17), // "slot_sendChangeIO"
-QT_MOC_LITERAL(10, 98, 14) // "slot_resetAxis"
+QT_MOC_LITERAL(10, 98, 14), // "slot_resetAxis"
+QT_MOC_LITERAL(11, 113, 9), // "slot_load"
+QT_MOC_LITERAL(12, 123, 9), // "slot_test"
+QT_MOC_LITERAL(13, 133, 11), // "slot_unload"
+QT_MOC_LITERAL(14, 145, 15), // "slot_MatrixMove"
+QT_MOC_LITERAL(15, 161, 3), // "row"
+QT_MOC_LITERAL(16, 165, 3), // "col"
+QT_MOC_LITERAL(17, 169, 9), // "rowMargin"
+QT_MOC_LITERAL(18, 179, 9) // "colMargin"
 
     },
     "Motion_thread\0sig_statusChange\0\0"
     "iIoNumber\0iCard\0status\0sig_logOutput\0"
     "text\0color\0slot_sendChangeIO\0"
-    "slot_resetAxis"
+    "slot_resetAxis\0slot_load\0slot_test\0"
+    "slot_unload\0slot_MatrixMove\0row\0col\0"
+    "rowMargin\0colMargin"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,7 +67,7 @@ static const uint qt_meta_data_Motion_thread[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -65,13 +75,17 @@ static const uint qt_meta_data_Motion_thread[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    3,   39,    2, 0x06 /* Public */,
-       6,    2,   46,    2, 0x06 /* Public */,
-       6,    1,   51,    2, 0x26 /* Public | MethodCloned */,
+       1,    3,   59,    2, 0x06 /* Public */,
+       6,    2,   66,    2, 0x06 /* Public */,
+       6,    1,   71,    2, 0x26 /* Public | MethodCloned */,
 
  // slots: name, argc, parameters, tag, flags
-       9,    2,   54,    2, 0x0a /* Public */,
-      10,    0,   59,    2, 0x0a /* Public */,
+       9,    2,   74,    2, 0x0a /* Public */,
+      10,    0,   79,    2, 0x0a /* Public */,
+      11,    0,   80,    2, 0x0a /* Public */,
+      12,    0,   81,    2, 0x0a /* Public */,
+      13,    0,   82,    2, 0x0a /* Public */,
+      14,    4,   83,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,    3,    4,    5,
@@ -81,6 +95,10 @@ static const uint qt_meta_data_Motion_thread[] = {
  // slots: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    3,    4,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Double, QMetaType::Double,   15,   16,   17,   18,
 
        0        // eod
 };
@@ -96,6 +114,10 @@ void Motion_thread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 2: _t->sig_logOutput((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 3: _t->slot_sendChangeIO((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 4: _t->slot_resetAxis(); break;
+        case 5: _t->slot_load(); break;
+        case 6: _t->slot_test(); break;
+        case 7: _t->slot_unload(); break;
+        case 8: _t->slot_MatrixMove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< double(*)>(_a[3])),(*reinterpret_cast< double(*)>(_a[4]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -143,13 +165,13 @@ int Motion_thread::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 9;
     }
     return _id;
 }

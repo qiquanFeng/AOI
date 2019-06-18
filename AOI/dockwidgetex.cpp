@@ -14,7 +14,7 @@ DockWidgetEx::~DockWidgetEx()
 }
 
 void DockWidgetEx::resizeEvent(QResizeEvent *event) {
-	QFile file("001.bmp");
+	/*QFile file("001.bmp");
 	file.open(QIODevice::ReadOnly);
 	QByteArray arrBuf = file.readAll();
 	((AOI*)parent())->m_labImage.setPixmap(QPixmap::fromImage(QImage((uchar*)arrBuf.data(), 2608, 1960, QImage::Format_RGB888)));
@@ -23,5 +23,5 @@ void DockWidgetEx::resizeEvent(QResizeEvent *event) {
 	
 	QSize size=event->size();
 	QSize oldsize = event->oldSize();
-	return;
+	return;*/
 }

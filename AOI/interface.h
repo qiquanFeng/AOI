@@ -7,6 +7,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QUrl>
+#include "./rapidjson/rapidjson.h"
+#include "./rapidjson/document.h"
 
 class HTTP_Interface : public QObject
 {
@@ -25,5 +27,7 @@ public:
 private:
 	
 };
+
+
 
 #endif // NETFACE_H

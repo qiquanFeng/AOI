@@ -20,6 +20,7 @@
 #include "interface.h"
 #include "pushbuttonex.h"
 #include "motion_thread.h"
+#include "widconfig.h"
 #include <Windows.h>
 
 class AOI : public QMainWindow
@@ -49,6 +50,7 @@ protected:
 public:
 	//**  Menu Bar ****************
 	QAction *m_actOption;
+	widconfig *m_widconfig;
 
 	//**  QGroupBox ***************
 	DockWidgetEx m_widDebug;
@@ -107,6 +109,8 @@ private:
 
 	public slots:
 	void slot_IOChangeInfo(int iIoNumber, int iCard, int status);
+	void slot_Option();
+	void slot_updateImage(QString strPath);
 
 
 };

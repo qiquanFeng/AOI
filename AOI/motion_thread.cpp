@@ -1,12 +1,15 @@
 #include "motion_thread.h"
+using namespace rapidjson;
 
 Motion_thread::Motion_thread(QObject *parent)
-	: QThread(nullptr), m_CardNum(0), m_bES(false)
+	: QThread(nullptr), m_CardNum(0), m_bES(false), m_bReceived(false), m_HTTP_Interface(new HTTP_Interface),\
+	mutex1(new QMutex)
 {
 	configFilePath[0] = QString("DMC3400.ini");
 	configFilePath[1] = QString("DMC3800.ini");
 	connect(this, SIGNAL(sig_logOutput(QString, QColor)), parent, SLOT(slot_outputLog(QString, QColor)));
 	connect(this, SIGNAL(sig_statusChange(int,int,int)), parent, SLOT(slot_IOChangeInfo(int, int, int)));
+	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
 	motion_Init();
 }
 
@@ -15,6 +18,10 @@ Motion_thread::~Motion_thread()
 
 }
 void Motion_thread::run() {
+	//th1 =new Motion_thread1(this);
+	//th1->start();
+	//connect(m_HTTP_Interface->m_pManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onReply(QNetworkReply *)));
+
 	while (1) {
 		short status[2][16];
 
@@ -58,7 +65,7 @@ void Motion_thread::slot_resetAxis() {
 
 	axis_move(0, 0, 10000, 1, 0, 1, false);
 	axis_move(0, 1, 10000, 0, 0, 1, false);
-	axis_move(0, 2, 2000, 0, 0, 1, false);
+	axis_move(0, 2, 1000, 0, 0, 1, false);
 	
 
 	m_bES = false;
@@ -92,49 +99,55 @@ int Motion_thread::motion_Init() {
 				return -1;
 			}
 	}
-	/*
+	
+
+	//**           相机初始化  ****************************
+
 	QString strSend("{\"init\":\"1\"}");
-	emit sigLogAdd(tr("sent init post"));
-	for (int i = 0; i < 4; i++)
-	{
-		if (!bReceived)
-		{
-			m_HTTP_Interface->sendPost(strSend.toLatin1(), QUrl("http://127.0.0.1:6789/init"), 6789);
-			mysleep(2500);
-		}
-	}
-	if (!bReceived)
-	{
-		emit sigWarnningLogAdd(QString::fromLocal8Bit("初始化失败"));
-		emit sigLogAdd(QString::fromLocal8Bit("初始化失败"));
-		return;
-	}
-
-	emit sigWarnningLogAdd(QString::fromLocal8Bit("初始化成功"));
-	emit sigLogAdd(QString::fromLocal8Bit("初始化成功"));
-	bInited = true;
-	*/
-
+	emit sig_logOutput(tr("sent init post"));
+	m_HTTP_Interface->sendPost(strSend.toLatin1(), QUrl("http://127.0.0.1:6789/init"), 6789);
+	
+	//connect(m_HTTP_Interface->m_pManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onReply(QNetworkReply *)));
+	th1 = new Motion_thread1(this);
+	connect(m_HTTP_Interface->m_pManager, SIGNAL(finished(QNetworkReply *)), th1, SLOT(onReply(QNetworkReply *)));
 	return m_CardNum;
 }
 void Motion_thread::slot_load() {
 	emit sig_logOutput("start load...");
+	dmc_write_outbit(0, 0, 1);
+	dmc_write_outbit(0, 1, 0);
+	dmc_write_outbit(1, 5, 1);
+	dmc_write_outbit(1, 6, 1);
+	dmc_write_outbit(1, 7, 1);
+	dmc_write_outbit(0, 2, 1);
+
+	axis_move(1, 2, 10000, 0, 0, 1, true);
 	axis_move(1, 0, 80000, 1, 1040000,0,false);
-	axis_move(1, 1, 80000, 1, -1020000, 0, false);
+	axis_move(1, 1, 80000, 1, -1010000, 0, false);
 	axis_move(0, 1, 20000, 1, 88600, 0, false);
-	axis_move(0, 0, 20000, 1, 0,1,false);
+	axis_move(0, 0, 20000, 1, 0,1,true);
+	axis_move(0, 2, 1000, 0, 0, 1, true);
+	emit sig_logOutput("end load");
 }
 void Motion_thread::slot_unload() {
 	emit sig_logOutput("start unload...");
 	dmc_write_outbit(0, 1, 0);
 	dmc_write_outbit(0, 2, 1);
+	dmc_write_outbit(0, 0, 1);
 
+	axis_move(0, 2, 2000, 0, 0, 1, false);
 	axis_move(0, 1, 20000, 1, 88600, 0, false);
-	axis_move(0, 0, 40000, 1, -350000);
+	axis_move(0, 0, 40000, 1, -340000);
 	msleep(300);
 	dmc_write_outbit(0, 0, 0);
+	axis_move(0, 2, 20000, 1, -8000, 0, true);
+	dmc_write_outbit(0, 0, 1);
+	axis_move(0, 2, 2000, 0, 0, 1, true);
+	dmc_write_outbit(0, 0, 0);
+	axis_move(0, 2, 1000, 1, -10500, 0, true);
 }
 void Motion_thread::slot_test() {
+	int iresult = 0;
 	emit sig_logOutput("start test... ");
 	short status = 0;
 	emit sig_logOutput(tr("check box exists..."),QColor());
@@ -144,7 +157,7 @@ void Motion_thread::slot_test() {
 	} while (!status);
 
 	emit sig_logOutput(tr("check box success!"));
-	axis_move(1, 2, 20000, 1, -90000);
+	axis_move(1, 2, 20000, 1, -140000);
 
 	dmc_write_outbit(0, 1, 0);
 	dmc_write_outbit(0, 2, 1);
@@ -171,6 +184,7 @@ void Motion_thread::slot_test() {
 		status = dmc_read_inbit(0, 2);
 		if (dmc_check_done(0, 2)) {
 			emit sig_logOutput(QString::fromLocal8Bit("载板上料检测失败！"));
+			iresult = -1;
 			break;
 		}
 	} while (status);
@@ -181,7 +195,14 @@ void Motion_thread::slot_test() {
 	dmc_write_outbit(0, 2, 0);
 	dmc_write_outbit(0, 0, 1);
 
+	if (iresult) {
+		axis_move(0, 1, 20000, 1, 88600, 0, false);
+		axis_move(0, 0, 20000, 1, 0, 1, true);
+		axis_move(0, 2, 1000, 0, 0, 1, true);
+		return;
+	}
 	slot_MatrixMove(3, 11, 12.5, 19.5);
+	
 }
 void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double colMargin) {
 	double rowStep = rowMargin * 1000;
@@ -191,17 +212,152 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 		for (int r = 0; r < row; r++)
 		{
 			if (c % 2) {
-				axis_move(0, 1, 10000, 0, -rowStep);
+				axis_move(0, 1, 20000, 0, -rowStep);
 			}
 			else {
-				axis_move(0, 1, 10000, 0, rowStep);
+				axis_move(0, 1, 20000, 0, rowStep);
 			}
+			//**    开始检测  ****
+			mutex1->lock();
+			m_bReceived = false;
+			slot_predict();
+			mutex1->unlock();
+			QTime reachTime = QTime::currentTime().addMSecs(10000);
+			while (QTime::currentTime() < reachTime&&m_bReceived==false)
+				QApplication::processEvents();
+			
 		}
-		axis_move(0, 0, 10000, 0, -colStep);
+		axis_move(0, 0, 20000, 0, -colStep);
+		//**    开始检测  ****
+		mutex1->lock();
+		m_bReceived = false;
+		slot_predict();
+		mutex1->unlock();
+		QTime reachTime = QTime::currentTime().addMSecs(10000);
+		while (QTime::currentTime() < reachTime&&m_bReceived == false)
+			QApplication::processEvents();
 	}
 }
+void Motion_thread::slot_predict() {
+	//QString strSend("{\"action\":\"1\"}");
+	//currow = row;					//以左上角为1,1坐标的行号
+	//curcol = colCMOS - col + 1;		//以左上角为1,1坐标的列号
+	//sample_id = curcol + colCMOS*(row - 1);//从左到右从上到下计数
+	QString strTime = QDateTime::currentDateTime().toString("yyyyMMddhhmmsszzz");//发送拍照指令时间
+	QString s = strTime;//boxid+pannelid+sampleid+time合并用以生成MD5
+	QByteArray b = HTTP_Interface::getMD5(s.toLatin1());
+	QString md5 = HTTP_Interface::UnicodeToString(b);
 
+	QString strSend(tr("{\"box_id\":\"%1\",\"pannel_id\":\"%2\",\"sample_id\":\"%3\",\"machine_id\":\"%4\",\"time\":\"%5\",\"operator\":\"%6\",\"shift_id\":\"%7\",\"md5\":\"%8\",\"config\":\"%9\"}")
+		.arg(1)
+		.arg(1)
+		.arg(1)
+		.arg(1)
+		.arg(strTime)
+		.arg(1)
+		.arg(1)
+		.arg(md5)
+		.arg(1)
+	);
+	m_HTTP_Interface->sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/predict"), 6789);
 
+}
+
+QString Motion_thread::onReply(QNetworkReply *pReply) {
+	if (pReply->error());
+
+	QByteArray array = pReply->readAll();
+	pReply->close();
+
+	QString str = HTTP_Interface::UnicodeToString(array);
+
+	if (str == NULL)
+	{
+		emit sig_logOutput("Server ERROR:NO REPLY");
+		return str;
+	}
+	emit  sig_logOutput("Server recv:" + str, QColor(0, 255, 0));
+
+	Document doc;
+	doc.Parse(str.toLocal8Bit().data());
+
+	//初始化分支
+	if (doc.HasMember("init_result"))
+	{
+		if (doc["init_result"] == "0")
+		{
+			emit  sig_logOutput(QString::fromLocal8Bit("相机或者检测模块初始化错误"));
+		}
+		else
+		{
+			m_bReceived = true;
+		}
+		return str;
+	}
+
+	//轮廓检测分支
+	if (doc.HasMember("detec_en"))
+	{
+		if (doc["detec_en"] == "1")
+			emit  sig_logOutput(QString::fromLocal8Bit("轮廓检测已打开"));
+		else if (doc["detec_en"] == "0")
+			emit  sig_logOutput(QString::fromLocal8Bit("轮廓检测已关闭"));
+		//bReceived = true;
+		return str;
+	}
+
+	//拍照分支
+	if (doc.HasMember("img_result"))
+	{
+		QString process_res = QString::fromLocal8Bit(doc["img_result"].GetString());
+		QString process_time = QString::fromLocal8Bit(doc["img_proc_time"].GetString());
+		QString img_path = QString::fromLocal8Bit(doc["img_path"].GetString());
+		QString raw_image_path = QString::fromLocal8Bit(doc["img_raw_path"].GetString());
+		QString pos_ok = QString::fromLocal8Bit(doc["img_pos_res"].GetString());
+		emit  sig_logOutput(img_path, QColor(255, 0, 0));
+		//emit sig_updateImage(img_path);
+
+		int gridColor;//界面格子颜色flag
+		if (process_res == "OK")
+			gridColor = 1;
+		else if (process_res == "NG")
+			gridColor = 0;
+		else if (process_res == "NO")
+			gridColor = 2;
+
+		//emit sigSendRes(pannel_id, currow, curcol, gridColor, process_time, md5, raw_image_path);
+
+		m_bReceived = true;
+		return str;
+	}
+	emit  sig_logOutput("Server ERROR");
+	return str;
+}
+void Motion_thread1::slot_predict() {
+	m_bReceived = false;
+	//QString strSend("{\"action\":\"1\"}");
+	//currow = row;					//以左上角为1,1坐标的行号
+	//curcol = colCMOS - col + 1;		//以左上角为1,1坐标的列号
+	//sample_id = curcol + colCMOS*(row - 1);//从左到右从上到下计数
+	QString strTime = QDateTime::currentDateTime().toString("yyyyMMddhhmmsszzz");//发送拍照指令时间
+	QString s = strTime;//boxid+pannelid+sampleid+time合并用以生成MD5
+	QByteArray b = HTTP_Interface::getMD5(s.toLatin1());
+	QString md5 = HTTP_Interface::UnicodeToString(b);
+
+	QString strSend(tr("{\"box_id\":\"%1\",\"pannel_id\":\"%2\",\"sample_id\":\"%3\",\"machine_id\":\"%4\",\"time\":\"%5\",\"operator\":\"%6\",\"shift_id\":\"%7\",\"md5\":\"%8\",\"config\":\"%9\"}")
+		.arg(1)
+		.arg(1)
+		.arg(1)
+		.arg(1)
+		.arg(strTime)
+		.arg(1)
+		.arg(1)
+		.arg(md5)
+		.arg(1)
+	);
+	slot_sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/predict"), 6789);
+
+}
 int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int target, int orgMode, bool bAck) {
 	if (m_bES) {
 		emit sig_logOutput(QString::fromLocal8Bit("急停状态中！"),QColor(255,0,0));
@@ -224,7 +380,109 @@ int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int targ
 		
 	} while (!status&&bAck);
 	
+	msleep(200);
 	if(orgMode)
 		dmc_set_position(card, axis, 0);
 	return 0;
+}
+
+Motion_thread1::Motion_thread1(QObject *parent): m_pManager(new QNetworkAccessManager)
+{
+	m_parent = (Motion_thread*)parent;
+	connect(this, &Motion_thread1::sig_logOutput, m_parent, &Motion_thread::sig_logOutput);
+	
+}
+
+Motion_thread1::~Motion_thread1() {
+
+}
+void Motion_thread1::run() {
+	m_pManager->moveToThread(this);
+	connect(m_pManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onReply(QNetworkReply *)));
+	emit sig_logOutput(tr("sent init post"));
+	QString strSend("{\"init\":\"1\"}");
+	slot_sendPost(strSend.toLatin1(), QUrl("http://127.0.0.1:6789/init"), 6789);
+	exec();
+	return;
+}
+QString Motion_thread1::onReply(QNetworkReply *pReply) {
+	
+	if (pReply->error());
+
+	QByteArray array = pReply->readAll();
+	pReply->close();
+
+	QString str = HTTP_Interface::UnicodeToString(array);
+
+	if (str == NULL)
+	{
+		emit sig_logOutput("Server ERROR:NO REPLY");
+		return str;
+	}
+	emit  sig_logOutput("Server recv:" + str, QColor(0, 255, 0));
+
+	Document doc;
+	doc.Parse(str.toLocal8Bit().data());
+
+	//初始化分支
+	if (doc.HasMember("init_result"))
+	{
+		if (doc["init_result"] == "0")
+		{
+			emit  m_parent->sig_logOutput(QString::fromLocal8Bit("相机或者检测模块初始化错误"));
+		}
+		else
+		{
+			m_bReceived = true;
+		}
+		return str;
+	}
+
+	//轮廓检测分支
+	if (doc.HasMember("detec_en"))
+	{
+		if (doc["detec_en"] == "1")
+			emit  sig_logOutput(QString::fromLocal8Bit("轮廓检测已打开"));
+		else if (doc["detec_en"] == "0")
+			emit  sig_logOutput(QString::fromLocal8Bit("轮廓检测已关闭"));
+		//bReceived = true;
+		return str;
+	}
+
+	//拍照分支
+	if (doc.HasMember("img_result"))
+	{
+		QString process_res = QString::fromLocal8Bit(doc["img_result"].GetString());
+		QString process_time = QString::fromLocal8Bit(doc["img_proc_time"].GetString());
+		QString img_path = QString::fromLocal8Bit(doc["img_path"].GetString());
+		QString raw_image_path = QString::fromLocal8Bit(doc["img_raw_path"].GetString());
+		QString pos_ok = QString::fromLocal8Bit(doc["img_pos_res"].GetString());
+		emit  sig_logOutput(img_path, QColor(255, 0, 0));
+		emit m_parent->sig_updateImage(img_path);
+
+		int gridColor;//界面格子颜色flag
+		if (process_res == "OK")
+			gridColor = 1;
+		else if (process_res == "NG")
+			gridColor = 0;
+		else if (process_res == "NO")
+			gridColor = 2;
+
+		//emit sigSendRes(pannel_id, currow, curcol, gridColor, process_time, md5, raw_image_path);
+		m_bReceived = true;
+		m_parent->mutex1->lock();
+		m_parent->m_bReceived = m_bReceived;
+		m_parent->mutex1->unlock();
+		
+		return str;
+	}
+	emit  sig_logOutput("Server ERROR");
+	return str;
+}
+QNetworkAccessManager* Motion_thread1::slot_sendPost(QByteArray sendBuf,QUrl url,int port, QString contentType) {
+	QNetworkRequest request(url);
+	request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(contentType));
+	m_pManager->post(request, sendBuf);
+
+	return m_pManager;
 }

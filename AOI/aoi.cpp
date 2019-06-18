@@ -4,7 +4,8 @@
 
 AOI::AOI(QWidget *parent)
 	: QMainWindow(parent), m_widDebug(tr("OutputPannel")), m_widFrame(tr("Preview Frame")), m_widIOStatus(tr("IO Status")), m_labImage(""),
-	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16), uiRows(3), uiColumns(11)
+	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16), uiRows(3), uiColumns(11),
+	m_widconfig(new widconfig())
 {
 	ui.setupUi(this);
 
@@ -39,12 +40,7 @@ AOI::AOI(QWidget *parent)
 	createLayout();
 	m_labImage.setFixedSize(800,600);
 
-	QFile file("001.bmp");
-	file.open(QIODevice::ReadOnly);
-	QByteArray arrBuf=file.readAll();
-	m_labImage.setPixmap(QPixmap::fromImage(QImage((uchar*)arrBuf.data(),2608,1960,QImage::Format_RGB888)));
-	m_labImage.setScaledContents(true);
-	file.close();
+	
 
 	QFile fileStyle("qstyle");
 	fileStyle.open(QIODevice::ReadOnly);
@@ -91,11 +87,13 @@ int AOI::createLayout(){
 	
 	m_vLayout1.addStretch(10);
 
-
+	slot_updateImage("D:/sf/images/04_25/10-01-09_0P_1_14.jpg");
 	//********************** Menu *******************
 	m_actOption = new QAction(tr("&Option"));
-	menuBar()->addAction(m_actOption);
+	QMenu *menSetting=menuBar()->addMenu("setting");
+	menSetting->addAction(m_actOption);
 
+	connect(m_actOption, SIGNAL(triggered()), this, SLOT(slot_Option()));
 
 	return 0;
 }
@@ -134,4 +132,16 @@ void AOI::slot_IOChangeInfo(int iIoNumber, int iCard, int status) {
 	else {
 		m_butIO_Card1[iIoNumber]->slot_statusChange(status);
 	}
+}
+void AOI::slot_Option() {
+	m_widconfig->show();
+}
+
+void AOI::slot_updateImage(QString strPath) {
+	QFile file(strPath);
+	file.open(QIODevice::ReadOnly);
+	QByteArray arrBuf = file.readAll();
+	m_labImage.setPixmap(QPixmap::fromImage(QImage(strPath)));
+	m_labImage.setScaledContents(true);
+	file.close();
 }

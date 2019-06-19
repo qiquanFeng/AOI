@@ -2,7 +2,7 @@
 #include <QSqlDatabase>
 
 widconfig::widconfig(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(nullptr)
 {
 	ui.setupUi(this);
 

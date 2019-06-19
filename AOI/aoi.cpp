@@ -5,7 +5,7 @@
 AOI::AOI(QWidget *parent)
 	: QMainWindow(parent), m_widDebug(tr("OutputPannel")), m_widFrame(tr("Preview Frame")), m_widIOStatus(tr("IO Status")), m_labImage(""),
 	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16), uiRows(3), uiColumns(11),
-	m_widconfig(new widconfig())
+	m_widconfig(new widconfig(this))
 {
 	ui.setupUi(this);
 

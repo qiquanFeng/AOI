@@ -86,6 +86,7 @@ public:
 
 private:
 	Ui::AOIClass ui;
+	srt_config m_config;
 
 	unsigned int uiRows;
 	unsigned int uiColumns;

@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -33,85 +34,83 @@ public:
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *verticalLayout_7;
     QListWidget *listWidget;
-    QLineEdit *lineEdit;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton;
+    QLineEdit *lineEdit_configName;
+    QPushButton *pushButton_fit;
+    QPushButton *pushButton_add;
+    QPushButton *pushButton_del;
+    QPushButton *pushButton_save;
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_2;
-    QSpinBox *spinBox_2;
+    QSpinBox *boxRows;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label;
-    QSpinBox *spinBox;
+    QDoubleSpinBox *boxPadding;
     QLabel *label_8;
-    QSpinBox *spinBox_8;
+    QDoubleSpinBox *boxMargin;
     QGroupBox *groupBox_2;
     QWidget *verticalLayoutWidget_3;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_4;
-    QSpinBox *spinBox_4;
+    QSpinBox *plateRows;
     QLabel *label_7;
-    QSpinBox *spinBox_7;
+    QSpinBox *plateCols;
     QHBoxLayout *horizontalLayout_6;
     QLabel *label_5;
-    QSpinBox *spinBox_5;
+    QDoubleSpinBox *plateRowPadding;
     QLabel *label_9;
-    QSpinBox *spinBox_9;
+    QDoubleSpinBox *plateColPadding;
     QGroupBox *groupBox_3;
     QWidget *verticalLayoutWidget_4;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout_7;
     QLabel *label_6;
-    QSpinBox *spinBox_6;
+    QSpinBox *loadPos_X;
     QLabel *label_10;
-    QSpinBox *spinBox_10;
+    QSpinBox *loadSpeed_X;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_11;
-    QSpinBox *spinBox_11;
+    QSpinBox *loadPos_Y;
     QLabel *label_12;
-    QSpinBox *spinBox_12;
+    QSpinBox *loadSpeed_Y;
     QHBoxLayout *horizontalLayout_11;
     QLabel *label_17;
-    QSpinBox *spinBox_17;
+    QSpinBox *loadPos_Z;
     QLabel *label_18;
-    QSpinBox *spinBox_18;
+    QSpinBox *loadSpeed_Z;
     QGroupBox *groupBox_4;
     QWidget *verticalLayoutWidget_5;
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_13;
-    QSpinBox *spinBox_13;
+    QSpinBox *unLoadPos_X;
     QLabel *label_14;
-    QSpinBox *spinBox_14;
+    QSpinBox *unLoadSpeed_X;
     QHBoxLayout *horizontalLayout_12;
     QLabel *label_19;
-    QSpinBox *spinBox_19;
+    QSpinBox *unLoadPos_Y;
     QLabel *label_20;
-    QSpinBox *spinBox_20;
+    QSpinBox *unLoadSpeed_Y;
     QHBoxLayout *horizontalLayout_13;
     QLabel *label_21;
-    QSpinBox *spinBox_21;
+    QSpinBox *unLoadPos_Z;
     QLabel *label_22;
-    QSpinBox *spinBox_22;
+    QSpinBox *unLoadSpeed_Z;
     QGroupBox *groupBox_5;
     QWidget *verticalLayoutWidget_6;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_14;
     QLabel *label_23;
-    QSpinBox *spinBox_23;
+    QSpinBox *testFirstPos_X;
     QLabel *label_24;
-    QSpinBox *spinBox_24;
+    QSpinBox *testFirstPos_Y;
     QHBoxLayout *horizontalLayout_15;
-    QLabel *label_25;
-    QSpinBox *spinBox_25;
     QLabel *label_26;
-    QSpinBox *spinBox_26;
+    QSpinBox *testSpeed;
 
     void setupUi(QWidget *widconfig)
     {
@@ -134,30 +133,30 @@ public:
 
         verticalLayout_7->addWidget(listWidget);
 
-        lineEdit = new QLineEdit(horizontalLayoutWidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit_configName = new QLineEdit(horizontalLayoutWidget);
+        lineEdit_configName->setObjectName(QStringLiteral("lineEdit_configName"));
 
-        verticalLayout_7->addWidget(lineEdit);
+        verticalLayout_7->addWidget(lineEdit_configName);
 
-        pushButton_4 = new QPushButton(horizontalLayoutWidget);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_fit = new QPushButton(horizontalLayoutWidget);
+        pushButton_fit->setObjectName(QStringLiteral("pushButton_fit"));
 
-        verticalLayout_7->addWidget(pushButton_4);
+        verticalLayout_7->addWidget(pushButton_fit);
 
-        pushButton_2 = new QPushButton(horizontalLayoutWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_add = new QPushButton(horizontalLayoutWidget);
+        pushButton_add->setObjectName(QStringLiteral("pushButton_add"));
 
-        verticalLayout_7->addWidget(pushButton_2);
+        verticalLayout_7->addWidget(pushButton_add);
 
-        pushButton_3 = new QPushButton(horizontalLayoutWidget);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        pushButton_del = new QPushButton(horizontalLayoutWidget);
+        pushButton_del->setObjectName(QStringLiteral("pushButton_del"));
 
-        verticalLayout_7->addWidget(pushButton_3);
+        verticalLayout_7->addWidget(pushButton_del);
 
-        pushButton = new QPushButton(horizontalLayoutWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton_save = new QPushButton(horizontalLayoutWidget);
+        pushButton_save->setObjectName(QStringLiteral("pushButton_save"));
 
-        verticalLayout_7->addWidget(pushButton);
+        verticalLayout_7->addWidget(pushButton_save);
 
 
         horizontalLayout->addLayout(verticalLayout_7);
@@ -183,10 +182,10 @@ public:
 
         horizontalLayout_3->addWidget(label_2);
 
-        spinBox_2 = new QSpinBox(verticalLayoutWidget_2);
-        spinBox_2->setObjectName(QStringLiteral("spinBox_2"));
+        boxRows = new QSpinBox(verticalLayoutWidget_2);
+        boxRows->setObjectName(QStringLiteral("boxRows"));
 
-        horizontalLayout_3->addWidget(spinBox_2);
+        horizontalLayout_3->addWidget(boxRows);
 
 
         verticalLayout_2->addLayout(horizontalLayout_3);
@@ -199,25 +198,24 @@ public:
 
         horizontalLayout_2->addWidget(label);
 
-        spinBox = new QSpinBox(verticalLayoutWidget_2);
-        spinBox->setObjectName(QStringLiteral("spinBox"));
+        boxPadding = new QDoubleSpinBox(verticalLayoutWidget_2);
+        boxPadding->setObjectName(QStringLiteral("boxPadding"));
 
-        horizontalLayout_2->addWidget(spinBox);
+        horizontalLayout_2->addWidget(boxPadding);
 
         label_8 = new QLabel(verticalLayoutWidget_2);
         label_8->setObjectName(QStringLiteral("label_8"));
 
         horizontalLayout_2->addWidget(label_8);
 
-        spinBox_8 = new QSpinBox(verticalLayoutWidget_2);
-        spinBox_8->setObjectName(QStringLiteral("spinBox_8"));
+        boxMargin = new QDoubleSpinBox(verticalLayoutWidget_2);
+        boxMargin->setObjectName(QStringLiteral("boxMargin"));
 
-        horizontalLayout_2->addWidget(spinBox_8);
+        horizontalLayout_2->addWidget(boxMargin);
 
 
         verticalLayout_2->addLayout(horizontalLayout_2);
 
-        verticalLayoutWidget_2->raise();
 
         verticalLayout->addWidget(groupBox);
 
@@ -239,20 +237,20 @@ public:
 
         horizontalLayout_5->addWidget(label_4);
 
-        spinBox_4 = new QSpinBox(verticalLayoutWidget_3);
-        spinBox_4->setObjectName(QStringLiteral("spinBox_4"));
+        plateRows = new QSpinBox(verticalLayoutWidget_3);
+        plateRows->setObjectName(QStringLiteral("plateRows"));
 
-        horizontalLayout_5->addWidget(spinBox_4);
+        horizontalLayout_5->addWidget(plateRows);
 
         label_7 = new QLabel(verticalLayoutWidget_3);
         label_7->setObjectName(QStringLiteral("label_7"));
 
         horizontalLayout_5->addWidget(label_7);
 
-        spinBox_7 = new QSpinBox(verticalLayoutWidget_3);
-        spinBox_7->setObjectName(QStringLiteral("spinBox_7"));
+        plateCols = new QSpinBox(verticalLayoutWidget_3);
+        plateCols->setObjectName(QStringLiteral("plateCols"));
 
-        horizontalLayout_5->addWidget(spinBox_7);
+        horizontalLayout_5->addWidget(plateCols);
 
 
         verticalLayout_3->addLayout(horizontalLayout_5);
@@ -265,20 +263,20 @@ public:
 
         horizontalLayout_6->addWidget(label_5);
 
-        spinBox_5 = new QSpinBox(verticalLayoutWidget_3);
-        spinBox_5->setObjectName(QStringLiteral("spinBox_5"));
+        plateRowPadding = new QDoubleSpinBox(verticalLayoutWidget_3);
+        plateRowPadding->setObjectName(QStringLiteral("plateRowPadding"));
 
-        horizontalLayout_6->addWidget(spinBox_5);
+        horizontalLayout_6->addWidget(plateRowPadding);
 
         label_9 = new QLabel(verticalLayoutWidget_3);
         label_9->setObjectName(QStringLiteral("label_9"));
 
         horizontalLayout_6->addWidget(label_9);
 
-        spinBox_9 = new QSpinBox(verticalLayoutWidget_3);
-        spinBox_9->setObjectName(QStringLiteral("spinBox_9"));
+        plateColPadding = new QDoubleSpinBox(verticalLayoutWidget_3);
+        plateColPadding->setObjectName(QStringLiteral("plateColPadding"));
 
-        horizontalLayout_6->addWidget(spinBox_9);
+        horizontalLayout_6->addWidget(plateColPadding);
 
 
         verticalLayout_3->addLayout(horizontalLayout_6);
@@ -290,7 +288,7 @@ public:
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
         verticalLayoutWidget_4 = new QWidget(groupBox_3);
         verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
-        verticalLayoutWidget_4->setGeometry(QRect(10, 10, 491, 81));
+        verticalLayoutWidget_4->setGeometry(QRect(10, 10, 491, 85));
         verticalLayout_4 = new QVBoxLayout(verticalLayoutWidget_4);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -304,20 +302,23 @@ public:
 
         horizontalLayout_7->addWidget(label_6);
 
-        spinBox_6 = new QSpinBox(verticalLayoutWidget_4);
-        spinBox_6->setObjectName(QStringLiteral("spinBox_6"));
+        loadPos_X = new QSpinBox(verticalLayoutWidget_4);
+        loadPos_X->setObjectName(QStringLiteral("loadPos_X"));
+        loadPos_X->setMinimum(-10000000);
+        loadPos_X->setMaximum(10000000);
 
-        horizontalLayout_7->addWidget(spinBox_6);
+        horizontalLayout_7->addWidget(loadPos_X);
 
         label_10 = new QLabel(verticalLayoutWidget_4);
         label_10->setObjectName(QStringLiteral("label_10"));
 
         horizontalLayout_7->addWidget(label_10);
 
-        spinBox_10 = new QSpinBox(verticalLayoutWidget_4);
-        spinBox_10->setObjectName(QStringLiteral("spinBox_10"));
+        loadSpeed_X = new QSpinBox(verticalLayoutWidget_4);
+        loadSpeed_X->setObjectName(QStringLiteral("loadSpeed_X"));
+        loadSpeed_X->setMaximum(100000);
 
-        horizontalLayout_7->addWidget(spinBox_10);
+        horizontalLayout_7->addWidget(loadSpeed_X);
 
 
         verticalLayout_4->addLayout(horizontalLayout_7);
@@ -330,20 +331,23 @@ public:
 
         horizontalLayout_8->addWidget(label_11);
 
-        spinBox_11 = new QSpinBox(verticalLayoutWidget_4);
-        spinBox_11->setObjectName(QStringLiteral("spinBox_11"));
+        loadPos_Y = new QSpinBox(verticalLayoutWidget_4);
+        loadPos_Y->setObjectName(QStringLiteral("loadPos_Y"));
+        loadPos_Y->setMinimum(-10000000);
+        loadPos_Y->setMaximum(10000000);
 
-        horizontalLayout_8->addWidget(spinBox_11);
+        horizontalLayout_8->addWidget(loadPos_Y);
 
         label_12 = new QLabel(verticalLayoutWidget_4);
         label_12->setObjectName(QStringLiteral("label_12"));
 
         horizontalLayout_8->addWidget(label_12);
 
-        spinBox_12 = new QSpinBox(verticalLayoutWidget_4);
-        spinBox_12->setObjectName(QStringLiteral("spinBox_12"));
+        loadSpeed_Y = new QSpinBox(verticalLayoutWidget_4);
+        loadSpeed_Y->setObjectName(QStringLiteral("loadSpeed_Y"));
+        loadSpeed_Y->setMaximum(100000);
 
-        horizontalLayout_8->addWidget(spinBox_12);
+        horizontalLayout_8->addWidget(loadSpeed_Y);
 
 
         verticalLayout_4->addLayout(horizontalLayout_8);
@@ -356,20 +360,23 @@ public:
 
         horizontalLayout_11->addWidget(label_17);
 
-        spinBox_17 = new QSpinBox(verticalLayoutWidget_4);
-        spinBox_17->setObjectName(QStringLiteral("spinBox_17"));
+        loadPos_Z = new QSpinBox(verticalLayoutWidget_4);
+        loadPos_Z->setObjectName(QStringLiteral("loadPos_Z"));
+        loadPos_Z->setMinimum(-10000000);
+        loadPos_Z->setMaximum(10000000);
 
-        horizontalLayout_11->addWidget(spinBox_17);
+        horizontalLayout_11->addWidget(loadPos_Z);
 
         label_18 = new QLabel(verticalLayoutWidget_4);
         label_18->setObjectName(QStringLiteral("label_18"));
 
         horizontalLayout_11->addWidget(label_18);
 
-        spinBox_18 = new QSpinBox(verticalLayoutWidget_4);
-        spinBox_18->setObjectName(QStringLiteral("spinBox_18"));
+        loadSpeed_Z = new QSpinBox(verticalLayoutWidget_4);
+        loadSpeed_Z->setObjectName(QStringLiteral("loadSpeed_Z"));
+        loadSpeed_Z->setMaximum(100000);
 
-        horizontalLayout_11->addWidget(spinBox_18);
+        horizontalLayout_11->addWidget(loadSpeed_Z);
 
 
         verticalLayout_4->addLayout(horizontalLayout_11);
@@ -381,7 +388,7 @@ public:
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
         verticalLayoutWidget_5 = new QWidget(groupBox_4);
         verticalLayoutWidget_5->setObjectName(QStringLiteral("verticalLayoutWidget_5"));
-        verticalLayoutWidget_5->setGeometry(QRect(10, 10, 491, 81));
+        verticalLayoutWidget_5->setGeometry(QRect(10, 10, 491, 85));
         verticalLayout_5 = new QVBoxLayout(verticalLayoutWidget_5);
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -395,20 +402,23 @@ public:
 
         horizontalLayout_9->addWidget(label_13);
 
-        spinBox_13 = new QSpinBox(verticalLayoutWidget_5);
-        spinBox_13->setObjectName(QStringLiteral("spinBox_13"));
+        unLoadPos_X = new QSpinBox(verticalLayoutWidget_5);
+        unLoadPos_X->setObjectName(QStringLiteral("unLoadPos_X"));
+        unLoadPos_X->setMinimum(-10000000);
+        unLoadPos_X->setMaximum(10000000);
 
-        horizontalLayout_9->addWidget(spinBox_13);
+        horizontalLayout_9->addWidget(unLoadPos_X);
 
         label_14 = new QLabel(verticalLayoutWidget_5);
         label_14->setObjectName(QStringLiteral("label_14"));
 
         horizontalLayout_9->addWidget(label_14);
 
-        spinBox_14 = new QSpinBox(verticalLayoutWidget_5);
-        spinBox_14->setObjectName(QStringLiteral("spinBox_14"));
+        unLoadSpeed_X = new QSpinBox(verticalLayoutWidget_5);
+        unLoadSpeed_X->setObjectName(QStringLiteral("unLoadSpeed_X"));
+        unLoadSpeed_X->setMaximum(100000);
 
-        horizontalLayout_9->addWidget(spinBox_14);
+        horizontalLayout_9->addWidget(unLoadSpeed_X);
 
 
         verticalLayout_5->addLayout(horizontalLayout_9);
@@ -421,20 +431,23 @@ public:
 
         horizontalLayout_12->addWidget(label_19);
 
-        spinBox_19 = new QSpinBox(verticalLayoutWidget_5);
-        spinBox_19->setObjectName(QStringLiteral("spinBox_19"));
+        unLoadPos_Y = new QSpinBox(verticalLayoutWidget_5);
+        unLoadPos_Y->setObjectName(QStringLiteral("unLoadPos_Y"));
+        unLoadPos_Y->setMinimum(-10000000);
+        unLoadPos_Y->setMaximum(10000000);
 
-        horizontalLayout_12->addWidget(spinBox_19);
+        horizontalLayout_12->addWidget(unLoadPos_Y);
 
         label_20 = new QLabel(verticalLayoutWidget_5);
         label_20->setObjectName(QStringLiteral("label_20"));
 
         horizontalLayout_12->addWidget(label_20);
 
-        spinBox_20 = new QSpinBox(verticalLayoutWidget_5);
-        spinBox_20->setObjectName(QStringLiteral("spinBox_20"));
+        unLoadSpeed_Y = new QSpinBox(verticalLayoutWidget_5);
+        unLoadSpeed_Y->setObjectName(QStringLiteral("unLoadSpeed_Y"));
+        unLoadSpeed_Y->setMaximum(100000);
 
-        horizontalLayout_12->addWidget(spinBox_20);
+        horizontalLayout_12->addWidget(unLoadSpeed_Y);
 
 
         verticalLayout_5->addLayout(horizontalLayout_12);
@@ -447,20 +460,23 @@ public:
 
         horizontalLayout_13->addWidget(label_21);
 
-        spinBox_21 = new QSpinBox(verticalLayoutWidget_5);
-        spinBox_21->setObjectName(QStringLiteral("spinBox_21"));
+        unLoadPos_Z = new QSpinBox(verticalLayoutWidget_5);
+        unLoadPos_Z->setObjectName(QStringLiteral("unLoadPos_Z"));
+        unLoadPos_Z->setMinimum(-10000000);
+        unLoadPos_Z->setMaximum(10000000);
 
-        horizontalLayout_13->addWidget(spinBox_21);
+        horizontalLayout_13->addWidget(unLoadPos_Z);
 
         label_22 = new QLabel(verticalLayoutWidget_5);
         label_22->setObjectName(QStringLiteral("label_22"));
 
         horizontalLayout_13->addWidget(label_22);
 
-        spinBox_22 = new QSpinBox(verticalLayoutWidget_5);
-        spinBox_22->setObjectName(QStringLiteral("spinBox_22"));
+        unLoadSpeed_Z = new QSpinBox(verticalLayoutWidget_5);
+        unLoadSpeed_Z->setObjectName(QStringLiteral("unLoadSpeed_Z"));
+        unLoadSpeed_Z->setMaximum(100000);
 
-        horizontalLayout_13->addWidget(spinBox_22);
+        horizontalLayout_13->addWidget(unLoadSpeed_Z);
 
 
         verticalLayout_5->addLayout(horizontalLayout_13);
@@ -486,20 +502,24 @@ public:
 
         horizontalLayout_14->addWidget(label_23);
 
-        spinBox_23 = new QSpinBox(verticalLayoutWidget_6);
-        spinBox_23->setObjectName(QStringLiteral("spinBox_23"));
+        testFirstPos_X = new QSpinBox(verticalLayoutWidget_6);
+        testFirstPos_X->setObjectName(QStringLiteral("testFirstPos_X"));
+        testFirstPos_X->setMinimum(-100000);
+        testFirstPos_X->setMaximum(100000);
 
-        horizontalLayout_14->addWidget(spinBox_23);
+        horizontalLayout_14->addWidget(testFirstPos_X);
 
         label_24 = new QLabel(verticalLayoutWidget_6);
         label_24->setObjectName(QStringLiteral("label_24"));
 
         horizontalLayout_14->addWidget(label_24);
 
-        spinBox_24 = new QSpinBox(verticalLayoutWidget_6);
-        spinBox_24->setObjectName(QStringLiteral("spinBox_24"));
+        testFirstPos_Y = new QSpinBox(verticalLayoutWidget_6);
+        testFirstPos_Y->setObjectName(QStringLiteral("testFirstPos_Y"));
+        testFirstPos_Y->setMinimum(-100000);
+        testFirstPos_Y->setMaximum(100000);
 
-        horizontalLayout_14->addWidget(spinBox_24);
+        horizontalLayout_14->addWidget(testFirstPos_Y);
 
 
         verticalLayout_6->addLayout(horizontalLayout_14);
@@ -507,25 +527,16 @@ public:
         horizontalLayout_15 = new QHBoxLayout();
         horizontalLayout_15->setSpacing(6);
         horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
-        label_25 = new QLabel(verticalLayoutWidget_6);
-        label_25->setObjectName(QStringLiteral("label_25"));
-
-        horizontalLayout_15->addWidget(label_25);
-
-        spinBox_25 = new QSpinBox(verticalLayoutWidget_6);
-        spinBox_25->setObjectName(QStringLiteral("spinBox_25"));
-
-        horizontalLayout_15->addWidget(spinBox_25);
-
         label_26 = new QLabel(verticalLayoutWidget_6);
         label_26->setObjectName(QStringLiteral("label_26"));
 
         horizontalLayout_15->addWidget(label_26);
 
-        spinBox_26 = new QSpinBox(verticalLayoutWidget_6);
-        spinBox_26->setObjectName(QStringLiteral("spinBox_26"));
+        testSpeed = new QSpinBox(verticalLayoutWidget_6);
+        testSpeed->setObjectName(QStringLiteral("testSpeed"));
+        testSpeed->setMaximum(100000);
 
-        horizontalLayout_15->addWidget(spinBox_26);
+        horizontalLayout_15->addWidget(testSpeed);
 
 
         verticalLayout_6->addLayout(horizontalLayout_15);
@@ -546,10 +557,10 @@ public:
     void retranslateUi(QWidget *widconfig)
     {
         widconfig->setWindowTitle(QApplication::translate("widconfig", "widconfig", Q_NULLPTR));
-        pushButton_4->setText(QApplication::translate("widconfig", "Filter", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("widconfig", "Add", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("widconfig", "Delete", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("widconfig", "Save", Q_NULLPTR));
+        pushButton_fit->setText(QApplication::translate("widconfig", "Filter", Q_NULLPTR));
+        pushButton_add->setText(QApplication::translate("widconfig", "Add", Q_NULLPTR));
+        pushButton_del->setText(QApplication::translate("widconfig", "Delete", Q_NULLPTR));
+        pushButton_save->setText(QApplication::translate("widconfig", "Save", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("widconfig", "\345\274\271\345\244\271", Q_NULLPTR));
         label_2->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\350\275\275\346\235\277\346\225\260", Q_NULLPTR));
         label->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\345\206\205\350\276\271\350\267\235", Q_NULLPTR));
@@ -576,7 +587,6 @@ public:
         groupBox_5->setTitle(QApplication::translate("widconfig", "\346\265\213\350\257\225", Q_NULLPTR));
         label_23->setText(QApplication::translate("widconfig", "\351\246\226\344\270\252\344\275\215\347\275\256 X", Q_NULLPTR));
         label_24->setText(QApplication::translate("widconfig", "\351\246\226\344\270\252\344\275\215\347\275\256 Y", Q_NULLPTR));
-        label_25->setText(QApplication::translate("widconfig", "Y \344\275\215\347\275\256", Q_NULLPTR));
         label_26->setText(QApplication::translate("widconfig", "Y \351\200\237\345\272\246", Q_NULLPTR));
     } // retranslateUi
 

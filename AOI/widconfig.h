@@ -2,6 +2,9 @@
 
 #include <QWidget>
 #include "ui_widconfig.h"
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 
 struct srt_config {
 	// ≈‰÷√√˚≥∆
@@ -92,7 +95,23 @@ class widconfig : public QWidget
 public:
 	widconfig(QWidget *parent = Q_NULLPTR);
 	~widconfig();
+	void updateConfig(srt_config&);
+	QSqlDatabase m_db;
+	QObject *m_parent;
+	
 
+signals:
+	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
+
+	public slots:
+	void slot_listWidDoubleClicked(QListWidgetItem* item);
+	void slot_configAdd();
+	void slot_configDel();
+	void slot_configSave();
+	void slot_configFit();
+	void slot_updatelist();
+	
+	
 private:
 	Ui::widconfig ui;
 };

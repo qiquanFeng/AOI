@@ -1,12 +1,3 @@
-﻿  Moc'ing widconfig.h...
-  Uic'ing widconfig.ui...
-D:\projects\AOI\AOI\widconfig.ui : warning : Z-order assignment: 'verticalLayoutWidget' is not a valid widget.
-  moc_aoi.cpp
-  moc_widconfig.cpp
-  aoi.cpp
-  dockwidgetex.cpp
-  main.cpp
-  widconfig.cpp
-  正在生成代码...
-  AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.exe
-  AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.pdb (Full PDB)
+﻿  aoi.cpp
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Debug\AOI.exe
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Debug\AOI.pdb (Full PDB)

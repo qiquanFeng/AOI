@@ -22,6 +22,7 @@
 #include "motion_thread.h"
 #include "widconfig.h"
 #include <Windows.h>
+#include <QListWidget>
 
 class AOI : public QMainWindow
 {
@@ -30,6 +31,7 @@ class AOI : public QMainWindow
 public:
 	AOI(QWidget *parent = 0);
 	~AOI();
+	QListWidget wid;
 
 signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
@@ -44,10 +46,13 @@ signals:
 	void slot_butUnLoad();
 	void slot_butRun();
 	void slot_butReset();
+	void slot_butAuto();
+	void slot_butSuspended();
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
 
 public:
+	srt_config m_config;
 	//**  Menu Bar ****************
 	QAction *m_actOption;
 	widconfig *m_widconfig;
@@ -56,7 +61,7 @@ public:
 	DockWidgetEx m_widDebug;
 	DockWidgetEx m_widFrame;
 	DockWidgetEx m_widIOStatus;
-
+	
 
 	//**  Layout ******************
 	QHBoxLayout m_hLayout1;
@@ -70,6 +75,8 @@ public:
 	QPushButton m_butUnLoad;
 	QPushButton m_butRun;
 	QPushButton m_butReset;
+	QPushButton m_butAuto;
+	QPushButton m_butSuspended;
 
 	PushButtonEx* m_butIO_Card0[16];
 	PushButtonEx* m_butIO_Card1[16];
@@ -83,10 +90,10 @@ public:
 	//**  Mothods *******************
 	int setChildsAttribute();
 	int createLayout();
-
+	
 private:
 	Ui::AOIClass ui;
-	srt_config m_config;
+	
 
 	unsigned int uiRows;
 	unsigned int uiColumns;

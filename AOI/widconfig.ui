@@ -29,31 +29,31 @@
        <widget class="QListWidget" name="listWidget"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="lineEdit_configName"/>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="pushButton_fit">
         <property name="text">
          <string>Filter</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="pushButton_add">
         <property name="text">
          <string>Add</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="pushButton_del">
         <property name="text">
          <string>Delete</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pushButton_save">
         <property name="text">
          <string>Save</string>
         </property>
@@ -88,7 +88,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_2"/>
+             <widget class="QSpinBox" name="boxRows"/>
             </item>
            </layout>
           </item>
@@ -102,7 +102,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox"/>
+             <widget class="QDoubleSpinBox" name="boxPadding"/>
             </item>
             <item>
              <widget class="QLabel" name="label_8">
@@ -112,14 +112,12 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_8"/>
+             <widget class="QDoubleSpinBox" name="boxMargin"/>
             </item>
            </layout>
           </item>
          </layout>
         </widget>
-        <zorder>verticalLayoutWidget</zorder>
-        <zorder>verticalLayoutWidget_2</zorder>
        </widget>
       </item>
       <item>
@@ -147,7 +145,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_4"/>
+             <widget class="QSpinBox" name="plateRows"/>
             </item>
             <item>
              <widget class="QLabel" name="label_7">
@@ -157,7 +155,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_7"/>
+             <widget class="QSpinBox" name="plateCols"/>
             </item>
            </layout>
           </item>
@@ -171,7 +169,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_5"/>
+             <widget class="QDoubleSpinBox" name="plateRowPadding"/>
             </item>
             <item>
              <widget class="QLabel" name="label_9">
@@ -181,7 +179,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_9"/>
+             <widget class="QDoubleSpinBox" name="plateColPadding"/>
             </item>
            </layout>
           </item>
@@ -200,7 +198,7 @@
            <x>10</x>
            <y>10</y>
            <width>491</width>
-           <height>81</height>
+           <height>85</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -214,7 +212,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_6"/>
+             <widget class="QSpinBox" name="loadPos_X">
+              <property name="minimum">
+               <number>-10000000</number>
+              </property>
+              <property name="maximum">
+               <number>10000000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_10">
@@ -224,7 +229,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_10"/>
+             <widget class="QSpinBox" name="loadSpeed_X">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -238,7 +247,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_11"/>
+             <widget class="QSpinBox" name="loadPos_Y">
+              <property name="minimum">
+               <number>-10000000</number>
+              </property>
+              <property name="maximum">
+               <number>10000000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_12">
@@ -248,7 +264,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_12"/>
+             <widget class="QSpinBox" name="loadSpeed_Y">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -262,7 +282,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_17"/>
+             <widget class="QSpinBox" name="loadPos_Z">
+              <property name="minimum">
+               <number>-10000000</number>
+              </property>
+              <property name="maximum">
+               <number>10000000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_18">
@@ -272,7 +299,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_18"/>
+             <widget class="QSpinBox" name="loadSpeed_Z">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -291,7 +322,7 @@
            <x>10</x>
            <y>10</y>
            <width>491</width>
-           <height>81</height>
+           <height>85</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -305,7 +336,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_13"/>
+             <widget class="QSpinBox" name="unLoadPos_X">
+              <property name="minimum">
+               <number>-10000000</number>
+              </property>
+              <property name="maximum">
+               <number>10000000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_14">
@@ -315,7 +353,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_14"/>
+             <widget class="QSpinBox" name="unLoadSpeed_X">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -329,7 +371,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_19"/>
+             <widget class="QSpinBox" name="unLoadPos_Y">
+              <property name="minimum">
+               <number>-10000000</number>
+              </property>
+              <property name="maximum">
+               <number>10000000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_20">
@@ -339,7 +388,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_20"/>
+             <widget class="QSpinBox" name="unLoadSpeed_Y">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -353,7 +406,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_21"/>
+             <widget class="QSpinBox" name="unLoadPos_Z">
+              <property name="minimum">
+               <number>-10000000</number>
+              </property>
+              <property name="maximum">
+               <number>10000000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_22">
@@ -363,7 +423,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_22"/>
+             <widget class="QSpinBox" name="unLoadSpeed_Z">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -396,7 +460,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_23"/>
+             <widget class="QSpinBox" name="testFirstPos_X">
+              <property name="minimum">
+               <number>-100000</number>
+              </property>
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_24">
@@ -406,22 +477,19 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_24"/>
+             <widget class="QSpinBox" name="testFirstPos_Y">
+              <property name="minimum">
+               <number>-100000</number>
+              </property>
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_15">
-            <item>
-             <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>Y 位置</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_25"/>
-            </item>
             <item>
              <widget class="QLabel" name="label_26">
               <property name="text">
@@ -430,7 +498,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_26"/>
+             <widget class="QSpinBox" name="testSpeed">
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

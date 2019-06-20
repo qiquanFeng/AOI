@@ -51,6 +51,9 @@ protected:
 	virtual void run();
 private:
 	bool m_bES;//¼±Í£×´Ì¬
+	bool m_bSuspended;//ÔÝÍ£×´Ì¬
+	bool m_bAutoMode;// ×Ô¶¯Ä£Ê½
+
 	int m_CardNum;
 	QString configFilePath[2];
 	HTTP_Interface *m_HTTP_Interface;

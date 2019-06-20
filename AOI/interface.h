@@ -18,6 +18,7 @@ public:
 	HTTP_Interface(QObject *parent=0);
 	~HTTP_Interface();
 
+
 	QNetworkAccessManager *m_pManager;
 
 	QNetworkAccessManager* sendPost(QByteArray sendBuf,QUrl url,int port=13579, QString contentType = QString("application/json"));

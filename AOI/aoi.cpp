@@ -4,10 +4,12 @@
 
 AOI::AOI(QWidget *parent)
 	: QMainWindow(parent), m_widDebug(tr("OutputPannel")), m_widFrame(tr("Preview Frame")), m_widIOStatus(tr("IO Status")), m_labImage(""),
-	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_tabIOStatus(2,16), uiRows(3), uiColumns(11),
-	m_widconfig(new widconfig(this))
+	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")),\
+	m_tabIOStatus(2,16), uiRows(3), uiColumns(11)
 {
 	ui.setupUi(this);
+
+	m_widconfig=new widconfig(this);
 
 	QThread *thr1 = new QThread();
 	Motion_thread *th = new Motion_thread(this);
@@ -84,6 +86,8 @@ int AOI::createLayout(){
 	m_vLayout1.addWidget(&m_butUnLoad);
 	m_vLayout1.addWidget(&m_butRun);
 	m_vLayout1.addWidget(&m_butReset);
+	m_vLayout1.addWidget(&m_butAuto);
+	m_vLayout1.addWidget(&m_butSuspended);
 	
 	m_vLayout1.addStretch(10);
 
@@ -106,6 +110,8 @@ int AOI::setChildsAttribute() {
 	connect(&m_butUnLoad, SIGNAL(pressed()), this, SLOT(slot_butUnLoad()));
 	connect(&m_butRun, SIGNAL(pressed()), this, SLOT(slot_butRun()));
 	connect(&m_butReset, SIGNAL(pressed()), this, SLOT(slot_butReset()));
+	connect(&m_butAuto, SIGNAL(pressed()), this, SLOT(slot_butAuto()));
+	connect(&m_butSuspended, SIGNAL(pressed()), this, SLOT(slot_butSuspended()));
 	return 0;
 }
 void AOI::slot_butLoad() {
@@ -120,6 +126,12 @@ void AOI::slot_butRun() {
 void AOI::slot_butReset() {
 	emit sig_resetAxis();
 };
+void AOI::slot_butAuto() {
+	emit sig_logOutput("test");
+}
+void AOI::slot_butSuspended() {
+
+}
 void AOI::slot_outputLog(QString text,QColor color) {
 	m_editLog.setTextColor(color);
 	QTime time = QTime::currentTime();

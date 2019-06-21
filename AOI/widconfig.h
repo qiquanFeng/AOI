@@ -1,10 +1,12 @@
 #pragma once
 
 #include <QWidget>
+#include <QDockWidget>
 #include "ui_widconfig.h"
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QDialog>
 
 struct srt_config {
 	// ≈‰÷√√˚≥∆
@@ -88,7 +90,7 @@ struct srt_config {
 };
 
 
-class widconfig : public QWidget
+class widconfig : public QDialog
 {
 	Q_OBJECT
 

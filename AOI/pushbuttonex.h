@@ -9,9 +9,10 @@ class PushButtonEx : public QPushButton
 	Q_OBJECT
 
 public:
-	PushButtonEx(QString text,int ioNumber,int card,QWidget *parent=nullptr);
+	PushButtonEx(QString text,int ioNumber,int card, bool enable=true, QWidget *parent=nullptr);
 	~PushButtonEx();
 
+	bool m_bEnable;
 signals:
 	void sig_sendIO(int ioNumber,int card);
 

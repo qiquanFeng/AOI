@@ -1,7 +1,7 @@
 #include "pushbuttonex.h"
 
-PushButtonEx::PushButtonEx(QString text, int ioNumber, int card, QWidget *parent)
-	: QPushButton(text,parent), m_iCardNumber(card),m_iIONumber(ioNumber), m_iStatus(0)
+PushButtonEx::PushButtonEx(QString text, int ioNumber, int card,bool enable, QWidget *parent)
+	: QPushButton(text,parent), m_iCardNumber(card),m_iIONumber(ioNumber), m_iStatus(0), m_bEnable(enable)
 {
 	//setStyleSheet("background-color:rgb(0,255,0);border: 3px solid red;border-radius:8px;");
 	setObjectName(QString("button_%1_%2").arg(card).arg(ioNumber));
@@ -16,7 +16,7 @@ PushButtonEx::~PushButtonEx()
 
 }
 void PushButtonEx::slot_pressed() {
-	if (m_iStatus == 2)
+	if (m_iStatus == 2||!m_bEnable)
 		return;
 
 	slot_statusChange(2);

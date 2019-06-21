@@ -23,6 +23,7 @@
 #include "widconfig.h"
 #include <Windows.h>
 #include <QListWidget>
+#include <QMessageBox>
 
 class AOI : public QMainWindow
 {
@@ -39,6 +40,8 @@ signals:
 	void sig_load();
 	void sig_unload();
 	void sig_test();
+	void sig_auto();
+	void sig_Suspended();
 
 	public slots:
 	void slot_outputLog(QString,QColor);
@@ -58,9 +61,12 @@ public:
 	widconfig *m_widconfig;
 
 	//**  QGroupBox ***************
+	DockWidgetEx m_widOutputPannel;
 	DockWidgetEx m_widDebug;
 	DockWidgetEx m_widFrame;
-	DockWidgetEx m_widIOStatus;
+	DockWidgetEx m_widOutIOStatus;
+	DockWidgetEx m_widInIOStatus;
+	DockWidgetEx m_widCameraStatus;
 	
 
 	//**  Layout ******************
@@ -68,7 +74,9 @@ public:
 	QVBoxLayout m_vLayout1;
 
 	//**  TableView ***************
-	QTableWidget m_tabIOStatus;
+	QTableWidget m_tabOutIOStatus;
+	QTableWidget m_tabInIOStatus;
+	QTableWidget m_tabCameraStatus;
 
 	//**  Button ******************
 	QPushButton m_butLoad;
@@ -78,8 +86,10 @@ public:
 	QPushButton m_butAuto;
 	QPushButton m_butSuspended;
 
-	PushButtonEx* m_butIO_Card0[16];
-	PushButtonEx* m_butIO_Card1[16];
+	PushButtonEx* m_butOutIO_Card0[16];
+	PushButtonEx* m_butOutIO_Card1[16];
+	PushButtonEx* m_butInIO_Card0[16];
+	PushButtonEx* m_butInIO_Card1[16];
 
 	//**  Label *******************
 	QLabel m_labImage;
@@ -116,7 +126,7 @@ private:
 	}
 
 	public slots:
-	void slot_IOChangeInfo(int iIoNumber, int iCard, int status);
+	void slot_IOChangeInfo(int iIoNumber, int iCard, bool bIn, int status);
 	void slot_Option();
 	void slot_updateImage(QString strPath);
 

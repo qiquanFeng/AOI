@@ -8,7 +8,7 @@ Motion_thread::Motion_thread(QObject *parent)
 	configFilePath[0] = QString("DMC3400.ini");
 	configFilePath[1] = QString("DMC3800.ini");
 	connect(this, SIGNAL(sig_logOutput(QString, QColor)), parent, SLOT(slot_outputLog(QString, QColor)));
-	connect(this, SIGNAL(sig_statusChange(int,int,int)), parent, SLOT(slot_IOChangeInfo(int, int, int)));
+	connect(this, SIGNAL(sig_statusChange(int,int,int,bool)), parent, SLOT(slot_IOChangeInfo(int, int, int,bool)));
 	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
 	motion_Init();
 }
@@ -18,21 +18,21 @@ Motion_thread::~Motion_thread()
 
 }
 void Motion_thread::run() {
-	//th1 =new Motion_thread1(this);
-	//th1->start();
-	//connect(m_HTTP_Interface->m_pManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onReply(QNetworkReply *)));
-
-	while (1) {
-		short status[2][16];
+	while (1&& m_CardNum==2) {
+		short inStatus[2][16];
+		short outStatus[2][16];
 
 		for (int card = 0; card < 2; card++)
 		{
 			for (int axis = 0; axis < 16;axis++) {
-				status[card][axis]=dmc_read_inbit(card,axis);
+				inStatus[card][axis]=dmc_read_inbit(card,axis);
+				outStatus[card][axis] = dmc_read_outbit(card, axis);
+				emit sig_statusChange(axis, card, true, inStatus[card][axis]);
+				emit sig_statusChange(axis, card, false, outStatus[card][axis]);
 			}
 		}
 		
-		if (status[1][11]) {
+		if (inStatus[1][11]) {
 			m_bES = true;
 			dmc_stop(1, 2, 1);
 		}
@@ -45,9 +45,6 @@ void Motion_thread::slot_sendChangeIO(int iIoNumber, int iCard) {
 	i = iCard;
 	short status = dmc_read_outbit(iCard, iIoNumber);
 	dmc_write_outbit(iCard, iIoNumber, !status);
-
-	status = dmc_read_outbit(iCard, iIoNumber);
-	emit sig_statusChange(iIoNumber, iCard, status);
 }
 void Motion_thread::slot_resetAxis() {
 	emit sig_logOutput("reset...");
@@ -202,6 +199,12 @@ void Motion_thread::slot_test() {
 		return;
 	}
 	slot_MatrixMove(3, 11, 12.5, 19.5);
+	
+}
+void Motion_thread::slot_auto() {
+	
+}
+void Motion_thread::slot_Suspended() {
 	
 }
 void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double colMargin) {
@@ -392,7 +395,6 @@ Motion_thread1::Motion_thread1(QObject *parent): m_pManager(new QNetworkAccessMa
 	connect(this, &Motion_thread1::sig_logOutput, m_parent, &Motion_thread::sig_logOutput);
 	
 }
-
 Motion_thread1::~Motion_thread1() {
 
 }
@@ -406,9 +408,7 @@ void Motion_thread1::run() {
 	return;
 }
 QString Motion_thread1::onReply(QNetworkReply *pReply) {
-	
 	if (pReply->error());
-
 	QByteArray array = pReply->readAll();
 	pReply->close();
 

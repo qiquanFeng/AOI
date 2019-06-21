@@ -32,7 +32,7 @@ public:
 	int motion_Init();
 	int axis_move(int card, int axis, int speed, int absMode,int target, int orgMode = 0,bool bAck=true);
 signals:
-	void sig_statusChange(int iIoNumber, int iCard,int status);
+	void sig_statusChange(int iIoNumber, int iCard,bool bIn,int status);
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
 	void sig_updateImage(QString strPath);
 	void sig_predict();
@@ -45,6 +45,8 @@ signals:
 		void slot_load();
 		void slot_test();
 		void slot_unload();
+		void slot_auto();
+		void slot_Suspended();
 		void slot_MatrixMove(int row,int col, double rowMargin, double colMargin);
 		QString onReply(QNetworkReply *pReply);
 protected:

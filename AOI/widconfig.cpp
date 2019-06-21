@@ -3,10 +3,10 @@
 #include "aoi.h"
 
 widconfig::widconfig(QWidget *parent)
-	: QWidget(nullptr), m_parent((QObject*)parent)
+	: QDialog(parent), m_parent((QObject*)parent)
 {
 	ui.setupUi(this);
-	
+
 	connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slot_listWidDoubleClicked(QListWidgetItem*)));
 	connect(ui.pushButton_add, SIGNAL(clicked()), this, SLOT(slot_configAdd()));
 	connect(ui.pushButton_del, SIGNAL(clicked()), this, SLOT(slot_configDel()));
@@ -88,8 +88,12 @@ void widconfig::slot_configAdd() {
 }
 void widconfig::slot_configDel() {
 	QSqlQuery query(m_db);
-	QList<QListWidgetItem*> list= ui.listWidget->selectedItems();
-	if (!query.exec("delete from AOI_config where configName='" + list.at(0)->text() + "'")) {
+	if (!query.exec("select configName from current_config where 1")) {
+		emit sig_logOutput("save config fail:" + query.lastError().text());
+	}
+	query.next();
+	QString strConfigName = query.value("configName").toString();
+	if (!query.exec("delete from AOI_config where configName='" + strConfigName + "'")) {
 		emit sig_logOutput("delete config fail:" + query.lastError().text());
 	}
 
@@ -216,6 +220,13 @@ void widconfig::slot_updatelist() {
 	query.value("ORG_Speed_TestX");
 	query.value("ORG_Speed_TestY");
 	query.value("ORG_Speed_TestX2");
+
+	updateConfig(((AOI*)m_parent)->m_config);
+	((AOI*)m_parent)->m_tabCameraStatus.setRowCount(query.value("plateRows").toInt());
+	((AOI*)m_parent)->m_tabCameraStatus.setColumnCount(query.value("plateCols").toInt());
+	((AOI*)m_parent)->m_tabCameraStatus.resizeRowsToContents();
+	((AOI*)m_parent)->m_tabCameraStatus.resizeColumnsToContents();
+
 }
 
 void widconfig::updateConfig(srt_config &config) {

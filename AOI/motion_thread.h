@@ -25,9 +25,14 @@ class Motion_thread : public QThread
 public:
 	Motion_thread(QObject *parent=nullptr);
 	~Motion_thread();
+	QObject *m_parent;
 	QMutex *mutex1;
 	bool m_bReceived;
 	QThread *th1;
+
+	bool m_bES;//¼±Í£×´Ì¬
+	bool m_bSuspended;//ÔÝÍ£×´Ì¬
+	bool m_bAutoMode;// ×Ô¶¯Ä£Ê½
 
 	int motion_Init();
 	int axis_move(int card, int axis, int speed, int absMode,int target, int orgMode = 0,bool bAck=true);
@@ -40,6 +45,7 @@ signals:
 	public slots:
 		void slot_sendChangeIO(int iIoNumber,int iCard);
 		void slot_resetAxis();
+		int slot_writeOutIO(WORD card, WORD bitNo, WORD status);
 
 		void slot_predict();
 		void slot_load();
@@ -52,9 +58,7 @@ signals:
 protected:
 	virtual void run();
 private:
-	bool m_bES;//¼±Í£×´Ì¬
-	bool m_bSuspended;//ÔÝÍ£×´Ì¬
-	bool m_bAutoMode;// ×Ô¶¯Ä£Ê½
+	
 
 	int m_CardNum;
 	QString configFilePath[2];

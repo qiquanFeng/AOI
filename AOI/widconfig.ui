@@ -164,22 +164,30 @@
             <item>
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>行间距（总间距）</string>
+               <string>行间距（总间距mm）</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="plateRowPadding"/>
+             <widget class="QDoubleSpinBox" name="plateRowPadding">
+              <property name="maximum">
+               <double>9999.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
-               <string>列间距（总间距）</string>
+               <string>列间距（总间距mm）</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="plateColPadding"/>
+             <widget class="QDoubleSpinBox" name="plateColPadding">
+              <property name="maximum">
+               <double>9999.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

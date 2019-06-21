@@ -80,12 +80,12 @@ struct srt_config {
 		lunLoadSpeed_Y=20000;
 		lunLoadPos_Y=88600;
 
-		lORG_Speed_LoadX=10000;
+		lORG_Speed_LoadX=20000;
 		lORG_Speed_LoadZ=80000;
 		lORG_Speed_unLoadZ=80000;
-		lORG_Speed_TestX=20000;
-		lORG_Speed_TestY=10000;
-		lORG_Speed_TestX2=1000;
+		lORG_Speed_TestX=40000;
+		lORG_Speed_TestY=20000;
+		lORG_Speed_TestX2=3000;
 	}
 };
 

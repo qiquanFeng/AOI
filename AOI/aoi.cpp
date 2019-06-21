@@ -14,7 +14,7 @@ AOI::AOI(QWidget *parent)
 	m_widconfig=new widconfig(this);
 
 	QThread *thr1 = new QThread();
-	Motion_thread *th = new Motion_thread(this);
+	th = new Motion_thread(this);
 	th->moveToThread(thr1);
 	thr1->start();
 	th->start();
@@ -161,13 +161,17 @@ void AOI::slot_butReset() {
 };
 void AOI::slot_butAuto() {
 	emit sig_logOutput("auto");
-	QMessageBox::warning(this, "warning", "test","OK","NG","cencal");
+	if (QMessageBox::warning(this, "warning", "test", "OK", "NG", "cencal"))
+		return;
 	emit sig_auto();
 }
 void AOI::slot_butSuspended() {
 	emit sig_logOutput("Suspended");
+	th->m_bSuspended = true;
+	th->m_bES = true;
 	emit sig_Suspended();
 }
+
 void AOI::slot_outputLog(QString text,QColor color) {
 	m_editLog.setTextColor(color);
 	QTime time = QTime::currentTime();

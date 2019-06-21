@@ -265,6 +265,7 @@ public:
 
         plateRowPadding = new QDoubleSpinBox(verticalLayoutWidget_3);
         plateRowPadding->setObjectName(QStringLiteral("plateRowPadding"));
+        plateRowPadding->setMaximum(9999);
 
         horizontalLayout_6->addWidget(plateRowPadding);
 
@@ -275,6 +276,7 @@ public:
 
         plateColPadding = new QDoubleSpinBox(verticalLayoutWidget_3);
         plateColPadding->setObjectName(QStringLiteral("plateColPadding"));
+        plateColPadding->setMaximum(9999);
 
         horizontalLayout_6->addWidget(plateColPadding);
 
@@ -568,8 +570,8 @@ public:
         groupBox_2->setTitle(QApplication::translate("widconfig", "\350\275\275\346\235\277", Q_NULLPTR));
         label_4->setText(QApplication::translate("widconfig", "\350\275\275\346\235\277\350\241\214\346\225\260", Q_NULLPTR));
         label_7->setText(QApplication::translate("widconfig", "\350\275\275\346\235\277\345\210\227\346\225\260", Q_NULLPTR));
-        label_5->setText(QApplication::translate("widconfig", "\350\241\214\351\227\264\350\267\235\357\274\210\346\200\273\351\227\264\350\267\235\357\274\211", Q_NULLPTR));
-        label_9->setText(QApplication::translate("widconfig", "\345\210\227\351\227\264\350\267\235\357\274\210\346\200\273\351\227\264\350\267\235\357\274\211", Q_NULLPTR));
+        label_5->setText(QApplication::translate("widconfig", "\350\241\214\351\227\264\350\267\235\357\274\210\346\200\273\351\227\264\350\267\235mm\357\274\211", Q_NULLPTR));
+        label_9->setText(QApplication::translate("widconfig", "\345\210\227\351\227\264\350\267\235\357\274\210\346\200\273\351\227\264\350\267\235mm\357\274\211", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("widconfig", "\344\270\212\346\226\231", Q_NULLPTR));
         label_6->setText(QApplication::translate("widconfig", "X \344\275\215\347\275\256(\346\216\250\346\235\206)", Q_NULLPTR));
         label_10->setText(QApplication::translate("widconfig", "X \351\200\237\345\272\246(\346\216\250\346\235\206)", Q_NULLPTR));

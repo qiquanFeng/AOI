@@ -34,6 +34,8 @@ public:
 	~AOI();
 	QListWidget wid;
 
+	Motion_thread *th;
+
 signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
 	void sig_resetAxis();

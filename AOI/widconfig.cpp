@@ -200,7 +200,7 @@ void widconfig::slot_updatelist() {
 	ui.plateRowPadding->setValue(query.value("plateRowPadding").toDouble());
 	ui.plateColPadding->setValue(query.value("plateColPadding").toDouble());
 	ui.loadSpeed_Z->setValue(query.value("loadSpeed_Z").toInt());
-	ui.unLoadPos_Z->setValue(query.value("loadPos_Z").toInt());
+	ui.loadPos_Z->setValue(query.value("loadPos_Z").toInt());
 	ui.loadSpeed_X->setValue(query.value("loadSpeed_X").toInt());
 	ui.loadPos_X->setValue(query.value("loadPos_X").toInt());
 	ui.loadSpeed_Y->setValue(query.value("loadSpeed_Y").toInt());

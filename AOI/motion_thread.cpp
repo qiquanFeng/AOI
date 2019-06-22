@@ -298,6 +298,28 @@ void Motion_thread::slot_auto() {
 			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, true);
 		//********** 夹料 *********************************
 		if (dmc_read_inbit(1, 8) == 0) {
+			
+			if (unloadIndex && !(unloadIndex % config.iBoxRows)) {
+				unloadIndex = 0;
+				axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + \
+					((config.iBoxRows - 1)*(config.iBoxPadding / 2 * 10000) + (config.iBoxMargin / 2 * 10000)));
+				slot_writeOutIO(1, 6, 0);
+				axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, true);
+				slot_writeOutIO(1, 7, 0);
+				msleep(3000);
+				emit sig_logOutput(QString::fromLocal8Bit("检测下料盒是否已满"));
+				do {
+					status = dmc_read_inbit(1, 0);
+					msleep(20);
+				} while (!status);
+
+				slot_writeOutIO(1, 7, 1);
+				axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z, 0, true);
+				slot_writeOutIO(1, 6, 1);
+				continue;
+			}
+			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + unloadIndex *(config.iBoxPadding / 2 * 10000), 0);
+
 			axis_move(1, 2, 20000, 0, 0, 1, false);
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, 2000, 1, -9000);
@@ -362,29 +384,7 @@ void Motion_thread::slot_auto() {
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
 			
-			if (unloadIndex && !(unloadIndex % config.iBoxRows)) {
-				unloadIndex = 0;
-				axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + \
-					((config.iBoxRows - 1)*(config.iBoxPadding / 2 * 10000) + (config.iBoxMargin / 2 * 10000)));
-				slot_writeOutIO(1, 6, 0);
-				axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, true);
-				slot_writeOutIO(1, 7, 0);
-				msleep(2000);
-				emit sig_logOutput(QString::fromLocal8Bit("检测下料盒是否已满"));
-				do {
-					status = dmc_read_inbit(1, 0);
-					msleep(20);
-				} while (!status);
-
-				slot_writeOutIO(1, 7, 1);
-				axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z, 0, true);
-				slot_writeOutIO(1, 6, 1);
-				continue;
-			}
-
-			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + unloadIndex*(config.iBoxPadding / 2 * 10000), 0);
 			unloadIndex++;
-
 		}
 
 		axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z-loadIndex*(config.iBoxPadding/2*10000), 0);

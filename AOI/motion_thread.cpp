@@ -553,6 +553,9 @@ int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int targ
 		emit sig_logOutput(QString::fromLocal8Bit("¼±Í£×´Ì¬ÖÐ£¡"),QColor(255,0,0));
 		return -1;
 	}
+	while (m_bSuspended) {
+		msleep(20);
+	}
 
 	dmc_set_profile(card,axis, (double)speed*0.2, speed, 0.1, 0.1, 0);
 	if (orgMode) {

@@ -167,8 +167,7 @@ void AOI::slot_butAuto() {
 }
 void AOI::slot_butSuspended() {
 	emit sig_logOutput("Suspended");
-	th->m_bSuspended = true;
-	th->m_bES = true;
+	th->m_bSuspended = !th->m_bSuspended;
 	emit sig_Suspended();
 }
 

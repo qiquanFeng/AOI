@@ -19,6 +19,6 @@ int main(int argc, char *argv[])
 	}
 
 	AOI w;
-	w.showMaximized();
+	w.show();
 	return a.exec();
 }

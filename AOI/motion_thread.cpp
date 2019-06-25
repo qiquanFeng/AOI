@@ -4,13 +4,16 @@ using namespace rapidjson;
 
 Motion_thread::Motion_thread(QObject *parent)
 	: QThread(nullptr), m_CardNum(0), m_bES(false), m_bReceived(false), m_HTTP_Interface(new HTTP_Interface),\
-	mutex1(new QMutex), m_parent(parent), m_bAutoMode(false), m_bSuspended(false)
+	mutex1(new QMutex), m_parent(parent), m_bAutoMode(false), m_bSuspended(false), m_bResetMode(false)
 {
 	configFilePath[0] = QString("DMC3400.ini");
 	configFilePath[1] = QString("DMC3800.ini");
 	connect(this, SIGNAL(sig_logOutput(QString, QColor)), parent, SLOT(slot_outputLog(QString, QColor)));
 	connect(this, SIGNAL(sig_statusChange(int,int, bool,int)), parent, SLOT(slot_IOChangeInfo(int, int,bool,int)));
 	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
+	connect(this, SIGNAL(sig_setStatus(QString, QString)), parent, SLOT(slot_setStatus(QString, QString)));
+
+	connect(this, SIGNAL(sig_testResult(int,int,int)), parent, SLOT(slot_setCameraResult(int,int,int)));
 	motion_Init();
 }
 
@@ -37,7 +40,18 @@ void Motion_thread::run() {
 			m_bES = true;
 			dmc_stop(1, 2, 1);
 		}
-		msleep(300);
+
+		if (inStatus[0][5]) {
+			m_bES = true;
+			emit sig_setStatus(tr("Emergency Stop!"), "color:red;");
+			dmc_stop(0, 0, 1);
+			dmc_stop(0, 1, 1);
+			dmc_stop(0, 2, 1);
+			dmc_stop(1, 0, 1);
+			dmc_stop(1, 1, 1);
+			dmc_stop(1, 2, 1);
+		}
+		msleep(100);
 	}
 }
 
@@ -48,34 +62,61 @@ void Motion_thread::slot_sendChangeIO(int iIoNumber, int iCard) {
 	dmc_write_outbit(iCard, iIoNumber, !status);
 }
 void Motion_thread::slot_resetAxis() {
-	emit sig_logOutput("reset...");
-	dmc_write_outbit(0, 0, 1);
-	dmc_write_outbit(0, 1, 0);
-	dmc_write_outbit(1, 5, 1);
-	dmc_write_outbit(1, 6, 1);
-	dmc_write_outbit(1, 7, 1);
-	dmc_write_outbit(0, 2, 1);
+	emit sig_logOutput(tr("reset..."));
 	
-
-	axis_move(1, 2, 10000, 0, 0, 1);
-	axis_move(1, 0, 80000, 1, 0, 1,false);
-	axis_move(1, 1, 80000, 0, 0, 1, false);
-
-	axis_move(0, 0, 10000, 1, 0, 1, false);
-	axis_move(0, 1, 10000, 0, 0, 1, false);
-	axis_move(0, 2, 1000, 0, 0, 1, false);
+	slot_writeOutIO(0, 0, 1, true);
+	slot_writeOutIO(0, 1, 0, true);
+	slot_writeOutIO(1, 5, 1, true);
+	slot_writeOutIO(1, 6, 1, true);
+	slot_writeOutIO(1, 7, 1, true);
+	slot_writeOutIO(0, 2, 1, true);
+	slot_writeOutIO(1, 4, 1, true);
 	
+	axis_move(0, 0, 10000, 1, 0, 1, false, true);
+	axis_move(0, 1, 10000, 0, 0, 1, false, true);
+	axis_move(0, 2, 1000, 0, 0, 1, false, true);
 
-	m_bES = false;
-	emit sig_logOutput(tr("reset success!"), QColor(0, 255, 0));
-}
-int Motion_thread::slot_writeOutIO(WORD card, WORD bitNo, WORD status) {
-	while (m_bSuspended) {
-		msleep(200);
+	axis_move(1, 2, 10000, 0, 0, 1, false, true);
+	axis_move(1, 1, 80000, 0, 0, 1, false, true);
+	axis_move(1, 0, 80000, 1, 0, 1, false, true);
+
+	short status=0;
+	while(!status){
+		int iresult = 1;
+		for (int card = 0; card < 2; card++) {
+			for (int axis = 0; axis < 3; axis++)
+			{
+				status = dmc_check_done(card, axis);
+				if (!status) { iresult = 0; }
+			}
+		}
+		status = iresult;
 	}
 
-	if (m_bES) {
-		return -1;
+	for (int card = 0; card < 2; card++) {
+		for (int axis = 0; axis < 3; axis++)
+		{
+			dmc_set_position(card, axis, 0);
+		}
+	}
+
+	if (!m_bES) {
+		emit sig_logOutput(tr("reset success!"), QColor(0, 255, 0));
+	}
+	else {
+		emit sig_logOutput(tr("Emergency Stop!"), QColor(255, 0, 0));
+	}
+		
+	m_bES = false;
+	m_bSuspended = false;
+}
+int Motion_thread::slot_writeOutIO(WORD card, WORD bitNo, WORD status,bool bReset) {
+	if (!bReset) {
+		while (m_bSuspended) {
+			msleep(200);
+		}
+
+		if (m_bES) { return -1; }
 	}
 
 	dmc_write_outbit(card, bitNo, status);
@@ -211,36 +252,21 @@ void Motion_thread::slot_test() {
 		axis_move(0, 2, 1000, 0, 0, 1, true);
 		return;
 	}
-	slot_MatrixMove(3, 11, 12.5, 19.5);
+	//slot_MatrixMove(3, 11, 12.5, 19.5);
 	
 }
 void Motion_thread::slot_auto() {
 	srt_config config = ((AOI*)m_parent)->m_config;
 	m_bAutoMode = true;
 
-	emit sig_logOutput("axis reset...");
-	slot_writeOutIO(0, 0, 1);
-	slot_writeOutIO(0, 1, 0);
-	slot_writeOutIO(1, 4, 1);
-	slot_writeOutIO(1, 5, 1);
-	slot_writeOutIO(1, 6, 1);
-	slot_writeOutIO(1, 7, 1);
-	slot_writeOutIO(0, 2, 1);
-
-	axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1);
-	axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, false);
-	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, false);
-	axis_move(0, 1, config.lORG_Speed_TestY, 0, 0, 1, true);
-	axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, false);
-	axis_move(1, 0, config.lORG_Speed_LoadZ, 1, 0, 1, true);
-
-	emit sig_logOutput("load ...");
-	slot_writeOutIO(0, 0, 1);
-	slot_writeOutIO(0, 1, 0);
-	slot_writeOutIO(1, 5, 1);
-	slot_writeOutIO(1, 6, 1);
-	slot_writeOutIO(1, 7, 1);
-	slot_writeOutIO(0, 2, 1);
+	emit sig_setStatus(tr("running"), "color:green;");
+	slot_writeOutIO(0, 0, 1, true);
+	slot_writeOutIO(0, 1, 0, true);
+	slot_writeOutIO(1, 5, 1, true);
+	slot_writeOutIO(1, 6, 1, true);
+	slot_writeOutIO(1, 7, 1, true);
+	slot_writeOutIO(0, 2, 1, true);
+	slot_writeOutIO(1, 4, 1, true);
 
 	axis_move(0, 1, config.lLoadSpeed_Y, 1, config.lLoadPos_Y, 0, false);
 	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, false);
@@ -256,69 +282,117 @@ void Motion_thread::slot_auto() {
 	while (m_bAutoMode) {
 		if (m_bES)
 			break;
-		//********** 检测料盒 *************************************
 		short status = 0;
-		emit sig_logOutput(tr("check box exists..."), QColor());
+
+
+		axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
+		axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
+
+		//********** 上下 料盒 *********************************
+		if (loadIndex &&!(loadIndex % config.iBoxRows)) {
+			emit sig_setStatus("changeing load Box ...", "color:yellow;");
+			loadIndex = 0;
+			unloadIndex = 0;
+
+			axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z - \
+				((config.iBoxRows-1)*(config.iBoxPadding / 2 * 10000)+ (config.iBoxMargin / 2 * 10000)),0,false);
+			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + \
+				((config.iBoxRows - 1)*(config.iBoxPadding / 2 * 10000) + (config.iBoxMargin / 2 * 10000)),0, false);
+			do {
+				status = 1;
+				if (dmc_check_done(1, 0)==0|| dmc_check_done(1, 1)==0) {
+					status = 0;
+				}
+			} while (!status);
+
+			slot_writeOutIO(1, 4, 0);
+			slot_writeOutIO(1, 6, 0);
+
+			axis_move(1, 0, config.lORG_Speed_LoadZ, 1, 0, 1, false);
+			axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, false);
+			do {
+				status = 1;
+				if (dmc_check_done(1, 0) == 0 || dmc_check_done(1, 1) == 0) {
+					status = 0;
+				}
+			} while (!status);
+
+
+			slot_writeOutIO(1, 5, 0);
+			slot_writeOutIO(1, 7, 0);
+			msleep(3000);
+
+			emit sig_setStatus(tr("Check load Box base"), "color:black;");
+			do{
+				status=dmc_read_inbit(1, 12);
+				msleep(20);
+			} while (!status);
+			emit sig_setStatus(tr("running"), "color:green;");
+
+			emit sig_setStatus(tr("Check unLoad Box Base"), "color:black;");
+			do {
+				status = dmc_read_inbit(1, 0);
+				msleep(20);
+			} while (!status);
+			emit sig_setStatus(tr("running"), "color:green;");
+
+			slot_writeOutIO(1, 5, 1);
+			slot_writeOutIO(1, 7, 1);
+
+			axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z, 0, false);
+			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z, 0, false);
+			do {
+				status = 1;
+				if (dmc_check_done(1, 0) == 0 || dmc_check_done(1, 1) == 0) {
+					status = 0;
+				}
+			} while (!status);
+
+
+			slot_writeOutIO(1, 4, 1);
+			slot_writeOutIO(1, 6, 1);
+			continue;
+		}
+		else {
+			axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z - loadIndex*(config.iBoxPadding / 2 * 10000), 0, false);
+			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + unloadIndex *(config.iBoxPadding / 2 * 10000), 0, false);
+			do {
+				status = 1;
+				if (dmc_check_done(1, 0) == 0 || dmc_check_done(1, 1) == 0) {
+					status = 0;
+				}
+			} while (!status);
+		}
+
+		loadIndex+=10;
+		unloadIndex+=10;
+
+
+		//********** 检测料盒 *************************************
+		
+		emit sig_setStatus(tr("Check Load Box"), "color:black;");
 		do {
 			msleep(10);
 			status = dmc_read_inbit(1, 9);
 		} while (!status);
 
-		axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
-		axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
+		emit sig_setStatus(tr("Check unLoad Box"), "color:black;");
+		do {
+			status = dmc_read_inbit(1, 5);
+		} while (!status);
+		emit sig_setStatus(tr("running"), "color:green;");
 
-		if (loadIndex &&!(loadIndex % config.iBoxRows)) {
-			loadIndex = 0;
-			axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z - \
-				((config.iBoxRows-1)*(config.iBoxPadding / 2 * 10000)+ (config.iBoxMargin / 2 * 10000)));
-			slot_writeOutIO(1, 4, 0);
-			axis_move(1, 0, config.lORG_Speed_LoadZ, 1, 0, 1, true);
-			slot_writeOutIO(1, 5, 0);
-			msleep(2000);
-			emit sig_logOutput(QString::fromLocal8Bit("检测上料盒是否已满"));
-			do{
-				status=dmc_read_inbit(1, 12);
-				msleep(20);
-			} while (!status);
 
-			slot_writeOutIO(1, 5, 1);
-			axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z, 0, true);
-			slot_writeOutIO(1, 4, 1);
-			continue;
-		}
-
-		loadIndex++;
-
-		emit sig_logOutput("test");
 		axis_move(1, 2, config.lLoadSpeed_X, 1, config.lLoadPos_X, 0, true);
 
 		if (dmc_read_inbit(1, 8) == 0)
 			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, false);
 		else
 			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, true);
-		//********** 夹料 *********************************
+		
+		// ************************** 夹料
 		if (dmc_read_inbit(1, 8) == 0) {
-			
-			if (unloadIndex && !(unloadIndex % config.iBoxRows)) {
-				unloadIndex = 0;
-				axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + \
-					((config.iBoxRows - 1)*(config.iBoxPadding / 2 * 10000) + (config.iBoxMargin / 2 * 10000)));
-				slot_writeOutIO(1, 6, 0);
-				axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, true);
-				slot_writeOutIO(1, 7, 0);
-				msleep(3000);
-				emit sig_logOutput(QString::fromLocal8Bit("检测下料盒是否已满"));
-				do {
-					status = dmc_read_inbit(1, 0);
-					msleep(20);
-				} while (!status);
-
-				slot_writeOutIO(1, 7, 1);
-				axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z, 0, true);
-				slot_writeOutIO(1, 6, 1);
-				continue;
-			}
-			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + unloadIndex *(config.iBoxPadding / 2 * 10000), 0);
+			//axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + unloadIndex *(config.iBoxPadding / 2 * 10000), 0);
 
 			axis_move(1, 2, 20000, 0, 0, 1, false);
 			slot_writeOutIO(0, 0, 0);
@@ -331,6 +405,7 @@ void Motion_thread::slot_auto() {
 				status = dmc_read_inbit(0, 2);
 				if (dmc_check_done(0, 2)) {
 					emit sig_logOutput(QString::fromLocal8Bit("载板上料检测失败！"));
+					emit sig_setStatus(tr("Load Plate Fail!"), "color:red;");
 					m_bES=true;
 					return;
 				}
@@ -343,13 +418,14 @@ void Motion_thread::slot_auto() {
 			slot_writeOutIO(0, 0, 1);
 
 			//slot_MatrixMove(config.iPlateRows, config.iPlatCols,\
-				int((double)config.iPlatRowPadding/config.iPlateRows/10*10000+0.5), int((double)config.iPlatColPadding / config.iPlatCols / 10 * 10000+0.5));
+				int((double)config.iPlatRowPadding/config.iPlateRows/10*10000+0.5), int((double)config.iPlatColPadding / config.iPlatCols / 10 * 10000+0.5),"Testing",loadIndex);
 			
 			//**************************************** 下料 ********************************************************
-			emit sig_logOutput(QString::fromLocal8Bit("检测下料盒"), QColor(255, 255, 0));
+			emit sig_setStatus(tr("Check unLoad Box"), "color:black;");
 			do {
 				status = dmc_read_inbit(1, 5);
 			} while (!status);
+			emit sig_setStatus(tr("running"), "color:green;");
 
 			slot_writeOutIO(0, 1, 0);
 			slot_writeOutIO(0, 2, 1);
@@ -371,9 +447,11 @@ void Motion_thread::slot_auto() {
 				status = dmc_read_inbit(1, 4);
 				if (!status && !inx) {
 					emit sig_logOutput(QString::fromLocal8Bit("下料载板异常！"), QColor(255, 255, 0));
+					emit sig_setStatus(tr("check unload plate"), "color:black;");
 				}
 				if (inx > 200) {//超时1分钟
 					emit sig_logOutput(QString::fromLocal8Bit("下料载板异常超时，即将停止！"), QColor(255, 255, 0));
+					emit sig_setStatus(tr("check unload plate fail!"), "color:black;");
 					m_bES = true;
 					return;
 				}
@@ -384,51 +462,55 @@ void Motion_thread::slot_auto() {
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
 			
-			unloadIndex++;
+			
 		}
-
-		axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z-loadIndex*(config.iBoxPadding/2*10000), 0);
-	}
+}
 }
 void Motion_thread::slot_Suspended() {
 	
 }
-void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double colMargin) {
+void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double colMargin,QString boxID,int pannelID) {
 	srt_config config = ((AOI*)m_parent)->m_config;
 	double rowStep = rowMargin;
 	double colStep = colMargin;
 
+	m_iSampleID = col;
+	
+	long axis_X = dmc_get_position(0, 0);
+	long axis_Y = dmc_get_position(0, 1);
+
 	for (int c = 0; c < col; c++) {
+		m_iSampleID-=1;
 		for (int r = 0; r < row; r++)
 		{
-			if (c % (row-1)) {
-				axis_move(0, 1, config.lTestSpeed, 0, -rowStep);
+			if (c % 2) {
+				axis_move(0, 1, config.lTestSpeed, 1, (axis_Y+ rowStep*2) - rowStep*r);
+				if(r)
+					m_iSampleID -= col;
 			}
 			else {
-				axis_move(0, 1, config.lTestSpeed, 0, rowStep);
+				axis_move(0, 1, config.lTestSpeed, 1, axis_Y + rowStep*r);
+				if (r)
+					m_iSampleID += col;
 			}
+			axis_move(0, 0, config.lTestSpeed, 1, axis_X - colStep*c);
+
 			//**    开始检测  ****
+			if (m_bES)
+				return;
+
 			mutex1->lock();
 			m_bReceived = false;
-			slot_predict();
+			slot_predict(boxID, pannelID, m_iSampleID);
 			mutex1->unlock();
 			QTime reachTime = QTime::currentTime().addMSecs(10000);
 			while (QTime::currentTime() < reachTime&&m_bReceived==false)
 				QApplication::processEvents();
 			
 		}
-		axis_move(0, 0, 20000, 0, -colStep);
-		//**    开始检测  ****
-		mutex1->lock();
-		m_bReceived = false;
-		slot_predict();
-		mutex1->unlock();
-		QTime reachTime = QTime::currentTime().addMSecs(10000);
-		while (QTime::currentTime() < reachTime&&m_bReceived == false)
-			QApplication::processEvents();
 	}
 }
-void Motion_thread::slot_predict() {
+void Motion_thread::slot_predict(QString boxID, int pannelID, int sampleID) {
 	//QString strSend("{\"action\":\"1\"}");
 	//currow = row;					//以左上角为1,1坐标的行号
 	//curcol = colCMOS - col + 1;		//以左上角为1,1坐标的列号
@@ -439,9 +521,9 @@ void Motion_thread::slot_predict() {
 	QString md5 = HTTP_Interface::UnicodeToString(b);
 
 	QString strSend(tr("{\"box_id\":\"%1\",\"pannel_id\":\"%2\",\"sample_id\":\"%3\",\"machine_id\":\"%4\",\"time\":\"%5\",\"operator\":\"%6\",\"shift_id\":\"%7\",\"md5\":\"%8\",\"config\":\"%9\"}")
-		.arg(1)
-		.arg(1)
-		.arg(1)
+		.arg(boxID)
+		.arg(pannelID)
+		.arg(sampleID)
 		.arg(1)
 		.arg(strTime)
 		.arg(1)
@@ -523,7 +605,7 @@ QString Motion_thread::onReply(QNetworkReply *pReply) {
 	emit  sig_logOutput("Server ERROR");
 	return str;
 }
-void Motion_thread1::slot_predict() {
+void Motion_thread1::slot_predict(QString boxID, int pannelID, int sampleID) {
 	m_bReceived = false;
 	//QString strSend("{\"action\":\"1\"}");
 	//currow = row;					//以左上角为1,1坐标的行号
@@ -535,9 +617,9 @@ void Motion_thread1::slot_predict() {
 	QString md5 = HTTP_Interface::UnicodeToString(b);
 
 	QString strSend(tr("{\"box_id\":\"%1\",\"pannel_id\":\"%2\",\"sample_id\":\"%3\",\"machine_id\":\"%4\",\"time\":\"%5\",\"operator\":\"%6\",\"shift_id\":\"%7\",\"md5\":\"%8\",\"config\":\"%9\"}")
-		.arg(1)
-		.arg(1)
-		.arg(1)
+		.arg(boxID)
+		.arg(pannelID)
+		.arg(sampleID)
 		.arg(1)
 		.arg(strTime)
 		.arg(1)
@@ -548,22 +630,23 @@ void Motion_thread1::slot_predict() {
 	slot_sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/predict"), 6789);
 
 }
-int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int target, int orgMode, bool bAck) {
-	if (m_bES) {
-		emit sig_logOutput(QString::fromLocal8Bit("急停状态中！"),QColor(255,0,0));
-		return -1;
+int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int target, int orgMode, bool bAck,bool bReset) {
+	if (!bReset||!orgMode){
+		while (m_bSuspended) {
+			msleep(20);
+		}
+		if (m_bES) {
+			emit sig_logOutput(QString::fromLocal8Bit("急停状态中！"),QColor(255,0,0));
+			return -1;
+		}
 	}
-	while (m_bSuspended) {
-		msleep(20);
-	}
-
-	dmc_set_profile(card,axis, (double)speed*0.2, speed, 0.1, 0.1, 0);
+	dmc_set_profile(card, axis, (double)speed*0.2, speed, 0.1, 0.1, 0);
 	if (orgMode) {
 		dmc_set_homemode(card, axis, absMode, 1, 0, 0);
 		dmc_home_move(card, axis);
 	}
 	else {
-		dmc_pmove(card, axis,target, absMode);
+		dmc_pmove(card, axis, target, absMode);
 	}
 
 	short status;
@@ -591,6 +674,7 @@ Motion_thread1::Motion_thread1(QObject *parent): m_pManager(new QNetworkAccessMa
 {
 	m_parent = (Motion_thread*)parent;
 	connect(this, &Motion_thread1::sig_logOutput, m_parent, &Motion_thread::sig_logOutput);
+	connect(this, &Motion_thread1::sig_testResult, m_parent, &Motion_thread::sig_testResult);
 }
 Motion_thread1::~Motion_thread1() {
 
@@ -664,6 +748,8 @@ QString Motion_thread1::onReply(QNetworkReply *pReply) {
 			gridColor = 0;
 		else if (process_res == "NO")
 			gridColor = 2;
+
+		emit sig_testResult(m_parent->m_iSampleID,1,gridColor);
 
 		//emit sigSendRes(pannel_id, currow, curcol, gridColor, process_time, md5, raw_image_path);
 		m_bReceived = true;

@@ -227,6 +227,15 @@ void widconfig::slot_updatelist() {
 	((AOI*)m_parent)->m_tabCameraStatus.resizeRowsToContents();
 	((AOI*)m_parent)->m_tabCameraStatus.resizeColumnsToContents();
 
+	for (int r = 0; r < query.value("plateRows").toInt(); r++)
+	{
+		for (int c = 0; c < query.value("plateCols").toInt(); c++)
+		{
+			((AOI*)m_parent)->m_tabCameraStatus.setItem(r, c, new QTableWidgetItem);
+			((AOI*)m_parent)->m_tabCameraStatus.item(r, c)->setBackground(QColor(255,255,255));
+		}
+	}
+
 }
 
 void widconfig::updateConfig(srt_config &config) {

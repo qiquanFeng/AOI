@@ -24,6 +24,8 @@
 #include <Windows.h>
 #include <QListWidget>
 #include <QMessageBox>
+#include "dialogex.h"
+#include "widresult.h"
 
 class AOI : public QMainWindow
 {
@@ -55,12 +57,15 @@ signals:
 	void slot_butSuspended();
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
+	void keyPressEvent(QKeyEvent *);
 
 public:
 	srt_config m_config;
 	//**  Menu Bar ****************
 	QAction *m_actOption;
 	widconfig *m_widconfig;
+	DialogEx *m_diaAuto;
+	widResult *m_result;
 
 	//**  QGroupBox ***************
 	DockWidgetEx m_widOutputPannel;
@@ -68,7 +73,11 @@ public:
 	DockWidgetEx m_widFrame;
 	DockWidgetEx m_widOutIOStatus;
 	DockWidgetEx m_widInIOStatus;
+	DockWidgetEx m_widStatus;
 	DockWidgetEx m_widCameraStatus;
+	DockWidgetEx m_widLotNum;
+	DockWidgetEx m_widResult;
+	DockWidgetEx m_widOperater;
 	
 
 	//**  Layout ******************
@@ -87,6 +96,7 @@ public:
 	QPushButton m_butReset;
 	QPushButton m_butAuto;
 	QPushButton m_butSuspended;
+	QPushButton m_butStop;
 
 	PushButtonEx* m_butOutIO_Card0[16];
 	PushButtonEx* m_butOutIO_Card1[16];
@@ -95,6 +105,7 @@ public:
 
 	//**  Label *******************
 	QLabel m_labImage;
+	QLabel m_labStatus;
 
 	//**  QTextEdit *****************
 	QTextEdit m_editLog;
@@ -102,6 +113,7 @@ public:
 	//**  Mothods *******************
 	int setChildsAttribute();
 	int createLayout();
+
 	
 private:
 	Ui::AOIClass ui;
@@ -131,6 +143,9 @@ private:
 	void slot_IOChangeInfo(int iIoNumber, int iCard, bool bIn, int status);
 	void slot_Option();
 	void slot_updateImage(QString strPath);
+	void slot_butStop();
+	void slot_setStatus(QString status,QString strStyle);
+	void slot_setCameraResult(int row,int col,int result);
 
 
 };

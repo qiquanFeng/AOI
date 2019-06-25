@@ -1,6 +1,3 @@
 ﻿  aoi.cpp
-  motion_thread.cpp
-motion_thread.cpp(346): warning C4010: 单行注释包含行继续符
-  正在生成代码...
   AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.exe
   AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.pdb (Full PDB)

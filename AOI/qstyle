@@ -9,6 +9,19 @@ QDockWidget{
 QDockWidget .QWidget{
 	border:1px solid black;
 }
-QDockWidget QLabel{
+#status{
+	font: 75 24pt "微软雅黑";
+	color:red;
 	border:1px solid black;
+}
+QDialog .LabelEx{
+	border:1px solid black;
+	font: 12pt "宋体";
+}
+QDialog QPushButton{
+	font: 12pt "宋体";
+}
+
+QDockWidget QPushButton{
+	font: 24pt "宋体";
 }

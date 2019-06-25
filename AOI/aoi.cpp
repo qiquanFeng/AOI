@@ -3,11 +3,11 @@
 #include <QPushButton>
 
 AOI::AOI(QWidget *parent)
-	: QMainWindow(parent), m_widDebug(tr("Operation Pannel")),m_widOutputPannel(tr("OutputPannel")), \
-	m_widFrame(tr("Preview Frame")), m_widOutIOStatus(tr("Out IO Status")),\
-	m_widInIOStatus(tr("In IO Status")), m_widCameraStatus(tr("Camera Status")),m_labImage(""),
+	: QMainWindow(parent), m_labStatus(""), m_widDebug(tr("Operation Pannel")),m_widOutputPannel(tr("OutputPannel")), \
+	m_widFrame(tr("Preview Frame")), m_widOutIOStatus(tr("Out IO Status")), m_widLotNum(tr("LotNum")), m_widResult(tr("Result")), m_result(new widResult),\
+	m_widInIOStatus(tr("In IO Status")), m_widCameraStatus(tr("Camera Status")), m_widStatus(tr("Status")), m_widOperater(tr("Operater")), m_diaAuto(new DialogEx(this)),m_labImage(""),
 	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")),\
-	m_tabOutIOStatus(2,16), m_tabInIOStatus(2,16), uiRows(3), uiColumns(11)
+	m_butStop(tr("stop")),m_tabOutIOStatus(2,16), m_tabInIOStatus(2,16), uiRows(3), uiColumns(11)
 {
 	ui.setupUi(this);
 
@@ -40,10 +40,12 @@ AOI::AOI(QWidget *parent)
 	connect(this, SIGNAL(sig_test()), th, SLOT(slot_test()));
 	connect(this, SIGNAL(sig_auto()), th, SLOT(slot_auto()));
 	connect(this, SIGNAL(sig_Suspended()), th, SLOT(slot_Suspended()));
+
+	connect(&m_butStop, SIGNAL(pressed()), this, SLOT(slot_butStop()));
 	//*****************************
 	setChildsAttribute();
 	createLayout();
-	m_labImage.setFixedSize(800,600);
+	//m_labImage.setFixedSize(800,600);
 
 	
 
@@ -57,11 +59,19 @@ AOI::AOI(QWidget *parent)
 
 AOI::~AOI()
 {
+	slot_butStop();
 	saveLayout();
 }
 
 void AOI::resizeEvent(QResizeEvent *event) {
 	event->size();
+}
+void AOI::keyPressEvent(QKeyEvent *evt){
+	switch (evt->key()) {
+	case Qt::Key_Space:
+		slot_butStop();
+		break;
+	}
 }
 
 int AOI::createLayout(){
@@ -91,6 +101,15 @@ int AOI::createLayout(){
 	//******************** Camera Status **************************************************************
 	m_tabCameraStatus.setRowCount(m_config.iPlateRows);
 	m_tabCameraStatus.setColumnCount(m_config.iPlatCols);
+	for (int r = 0; r < m_config.iPlateRows; r++)
+	{
+		for (int c = 0; c < m_config.iPlatCols; c++)
+		{
+			m_tabCameraStatus.setItem(r,c,new QTableWidgetItem);
+			m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 255, 255));
+		}
+	}
+	
 	m_tabCameraStatus.resizeRowsToContents();
 	m_tabCameraStatus.resizeColumnsToContents();
 	m_tabCameraStatus.setFocusPolicy(Qt::NoFocus);
@@ -101,33 +120,41 @@ int AOI::createLayout(){
 	//****************** Operation Pannel**************************
 	QWidget *widOperation = new QWidget();
 	widOperation->setLayout(&m_vLayout1);
-	m_vLayout1.addWidget(&m_butLoad);
-	m_vLayout1.addWidget(&m_butUnLoad);
-	m_vLayout1.addWidget(&m_butRun);
+	//m_vLayout1.addWidget(&m_butLoad);
+	//m_vLayout1.addWidget(&m_butUnLoad);
+	//m_vLayout1.addWidget(&m_butRun);
 	m_vLayout1.addWidget(&m_butReset);
 	m_vLayout1.addWidget(&m_butAuto);
+	m_vLayout1.addWidget(&m_butStop);
 	m_vLayout1.addWidget(&m_butSuspended);
 	m_vLayout1.addStretch(10);
 
 	//*********************************************
-	m_widDebug.setWidget(widOperation);
+	m_widOperater.setWidget(widOperation);
 	m_widFrame.setWidget(&m_labImage);
 	m_widOutputPannel.setWidget(&m_editLog);
 	m_widOutIOStatus.setWidget(&m_tabOutIOStatus);
 	m_widInIOStatus.setWidget(&m_tabInIOStatus);
 	m_widCameraStatus.setWidget(&m_tabCameraStatus);
+	m_widLotNum.setWidget(m_diaAuto);
+	m_widResult.setWidget(m_result);
 	//****************** Layout *********************
 	addDockWidget(Qt::LeftDockWidgetArea, &m_widFrame);
 	addDockWidget(Qt::BottomDockWidgetArea, &m_widOutputPannel);
-	addDockWidget(Qt::RightDockWidgetArea, &m_widDebug);
-	addDockWidget(Qt::TopDockWidgetArea, &m_widOutIOStatus);
-	addDockWidget(Qt::TopDockWidgetArea, &m_widInIOStatus);
-	addDockWidget(Qt::BottomDockWidgetArea, &m_widCameraStatus);
+	addDockWidget(Qt::RightDockWidgetArea, &m_widOperater);
+	addDockWidget(Qt::RightDockWidgetArea, &m_widResult);
+	addDockWidget(Qt::TopDockWidgetArea, &m_widStatus);
+	addDockWidget(Qt::TopDockWidgetArea, &m_widLotNum);
+	//addDockWidget(Qt::TopDockWidgetArea, &m_widOutIOStatus);
+	//addDockWidget(Qt::TopDockWidgetArea, &m_widInIOStatus);
+	addDockWidget(Qt::TopDockWidgetArea, &m_widCameraStatus);
 
 	slot_updateImage("D:/sf/images/04_25/10-01-09_0P_1_14.jpg");
 	//********************** Menu *******************
 	m_actOption = new QAction(tr("&Option"));
-	QMenu *menSetting=menuBar()->addMenu("setting");
+	QMenu *menSetting=menuBar()->addMenu(tr("setting"));
+	menuBar()->addMenu(tr("tool"));
+	menuBar()->addMenu(tr("help"));
 	menSetting->addAction(m_actOption);
 
 	connect(m_actOption, SIGNAL(triggered()), this, SLOT(slot_Option()));
@@ -135,6 +162,10 @@ int AOI::createLayout(){
 	return 0;
 }
 int AOI::setChildsAttribute() {
+	m_widStatus.setWidget(&m_labStatus);
+	m_labStatus.setObjectName("status");
+	//m_labStatus.setFixedSize(400, 120);
+
 	m_editLog.setReadOnly(true);
 
 	connect(this, SIGNAL(sig_logOutput(QString, QColor)), this, SLOT(slot_outputLog(QString, QColor)),\
@@ -149,26 +180,59 @@ int AOI::setChildsAttribute() {
 }
 void AOI::slot_butLoad() {
 	emit sig_load();
+	setFocus();
 }
 void AOI::slot_butUnLoad() {
 	emit sig_unload();
+	setFocus();
 }
 void AOI::slot_butRun() {
 	emit sig_test();
+	setFocus();
 }
 void AOI::slot_butReset() {
+	th->m_bSuspended = false;
 	emit sig_resetAxis();
+	setFocus();
 };
 void AOI::slot_butAuto() {
-	emit sig_logOutput("auto");
-	if (QMessageBox::warning(this, "warning", "test", "OK", "NG", "cencal"))
-		return;
-	emit sig_auto();
+	m_diaAuto->clearStrLotNum();
+	m_diaAuto->exec();	
+
+	QStringList list = m_diaAuto->getStrLotNum();
+	if (list.size()) {
+		emit sig_auto();
+	}
+	else {
+		slot_setStatus(tr("Please Input LOT Number!"), "color:blue;");
+	}
+		
+	setFocus();
+	
+}
+void AOI::slot_butStop() {
+	emit sig_logOutput(tr("Emergency Stop!"),QColor(255,0,0));
+	slot_setStatus(tr("Emergency Stop!"), "color:red;");
+	dmc_stop(0, 0, 1);
+	dmc_stop(0, 1, 1);
+	dmc_stop(0, 2, 1);
+	dmc_stop(1, 0, 1);
+	dmc_stop(1, 1, 1);
+	dmc_stop(1, 2, 1);
+	th->m_bES = true;
+	th->m_bSuspended = false;
+	setFocus();
 }
 void AOI::slot_butSuspended() {
-	emit sig_logOutput("Suspended");
+	slot_setStatus(tr("pause"), "color:Black;");
 	th->m_bSuspended = !th->m_bSuspended;
 	emit sig_Suspended();
+	
+	if (th->m_bSuspended)
+		m_butSuspended.setText(tr("continue"));
+	else
+		m_butSuspended.setText(tr("pause"));
+	setFocus();
 }
 
 void AOI::slot_outputLog(QString text,QColor color) {
@@ -208,4 +272,25 @@ void AOI::slot_updateImage(QString strPath) {
 	m_labImage.setPixmap(QPixmap::fromImage(QImage(strPath)));
 	m_labImage.setScaledContents(true);
 	file.close();
+}
+void AOI::slot_setStatus(QString status,QString strStyle) {
+	m_labStatus.setText(status);
+	m_labStatus.setStyleSheet(strStyle);
+}
+void AOI::slot_setCameraResult(int row,int col,int result) {
+
+	int c = std::floor(row % m_tabCameraStatus.columnCount());
+	int r = std::ceil(row / m_tabCameraStatus.columnCount());
+
+	switch (result) {
+	case 0:
+		m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 0, 0));
+		break;
+	case 1:
+		m_tabCameraStatus.item(r, c)->setBackground(QColor(0, 255, 0));
+		break;
+	case 2:
+		m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 255, 0));
+		break;
+	}
 }

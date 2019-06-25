@@ -6,6 +6,7 @@ DockWidgetEx::DockWidgetEx(QString strTitle,QWidget *parent)
 	: QDockWidget(strTitle, parent)
 {
 	setFeatures(features()&~QDockWidget::DockWidgetClosable);
+	//setFeatures(QDockWidget::NoDockWidgetFeatures);
 }
 
 DockWidgetEx::~DockWidgetEx()

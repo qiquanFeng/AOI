@@ -3,15 +3,27 @@
 #include <QMessageBox>
 
 DialogEx::DialogEx(QWidget *parent)
-	: QDialog(parent), lab1(""), lab2(""), lab3(""), curPos(1), bFirstKey(true), \
+	: QDialog(parent), lab1(""), lab2(""), lab3(""), lab1_head(tr("LotNum1:")), lab2_head(tr("LotNum2:")), lab3_head(tr("LotNum3:")), bFirstKey(true),\
 	thr1(this), butClear(tr("Clean")),butCommit(tr("Commit"))
 {
 	ui.setupUi(this);
 
 	this->setLayout(&lay);
-	lay.addWidget(&lab1);
-	lay.addWidget(&lab2);
-	lay.addWidget(&lab3);
+
+	QHBoxLayout *hlay1 = new QHBoxLayout;
+	QHBoxLayout *hlay2 = new QHBoxLayout;
+	QHBoxLayout *hlay3 = new QHBoxLayout;
+
+	hlay1->addWidget(&lab1_head);
+	hlay1->addWidget(&lab1,100,Qt::AlignLeft);
+	hlay2->addWidget(&lab2_head);
+	hlay2->addWidget(&lab2,100, Qt::AlignLeft);
+	hlay3->addWidget(&lab3_head);
+	hlay3->addWidget(&lab3,100, Qt::AlignLeft);
+
+	lay.addLayout(hlay1);
+	lay.addLayout(hlay2);
+	lay.addLayout(hlay3);
 	QHBoxLayout *pHlay = new QHBoxLayout;
 	lay.addLayout(pHlay,50);
 	pHlay->addWidget(&butCommit);
@@ -26,6 +38,8 @@ DialogEx::DialogEx(QWidget *parent)
 	
 	connect(&thr1, SIGNAL(sig_setStyle(int, QString,QString)), this, SLOT(slot_setStyle(int,QString,QString)));
 	connect(&thr1, SIGNAL(sig_sendClose()), this, SLOT(slot_closeWindown()));
+
+	setEnabled(false);
 }
 
 
@@ -47,6 +61,7 @@ void DialogEx::keyPressEvent(QKeyEvent *evt) {
 	}
 		
 	str_temp.append(evt->text());
+	int i;
 }
 void DialogEx::slot_clear(QLabel *pLab) {
 	if (str_temp != "" && str_temp.size() != 0)
@@ -118,5 +133,14 @@ void DialogEx::slot_clear() {
 	strLotNum.clear();
 }
 void DialogEx::slot_commit() {
-	close();
+
+
+	if (strLotNum.size() <= 0) {
+		return;
+	}
+	lab1.setStyleSheet("background-color:white;");
+	lab2.setStyleSheet("background-color:white;");
+	lab3.setStyleSheet("background-color:white;");
+	setEnabled(false);
+	emit sig_commit();
 }

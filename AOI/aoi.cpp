@@ -3,9 +3,9 @@
 #include <QPushButton>
 
 AOI::AOI(QWidget *parent)
-	: QMainWindow(parent), m_labStatus(""), m_widDebug(tr("Operation Pannel")),m_widOutputPannel(tr("OutputPannel")), \
-	m_widFrame(tr("Preview Frame")), m_widOutIOStatus(tr("Out IO Status")), m_widLotNum(tr("LotNum")), m_widResult(tr("Result")), m_result(new widResult),\
-	m_widInIOStatus(tr("In IO Status")), m_widCameraStatus(tr("Camera Status")), m_widStatus(tr("Status")), m_widOperater(tr("Operater")), m_diaAuto(new DialogEx(this)),m_labImage(""),
+	: QMainWindow(parent), m_labStatus(""), m_widDebug(tr("Operation Pannel"),"operation"),m_widOutputPannel(tr("OutputPannel"),"outpannel"), \
+	m_widFrame(tr("Preview Frame"),"frame"), m_widOutIOStatus(tr("Out IO Status"),"outpannel"), m_widLotNum(tr("LotNum"),"lot"), m_widResult(tr("Result"),"result"), m_result(new widResult),\
+	m_widInIOStatus(tr("In IO Status"),"instatus"), m_widCameraStatus(tr("Camera Status"),"camerastatus"), m_widStatus(tr("Status"),"status"), m_widOperater(tr("Operater"),"operater"), m_diaAuto(new DialogEx(this)),m_labImage(""),
 	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")),\
 	m_butStop(tr("stop")),m_tabOutIOStatus(2,16), m_tabInIOStatus(2,16), uiRows(3), uiColumns(11)
 {
@@ -39,13 +39,14 @@ AOI::AOI(QWidget *parent)
 	connect(this, SIGNAL(sig_unload()), th, SLOT(slot_unload()));
 	connect(this, SIGNAL(sig_test()), th, SLOT(slot_test()));
 	connect(this, SIGNAL(sig_auto()), th, SLOT(slot_auto()));
+	connect(m_diaAuto, SIGNAL(sig_commit()), th, SLOT(slot_auto()));
 	connect(this, SIGNAL(sig_Suspended()), th, SLOT(slot_Suspended()));
 
 	connect(&m_butStop, SIGNAL(pressed()), this, SLOT(slot_butStop()));
 	//*****************************
 	setChildsAttribute();
 	createLayout();
-	//m_labImage.setFixedSize(800,600);
+	m_labImage.setFixedSize(750,500);
 
 	
 
@@ -119,15 +120,15 @@ int AOI::createLayout(){
 
 	//****************** Operation Pannel**************************
 	QWidget *widOperation = new QWidget();
-	widOperation->setLayout(&m_vLayout1);
+	widOperation->setLayout(&m_hLayout1);
 	//m_vLayout1.addWidget(&m_butLoad);
 	//m_vLayout1.addWidget(&m_butUnLoad);
 	//m_vLayout1.addWidget(&m_butRun);
-	m_vLayout1.addWidget(&m_butReset);
-	m_vLayout1.addWidget(&m_butAuto);
-	m_vLayout1.addWidget(&m_butStop);
-	m_vLayout1.addWidget(&m_butSuspended);
-	m_vLayout1.addStretch(10);
+	m_hLayout1.addWidget(&m_butReset);
+	m_hLayout1.addWidget(&m_butAuto);
+	m_hLayout1.addWidget(&m_butSuspended);
+	m_hLayout1.addWidget(&m_butStop);
+	
 
 	//*********************************************
 	m_widOperater.setWidget(widOperation);
@@ -136,18 +137,20 @@ int AOI::createLayout(){
 	m_widOutIOStatus.setWidget(&m_tabOutIOStatus);
 	m_widInIOStatus.setWidget(&m_tabInIOStatus);
 	m_widCameraStatus.setWidget(&m_tabCameraStatus);
-	m_widLotNum.setWidget(m_diaAuto);
+	
 	m_widResult.setWidget(m_result);
+	m_widLotNum.setWidget(m_diaAuto);
 	//****************** Layout *********************
 	addDockWidget(Qt::LeftDockWidgetArea, &m_widFrame);
 	addDockWidget(Qt::BottomDockWidgetArea, &m_widOutputPannel);
-	addDockWidget(Qt::RightDockWidgetArea, &m_widOperater);
+	addDockWidget(Qt::BottomDockWidgetArea, &m_widOperater);
 	addDockWidget(Qt::RightDockWidgetArea, &m_widResult);
 	addDockWidget(Qt::TopDockWidgetArea, &m_widStatus);
 	addDockWidget(Qt::TopDockWidgetArea, &m_widLotNum);
+	addDockWidget(Qt::TopDockWidgetArea, &m_widCameraStatus);
+
 	//addDockWidget(Qt::TopDockWidgetArea, &m_widOutIOStatus);
 	//addDockWidget(Qt::TopDockWidgetArea, &m_widInIOStatus);
-	addDockWidget(Qt::TopDockWidgetArea, &m_widCameraStatus);
 
 	slot_updateImage("D:/sf/images/04_25/10-01-09_0P_1_14.jpg");
 	//********************** Menu *******************
@@ -162,8 +165,7 @@ int AOI::createLayout(){
 	return 0;
 }
 int AOI::setChildsAttribute() {
-	m_widStatus.setWidget(&m_labStatus);
-	m_labStatus.setObjectName("status");
+	ui.mainToolBar->addWidget(&m_labStatus);
 	//m_labStatus.setFixedSize(400, 120);
 
 	m_editLog.setReadOnly(true);
@@ -196,19 +198,18 @@ void AOI::slot_butReset() {
 	setFocus();
 };
 void AOI::slot_butAuto() {
-	m_diaAuto->clearStrLotNum();
-	m_diaAuto->exec();	
+	emit sig_load();
+	while (!th->m_bAutoMode) {
+		QApplication::processEvents();
+	}
 
-	QStringList list = m_diaAuto->getStrLotNum();
-	if (list.size()) {
-		emit sig_auto();
-	}
-	else {
-		slot_setStatus(tr("Please Input LOT Number!"), "color:blue;");
-	}
-		
-	setFocus();
-	
+	m_diaAuto->setEnabled(true);
+	m_diaAuto->lab1.clear();
+	m_diaAuto->lab2.clear();
+	m_diaAuto->lab3.clear();
+	m_diaAuto->strLotNum.clear();
+
+	m_diaAuto->setFocus();
 }
 void AOI::slot_butStop() {
 	emit sig_logOutput(tr("Emergency Stop!"),QColor(255,0,0));

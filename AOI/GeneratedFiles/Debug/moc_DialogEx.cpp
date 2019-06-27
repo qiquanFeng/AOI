@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_DialogEx_t {
-    QByteArrayData data[10];
-    char stringdata0[94];
+    QByteArrayData data[11];
+    char stringdata0[105];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,20 +32,21 @@ struct qt_meta_stringdata_DialogEx_t {
 static const qt_meta_stringdata_DialogEx_t qt_meta_stringdata_DialogEx = {
     {
 QT_MOC_LITERAL(0, 0, 8), // "DialogEx"
-QT_MOC_LITERAL(1, 9, 10), // "slot_clear"
+QT_MOC_LITERAL(1, 9, 10), // "sig_commit"
 QT_MOC_LITERAL(2, 20, 0), // ""
-QT_MOC_LITERAL(3, 21, 7), // "QLabel*"
-QT_MOC_LITERAL(4, 29, 13), // "slot_setStyle"
-QT_MOC_LITERAL(5, 43, 3), // "inx"
-QT_MOC_LITERAL(6, 47, 8), // "strStyle"
-QT_MOC_LITERAL(7, 56, 7), // "strText"
-QT_MOC_LITERAL(8, 64, 17), // "slot_closeWindown"
-QT_MOC_LITERAL(9, 82, 11) // "slot_commit"
+QT_MOC_LITERAL(3, 21, 10), // "slot_clear"
+QT_MOC_LITERAL(4, 32, 7), // "QLabel*"
+QT_MOC_LITERAL(5, 40, 13), // "slot_setStyle"
+QT_MOC_LITERAL(6, 54, 3), // "inx"
+QT_MOC_LITERAL(7, 58, 8), // "strStyle"
+QT_MOC_LITERAL(8, 67, 7), // "strText"
+QT_MOC_LITERAL(9, 75, 17), // "slot_closeWindown"
+QT_MOC_LITERAL(10, 93, 11) // "slot_commit"
 
     },
-    "DialogEx\0slot_clear\0\0QLabel*\0slot_setStyle\0"
-    "inx\0strStyle\0strText\0slot_closeWindown\0"
-    "slot_commit"
+    "DialogEx\0sig_commit\0\0slot_clear\0QLabel*\0"
+    "slot_setStyle\0inx\0strStyle\0strText\0"
+    "slot_closeWindown\0slot_commit"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,23 +56,29 @@ static const uint qt_meta_data_DialogEx[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    0,   44,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   39,    2, 0x0a /* Public */,
-       4,    3,   42,    2, 0x0a /* Public */,
-       1,    0,   49,    2, 0x0a /* Public */,
-       8,    0,   50,    2, 0x0a /* Public */,
-       9,    0,   51,    2, 0x0a /* Public */,
+       3,    1,   45,    2, 0x0a /* Public */,
+       5,    3,   48,    2, 0x0a /* Public */,
+       3,    0,   55,    2, 0x0a /* Public */,
+       9,    0,   56,    2, 0x0a /* Public */,
+      10,    0,   57,    2, 0x0a /* Public */,
+
+ // signals: parameters
+    QMetaType::Void,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3,    2,
-    QMetaType::Void, QMetaType::Int, QMetaType::QString, QMetaType::QString,    5,    6,    7,
+    QMetaType::Void, 0x80000000 | 4,    2,
+    QMetaType::Void, QMetaType::Int, QMetaType::QString, QMetaType::QString,    6,    7,    8,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -85,23 +92,34 @@ void DialogEx::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         DialogEx *_t = static_cast<DialogEx *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->slot_clear((*reinterpret_cast< QLabel*(*)>(_a[1]))); break;
-        case 1: _t->slot_setStyle((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 2: _t->slot_clear(); break;
-        case 3: _t->slot_closeWindown(); break;
-        case 4: _t->slot_commit(); break;
+        case 0: _t->sig_commit(); break;
+        case 1: _t->slot_clear((*reinterpret_cast< QLabel*(*)>(_a[1]))); break;
+        case 2: _t->slot_setStyle((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 3: _t->slot_clear(); break;
+        case 4: _t->slot_closeWindown(); break;
+        case 5: _t->slot_commit(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 0:
+        case 1:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QLabel* >(); break;
             }
             break;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
+        {
+            typedef void (DialogEx::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&DialogEx::sig_commit)) {
+                *result = 0;
+                return;
+            }
         }
     }
 }
@@ -131,15 +149,21 @@ int DialogEx::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
+}
+
+// SIGNAL 0
+void DialogEx::sig_commit()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, Q_NULLPTR);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

@@ -26,7 +26,7 @@ public:
     {
         if (DialogEx->objectName().isEmpty())
             DialogEx->setObjectName(QStringLiteral("DialogEx"));
-        DialogEx->resize(400, 300);
+        DialogEx->resize(392, 293);
 
         retranslateUi(DialogEx);
 

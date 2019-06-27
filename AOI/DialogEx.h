@@ -17,6 +17,9 @@ class DialogEx : public QDialog
 public:
 	DialogEx(QWidget *parent = Q_NULLPTR);
 	~DialogEx();
+	QLabel lab1_head;
+	QLabel lab2_head;
+	QLabel lab3_head;
 	LabelEx lab1;
 	LabelEx lab2;
 	LabelEx lab3;
@@ -45,6 +48,9 @@ public:
 	
 	int curPos;
 	QVBoxLayout lay;
+
+signals:
+	void sig_commit();
 
 	public slots:
 	void slot_clear(QLabel *);

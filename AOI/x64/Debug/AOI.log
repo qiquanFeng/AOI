@@ -1,3 +1,10 @@
-﻿  aoi.cpp
+﻿  Moc'ing aoi.h...
+  moc_aoi.cpp
+  aoi.cpp
+  dockwidgetex.cpp
+  main.cpp
+  motion_thread.cpp
+  widconfig.cpp
+  正在生成代码...
   AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.exe
   AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.pdb (Full PDB)

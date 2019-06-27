@@ -2,11 +2,12 @@
 #include <QResizeEvent>
 #include "AOI.h"
 
-DockWidgetEx::DockWidgetEx(QString strTitle,QWidget *parent)
+DockWidgetEx::DockWidgetEx(QString strTitle,QString strObjectName,QWidget *parent)
 	: QDockWidget(strTitle, parent)
 {
 	setFeatures(features()&~QDockWidget::DockWidgetClosable);
-	//setFeatures(QDockWidget::NoDockWidgetFeatures);
+	setObjectName(strObjectName);
+	setAllowedAreas(Qt::DockWidgetArea::AllDockWidgetAreas);
 }
 
 DockWidgetEx::~DockWidgetEx()

@@ -9,7 +9,7 @@ class DockWidgetEx : public QDockWidget
 	Q_OBJECT
 
 public:
-	DockWidgetEx(QString strTitle, QWidget *parent=nullptr);
+	DockWidgetEx(QString strTitle, QString strObjectName,QWidget *parent=nullptr);
 	~DockWidgetEx();
 
 protected:

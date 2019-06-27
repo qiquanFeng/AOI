@@ -72,11 +72,12 @@ void Motion_thread::slot_resetAxis() {
 	slot_writeOutIO(0, 2, 1, true);
 	slot_writeOutIO(1, 4, 1, true);
 	
+	axis_move(1, 2, 10000, 0, 0, 1,true,true);
+
 	axis_move(0, 0, 10000, 1, 0, 1, false, true);
 	axis_move(0, 1, 10000, 0, 0, 1, false, true);
 	axis_move(0, 2, 1000, 0, 0, 1, false, true);
 
-	axis_move(1, 2, 10000, 0, 0, 1, false, true);
 	axis_move(1, 1, 80000, 0, 0, 1, false, true);
 	axis_move(1, 0, 80000, 1, 0, 1, false, true);
 
@@ -164,21 +165,26 @@ int Motion_thread::motion_Init() {
 	return m_CardNum;
 }
 void Motion_thread::slot_load() {
-	emit sig_logOutput("start load...");
-	dmc_write_outbit(0, 0, 1);
-	dmc_write_outbit(0, 1, 0);
-	dmc_write_outbit(1, 5, 1);
-	dmc_write_outbit(1, 6, 1);
-	dmc_write_outbit(1, 7, 1);
-	dmc_write_outbit(0, 2, 1);
+	srt_config config = ((AOI*)m_parent)->m_config;
+	emit sig_setStatus(tr("running"), "color:green;");
+	slot_writeOutIO(0, 0, 1, true);
+	slot_writeOutIO(0, 1, 0, true);
+	slot_writeOutIO(1, 5, 1, true);
+	slot_writeOutIO(1, 6, 1, true);
+	slot_writeOutIO(1, 7, 1, true);
+	slot_writeOutIO(0, 2, 1, true);
+	slot_writeOutIO(1, 4, 1, true);
 
-	axis_move(1, 2, 10000, 0, 0, 1, true);
-	axis_move(1, 0, 80000, 1, 1040000,0,false);
-	axis_move(1, 1, 80000, 1, -1010000, 0, false);
-	axis_move(0, 1, 20000, 1, 88600, 0, false);
-	axis_move(0, 0, 20000, 1, 0,1,true);
-	axis_move(0, 2, 1000, 0, 0, 1, true);
-	emit sig_logOutput("end load");
+	axis_move(0, 1, config.lLoadSpeed_Y, 1, config.lLoadPos_Y, 0, false);
+	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, false);
+	axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, false);
+	axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z, 0, false);
+	axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, true);
+	axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z, 0, true);
+
+	m_bAutoMode = true;
+
+	emit sig_setStatus(tr("Please Input Lot Number"), "color:black;");
 }
 void Motion_thread::slot_unload() {
 	emit sig_logOutput("start unload...");
@@ -257,25 +263,9 @@ void Motion_thread::slot_test() {
 }
 void Motion_thread::slot_auto() {
 	srt_config config = ((AOI*)m_parent)->m_config;
-	m_bAutoMode = true;
+	
 
 	emit sig_setStatus(tr("running"), "color:green;");
-	slot_writeOutIO(0, 0, 1, true);
-	slot_writeOutIO(0, 1, 0, true);
-	slot_writeOutIO(1, 5, 1, true);
-	slot_writeOutIO(1, 6, 1, true);
-	slot_writeOutIO(1, 7, 1, true);
-	slot_writeOutIO(0, 2, 1, true);
-	slot_writeOutIO(1, 4, 1, true);
-
-	axis_move(0, 1, config.lLoadSpeed_Y, 1, config.lLoadPos_Y, 0, false);
-	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, false);
-	axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, false);
-	axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z, 0, false);
-	axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, true);
-	axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z, 0, true);
-	
-	
 
 	int loadIndex = 0;
 	int unloadIndex = 0;
@@ -364,8 +354,8 @@ void Motion_thread::slot_auto() {
 			} while (!status);
 		}
 
-		loadIndex+=10;
-		unloadIndex+=10;
+		loadIndex++;
+		unloadIndex++;
 
 
 		//********** 检测料盒 *************************************
@@ -392,8 +382,6 @@ void Motion_thread::slot_auto() {
 		
 		// ************************** 夹料
 		if (dmc_read_inbit(1, 8) == 0) {
-			//axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + unloadIndex *(config.iBoxPadding / 2 * 10000), 0);
-
 			axis_move(1, 2, 20000, 0, 0, 1, false);
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, 2000, 1, -9000);
@@ -417,7 +405,7 @@ void Motion_thread::slot_auto() {
 			slot_writeOutIO(0, 2, 0);
 			slot_writeOutIO(0, 0, 1);
 
-			//slot_MatrixMove(config.iPlateRows, config.iPlatCols,\
+			slot_MatrixMove(config.iPlateRows, config.iPlatCols,\
 				int((double)config.iPlatRowPadding/config.iPlateRows/10*10000+0.5), int((double)config.iPlatColPadding / config.iPlatCols / 10 * 10000+0.5),"Testing",loadIndex);
 			
 			//**************************************** 下料 ********************************************************
@@ -484,7 +472,7 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 		for (int r = 0; r < row; r++)
 		{
 			if (c % 2) {
-				axis_move(0, 1, config.lTestSpeed, 1, (axis_Y+ rowStep*2) - rowStep*r);
+				axis_move(0, 1, config.lTestSpeed, 1, (axis_Y+ rowStep*(row-1)) - rowStep*r);
 				if(r)
 					m_iSampleID -= col;
 			}
@@ -501,7 +489,7 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 
 			mutex1->lock();
 			m_bReceived = false;
-			slot_predict(boxID, pannelID, m_iSampleID);
+			slot_predict(boxID, pannelID, m_iSampleID+1);
 			mutex1->unlock();
 			QTime reachTime = QTime::currentTime().addMSecs(10000);
 			while (QTime::currentTime() < reachTime&&m_bReceived==false)

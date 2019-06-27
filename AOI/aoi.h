@@ -43,9 +43,10 @@ signals:
 	void sig_resetAxis();
 	void sig_load();
 	void sig_unload();
-	void sig_test();
 	void sig_auto();
 	void sig_Suspended();
+
+	void sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5);
 
 	public slots:
 	void slot_outputLog(QString,QColor);

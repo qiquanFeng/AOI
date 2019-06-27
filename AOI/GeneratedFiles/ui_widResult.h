@@ -28,22 +28,22 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
-    QLabel *label_2;
+    QLabel *lab_result;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_9;
-    QLabel *label_10;
+    QLabel *lab_pannel;
     QHBoxLayout *horizontalLayout_6;
     QLabel *label_11;
-    QLabel *label_12;
+    QLabel *lab_sampleposition;
     QHBoxLayout *horizontalLayout_7;
     QLabel *label_13;
-    QLabel *label_14;
+    QLabel *lab_processtime;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_15;
-    QLabel *label_16;
+    QLabel *lab_imagepath;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_17;
-    QLabel *label_18;
+    QLabel *lab_MD5;
 
     void setupUi(QWidget *widResult)
     {
@@ -66,10 +66,10 @@ public:
 
         horizontalLayout->addWidget(label);
 
-        label_2 = new QLabel(verticalLayoutWidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        lab_result = new QLabel(verticalLayoutWidget);
+        lab_result->setObjectName(QStringLiteral("lab_result"));
 
-        horizontalLayout->addWidget(label_2);
+        horizontalLayout->addWidget(lab_result);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -82,10 +82,10 @@ public:
 
         horizontalLayout_5->addWidget(label_9);
 
-        label_10 = new QLabel(verticalLayoutWidget);
-        label_10->setObjectName(QStringLiteral("label_10"));
+        lab_pannel = new QLabel(verticalLayoutWidget);
+        lab_pannel->setObjectName(QStringLiteral("lab_pannel"));
 
-        horizontalLayout_5->addWidget(label_10);
+        horizontalLayout_5->addWidget(lab_pannel);
 
 
         verticalLayout->addLayout(horizontalLayout_5);
@@ -98,10 +98,10 @@ public:
 
         horizontalLayout_6->addWidget(label_11);
 
-        label_12 = new QLabel(verticalLayoutWidget);
-        label_12->setObjectName(QStringLiteral("label_12"));
+        lab_sampleposition = new QLabel(verticalLayoutWidget);
+        lab_sampleposition->setObjectName(QStringLiteral("lab_sampleposition"));
 
-        horizontalLayout_6->addWidget(label_12);
+        horizontalLayout_6->addWidget(lab_sampleposition);
 
 
         verticalLayout->addLayout(horizontalLayout_6);
@@ -114,10 +114,10 @@ public:
 
         horizontalLayout_7->addWidget(label_13);
 
-        label_14 = new QLabel(verticalLayoutWidget);
-        label_14->setObjectName(QStringLiteral("label_14"));
+        lab_processtime = new QLabel(verticalLayoutWidget);
+        lab_processtime->setObjectName(QStringLiteral("lab_processtime"));
 
-        horizontalLayout_7->addWidget(label_14);
+        horizontalLayout_7->addWidget(lab_processtime);
 
 
         verticalLayout->addLayout(horizontalLayout_7);
@@ -130,10 +130,10 @@ public:
 
         horizontalLayout_8->addWidget(label_15);
 
-        label_16 = new QLabel(verticalLayoutWidget);
-        label_16->setObjectName(QStringLiteral("label_16"));
+        lab_imagepath = new QLabel(verticalLayoutWidget);
+        lab_imagepath->setObjectName(QStringLiteral("lab_imagepath"));
 
-        horizontalLayout_8->addWidget(label_16);
+        horizontalLayout_8->addWidget(lab_imagepath);
 
 
         verticalLayout->addLayout(horizontalLayout_8);
@@ -146,10 +146,10 @@ public:
 
         horizontalLayout_9->addWidget(label_17);
 
-        label_18 = new QLabel(verticalLayoutWidget);
-        label_18->setObjectName(QStringLiteral("label_18"));
+        lab_MD5 = new QLabel(verticalLayoutWidget);
+        lab_MD5->setObjectName(QStringLiteral("lab_MD5"));
 
-        horizontalLayout_9->addWidget(label_18);
+        horizontalLayout_9->addWidget(lab_MD5);
 
 
         verticalLayout->addLayout(horizontalLayout_9);
@@ -164,17 +164,17 @@ public:
     {
         widResult->setWindowTitle(QApplication::translate("widResult", "widResult", Q_NULLPTR));
         label->setText(QApplication::translate("widResult", "Result", Q_NULLPTR));
-        label_2->setText(QString());
+        lab_result->setText(QString());
         label_9->setText(QApplication::translate("widResult", "pannel", Q_NULLPTR));
-        label_10->setText(QString());
+        lab_pannel->setText(QString());
         label_11->setText(QApplication::translate("widResult", "sample position", Q_NULLPTR));
-        label_12->setText(QString());
+        lab_sampleposition->setText(QString());
         label_13->setText(QApplication::translate("widResult", "process time", Q_NULLPTR));
-        label_14->setText(QString());
+        lab_processtime->setText(QString());
         label_15->setText(QApplication::translate("widResult", "iamge path", Q_NULLPTR));
-        label_16->setText(QString());
+        lab_imagepath->setText(QString());
         label_17->setText(QApplication::translate("widResult", "MD5", Q_NULLPTR));
-        label_18->setText(QString());
+        lab_MD5->setText(QString());
     } // retranslateUi
 
 };

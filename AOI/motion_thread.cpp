@@ -1,5 +1,6 @@
 #include "motion_thread.h"
 #include "aoi.h"
+#include "AOI.h"
 using namespace rapidjson;
 
 Motion_thread::Motion_thread(QObject *parent)
@@ -12,6 +13,8 @@ Motion_thread::Motion_thread(QObject *parent)
 	connect(this, SIGNAL(sig_statusChange(int,int, bool,int)), parent, SLOT(slot_IOChangeInfo(int, int,bool,int)));
 	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
 	connect(this, SIGNAL(sig_setStatus(QString, QString)), parent, SLOT(slot_setStatus(QString, QString)));
+
+	connect(this, &Motion_thread::sig_updateResult, (AOI*)parent, &AOI::sig_updateResult);
 
 	connect(this, SIGNAL(sig_testResult(int,int,int)), parent, SLOT(slot_setCameraResult(int,int,int)));
 	motion_Init();

@@ -49,6 +49,7 @@ signals:
 	void sig_setStatus(QString, QString);
 
 	void sig_testResult(int row, int col, int result);
+	void sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5);
 
 	public slots:
 		void slot_sendChangeIO(int iIoNumber,int iCard);

@@ -4,7 +4,8 @@
   dockwidgetex.cpp
   main.cpp
   motion_thread.cpp
+  widResult.cpp
   widconfig.cpp
   正在生成代码...
-  AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.exe
-  AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.pdb (Full PDB)
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Debug\AOI.exe
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Debug\AOI.pdb (Full PDB)

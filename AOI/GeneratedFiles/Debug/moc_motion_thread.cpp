@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Motion_thread_t {
-    QByteArrayData data[40];
-    char stringdata0[396];
+    QByteArrayData data[46];
+    char stringdata0[458];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,41 +49,49 @@ QT_MOC_LITERAL(14, 134, 14), // "sig_testResult"
 QT_MOC_LITERAL(15, 149, 3), // "row"
 QT_MOC_LITERAL(16, 153, 3), // "col"
 QT_MOC_LITERAL(17, 157, 6), // "result"
-QT_MOC_LITERAL(18, 164, 17), // "slot_sendChangeIO"
-QT_MOC_LITERAL(19, 182, 14), // "slot_resetAxis"
-QT_MOC_LITERAL(20, 197, 15), // "slot_writeOutIO"
-QT_MOC_LITERAL(21, 213, 4), // "WORD"
-QT_MOC_LITERAL(22, 218, 4), // "card"
-QT_MOC_LITERAL(23, 223, 5), // "bitNo"
-QT_MOC_LITERAL(24, 229, 6), // "bReset"
-QT_MOC_LITERAL(25, 236, 12), // "slot_predict"
-QT_MOC_LITERAL(26, 249, 5), // "boxID"
-QT_MOC_LITERAL(27, 255, 8), // "pannelID"
-QT_MOC_LITERAL(28, 264, 8), // "sampleID"
-QT_MOC_LITERAL(29, 273, 9), // "slot_load"
-QT_MOC_LITERAL(30, 283, 9), // "slot_test"
-QT_MOC_LITERAL(31, 293, 11), // "slot_unload"
-QT_MOC_LITERAL(32, 305, 9), // "slot_auto"
-QT_MOC_LITERAL(33, 315, 14), // "slot_Suspended"
-QT_MOC_LITERAL(34, 330, 15), // "slot_MatrixMove"
-QT_MOC_LITERAL(35, 346, 9), // "rowMargin"
-QT_MOC_LITERAL(36, 356, 9), // "colMargin"
-QT_MOC_LITERAL(37, 366, 7), // "onReply"
-QT_MOC_LITERAL(38, 374, 14), // "QNetworkReply*"
-QT_MOC_LITERAL(39, 389, 6) // "pReply"
+QT_MOC_LITERAL(18, 164, 16), // "sig_updateResult"
+QT_MOC_LITERAL(19, 181, 7), // "bresult"
+QT_MOC_LITERAL(20, 189, 7), // "iPannel"
+QT_MOC_LITERAL(21, 197, 7), // "iSample"
+QT_MOC_LITERAL(22, 205, 13), // "timeProcessMS"
+QT_MOC_LITERAL(23, 219, 6), // "strMD5"
+QT_MOC_LITERAL(24, 226, 17), // "slot_sendChangeIO"
+QT_MOC_LITERAL(25, 244, 14), // "slot_resetAxis"
+QT_MOC_LITERAL(26, 259, 15), // "slot_writeOutIO"
+QT_MOC_LITERAL(27, 275, 4), // "WORD"
+QT_MOC_LITERAL(28, 280, 4), // "card"
+QT_MOC_LITERAL(29, 285, 5), // "bitNo"
+QT_MOC_LITERAL(30, 291, 6), // "bReset"
+QT_MOC_LITERAL(31, 298, 12), // "slot_predict"
+QT_MOC_LITERAL(32, 311, 5), // "boxID"
+QT_MOC_LITERAL(33, 317, 8), // "pannelID"
+QT_MOC_LITERAL(34, 326, 8), // "sampleID"
+QT_MOC_LITERAL(35, 335, 9), // "slot_load"
+QT_MOC_LITERAL(36, 345, 9), // "slot_test"
+QT_MOC_LITERAL(37, 355, 11), // "slot_unload"
+QT_MOC_LITERAL(38, 367, 9), // "slot_auto"
+QT_MOC_LITERAL(39, 377, 14), // "slot_Suspended"
+QT_MOC_LITERAL(40, 392, 15), // "slot_MatrixMove"
+QT_MOC_LITERAL(41, 408, 9), // "rowMargin"
+QT_MOC_LITERAL(42, 418, 9), // "colMargin"
+QT_MOC_LITERAL(43, 428, 7), // "onReply"
+QT_MOC_LITERAL(44, 436, 14), // "QNetworkReply*"
+QT_MOC_LITERAL(45, 451, 6) // "pReply"
 
     },
     "Motion_thread\0sig_statusChange\0\0"
     "iIoNumber\0iCard\0bIn\0status\0sig_logOutput\0"
     "text\0color\0sig_updateImage\0strPath\0"
     "sig_predict\0sig_setStatus\0sig_testResult\0"
-    "row\0col\0result\0slot_sendChangeIO\0"
-    "slot_resetAxis\0slot_writeOutIO\0WORD\0"
-    "card\0bitNo\0bReset\0slot_predict\0boxID\0"
-    "pannelID\0sampleID\0slot_load\0slot_test\0"
-    "slot_unload\0slot_auto\0slot_Suspended\0"
-    "slot_MatrixMove\0rowMargin\0colMargin\0"
-    "onReply\0QNetworkReply*\0pReply"
+    "row\0col\0result\0sig_updateResult\0bresult\0"
+    "iPannel\0iSample\0timeProcessMS\0strMD5\0"
+    "slot_sendChangeIO\0slot_resetAxis\0"
+    "slot_writeOutIO\0WORD\0card\0bitNo\0bReset\0"
+    "slot_predict\0boxID\0pannelID\0sampleID\0"
+    "slot_load\0slot_test\0slot_unload\0"
+    "slot_auto\0slot_Suspended\0slot_MatrixMove\0"
+    "rowMargin\0colMargin\0onReply\0QNetworkReply*\0"
+    "pReply"
 };
 #undef QT_MOC_LITERAL
 
@@ -93,35 +101,36 @@ static const uint qt_meta_data_Motion_thread[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       7,       // signalCount
+       8,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    4,  109,    2, 0x06 /* Public */,
-       7,    2,  118,    2, 0x06 /* Public */,
-       7,    1,  123,    2, 0x26 /* Public | MethodCloned */,
-      10,    1,  126,    2, 0x06 /* Public */,
-      12,    0,  129,    2, 0x06 /* Public */,
-      13,    2,  130,    2, 0x06 /* Public */,
-      14,    3,  135,    2, 0x06 /* Public */,
+       1,    4,  114,    2, 0x06 /* Public */,
+       7,    2,  123,    2, 0x06 /* Public */,
+       7,    1,  128,    2, 0x26 /* Public | MethodCloned */,
+      10,    1,  131,    2, 0x06 /* Public */,
+      12,    0,  134,    2, 0x06 /* Public */,
+      13,    2,  135,    2, 0x06 /* Public */,
+      14,    3,  140,    2, 0x06 /* Public */,
+      18,    6,  147,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      18,    2,  142,    2, 0x0a /* Public */,
-      19,    0,  147,    2, 0x0a /* Public */,
-      20,    4,  148,    2, 0x0a /* Public */,
-      20,    3,  157,    2, 0x2a /* Public | MethodCloned */,
-      25,    3,  164,    2, 0x0a /* Public */,
-      29,    0,  171,    2, 0x0a /* Public */,
-      30,    0,  172,    2, 0x0a /* Public */,
-      31,    0,  173,    2, 0x0a /* Public */,
-      32,    0,  174,    2, 0x0a /* Public */,
-      33,    0,  175,    2, 0x0a /* Public */,
-      34,    6,  176,    2, 0x0a /* Public */,
-      37,    1,  189,    2, 0x0a /* Public */,
+      24,    2,  160,    2, 0x0a /* Public */,
+      25,    0,  165,    2, 0x0a /* Public */,
+      26,    4,  166,    2, 0x0a /* Public */,
+      26,    3,  175,    2, 0x2a /* Public | MethodCloned */,
+      31,    3,  182,    2, 0x0a /* Public */,
+      35,    0,  189,    2, 0x0a /* Public */,
+      36,    0,  190,    2, 0x0a /* Public */,
+      37,    0,  191,    2, 0x0a /* Public */,
+      38,    0,  192,    2, 0x0a /* Public */,
+      39,    0,  193,    2, 0x0a /* Public */,
+      40,    6,  194,    2, 0x0a /* Public */,
+      43,    1,  207,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Bool, QMetaType::Int,    3,    4,    5,    6,
@@ -131,20 +140,21 @@ static const uint qt_meta_data_Motion_thread[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString, QMetaType::QString,    2,    2,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   15,   16,   17,
+    QMetaType::Void, QMetaType::Bool, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::QString, QMetaType::QString,   19,   20,   21,   22,   11,   23,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    3,    4,
     QMetaType::Void,
-    QMetaType::Int, 0x80000000 | 21, 0x80000000 | 21, 0x80000000 | 21, QMetaType::Bool,   22,   23,    6,   24,
-    QMetaType::Int, 0x80000000 | 21, 0x80000000 | 21, 0x80000000 | 21,   22,   23,    6,
-    QMetaType::Void, QMetaType::QString, QMetaType::Int, QMetaType::Int,   26,   27,   28,
+    QMetaType::Int, 0x80000000 | 27, 0x80000000 | 27, 0x80000000 | 27, QMetaType::Bool,   28,   29,    6,   30,
+    QMetaType::Int, 0x80000000 | 27, 0x80000000 | 27, 0x80000000 | 27,   28,   29,    6,
+    QMetaType::Void, QMetaType::QString, QMetaType::Int, QMetaType::Int,   32,   33,   34,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Double, QMetaType::Double, QMetaType::QString, QMetaType::Int,   15,   16,   35,   36,   26,   27,
-    QMetaType::QString, 0x80000000 | 38,   39,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Double, QMetaType::Double, QMetaType::QString, QMetaType::Int,   15,   16,   41,   42,   32,   33,
+    QMetaType::QString, 0x80000000 | 44,   45,
 
        0        // eod
 };
@@ -162,27 +172,28 @@ void Motion_thread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 4: _t->sig_predict(); break;
         case 5: _t->sig_setStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 6: _t->sig_testResult((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
-        case 7: _t->slot_sendChangeIO((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 8: _t->slot_resetAxis(); break;
-        case 9: { int _r = _t->slot_writeOutIO((*reinterpret_cast< WORD(*)>(_a[1])),(*reinterpret_cast< WORD(*)>(_a[2])),(*reinterpret_cast< WORD(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4])));
+        case 7: _t->sig_updateResult((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< QString(*)>(_a[6]))); break;
+        case 8: _t->slot_sendChangeIO((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 9: _t->slot_resetAxis(); break;
+        case 10: { int _r = _t->slot_writeOutIO((*reinterpret_cast< WORD(*)>(_a[1])),(*reinterpret_cast< WORD(*)>(_a[2])),(*reinterpret_cast< WORD(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 10: { int _r = _t->slot_writeOutIO((*reinterpret_cast< WORD(*)>(_a[1])),(*reinterpret_cast< WORD(*)>(_a[2])),(*reinterpret_cast< WORD(*)>(_a[3])));
+        case 11: { int _r = _t->slot_writeOutIO((*reinterpret_cast< WORD(*)>(_a[1])),(*reinterpret_cast< WORD(*)>(_a[2])),(*reinterpret_cast< WORD(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 11: _t->slot_predict((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
-        case 12: _t->slot_load(); break;
-        case 13: _t->slot_test(); break;
-        case 14: _t->slot_unload(); break;
-        case 15: _t->slot_auto(); break;
-        case 16: _t->slot_Suspended(); break;
-        case 17: _t->slot_MatrixMove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< double(*)>(_a[3])),(*reinterpret_cast< double(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6]))); break;
-        case 18: { QString _r = _t->onReply((*reinterpret_cast< QNetworkReply*(*)>(_a[1])));
+        case 12: _t->slot_predict((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 13: _t->slot_load(); break;
+        case 14: _t->slot_test(); break;
+        case 15: _t->slot_unload(); break;
+        case 16: _t->slot_auto(); break;
+        case 17: _t->slot_Suspended(); break;
+        case 18: _t->slot_MatrixMove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< double(*)>(_a[3])),(*reinterpret_cast< double(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6]))); break;
+        case 19: { QString _r = _t->onReply((*reinterpret_cast< QNetworkReply*(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 18:
+        case 19:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -235,6 +246,13 @@ void Motion_thread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
                 return;
             }
         }
+        {
+            typedef void (Motion_thread::*_t)(bool , int , int , int , QString , QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Motion_thread::sig_updateResult)) {
+                *result = 7;
+                return;
+            }
+        }
     }
 }
 
@@ -263,13 +281,13 @@ int Motion_thread::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 20;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 20;
     }
     return _id;
 }
@@ -313,6 +331,13 @@ void Motion_thread::sig_testResult(int _t1, int _t2, int _t3)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)) };
     QMetaObject::activate(this, &staticMetaObject, 6, _a);
+}
+
+// SIGNAL 7
+void Motion_thread::sig_updateResult(bool _t1, int _t2, int _t3, int _t4, QString _t5, QString _t6)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)), const_cast<void*>(reinterpret_cast<const void*>(&_t5)), const_cast<void*>(reinterpret_cast<const void*>(&_t6)) };
+    QMetaObject::activate(this, &staticMetaObject, 7, _a);
 }
 struct qt_meta_stringdata_Motion_thread1_t {
     QByteArrayData data[22];

@@ -43,6 +43,10 @@ AOI::AOI(QWidget *parent)
 	connect(this, SIGNAL(sig_Suspended()), th, SLOT(slot_Suspended()));
 
 	connect(&m_butStop, SIGNAL(pressed()), this, SLOT(slot_butStop()));
+
+	connect(this, SIGNAL(sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5)),\
+		m_result, SLOT(slot_update(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5)));
+	connect(this, SIGNAL(sig_updateResult(bool,int,int,int,QString,QString)), m_result, SLOT(slot_update(bool, int, int, int, QString, QString)));
 	//*****************************
 	setChildsAttribute();
 	createLayout();
@@ -56,6 +60,8 @@ AOI::AOI(QWidget *parent)
 	fileStyle.close();
 
 	applyLayout();
+
+	emit sig_updateResult(true,1,1,123,"test","testMD5");
 }
 
 AOI::~AOI()
@@ -145,14 +151,13 @@ int AOI::createLayout(){
 	addDockWidget(Qt::BottomDockWidgetArea, &m_widOutputPannel);
 	addDockWidget(Qt::BottomDockWidgetArea, &m_widOperater);
 	addDockWidget(Qt::RightDockWidgetArea, &m_widResult);
-	addDockWidget(Qt::TopDockWidgetArea, &m_widStatus);
 	addDockWidget(Qt::TopDockWidgetArea, &m_widLotNum);
 	addDockWidget(Qt::TopDockWidgetArea, &m_widCameraStatus);
 
 	//addDockWidget(Qt::TopDockWidgetArea, &m_widOutIOStatus);
 	//addDockWidget(Qt::TopDockWidgetArea, &m_widInIOStatus);
 
-	slot_updateImage("D:/sf/images/04_25/10-01-09_0P_1_14.jpg");
+	slot_updateImage("15-03-01_Testing_1_23.jpg");
 	//********************** Menu *******************
 	m_actOption = new QAction(tr("&Option"));
 	QMenu *menSetting=menuBar()->addMenu(tr("setting"));
@@ -189,7 +194,6 @@ void AOI::slot_butUnLoad() {
 	setFocus();
 }
 void AOI::slot_butRun() {
-	emit sig_test();
 	setFocus();
 }
 void AOI::slot_butReset() {

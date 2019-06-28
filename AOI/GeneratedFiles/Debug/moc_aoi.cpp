@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_AOI_t {
-    QByteArrayData data[38];
-    char stringdata0[402];
+    QByteArrayData data[41];
+    char stringdata0[443];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -61,14 +61,17 @@ QT_MOC_LITERAL(26, 283, 5), // "iCard"
 QT_MOC_LITERAL(27, 289, 3), // "bIn"
 QT_MOC_LITERAL(28, 293, 6), // "status"
 QT_MOC_LITERAL(29, 300, 11), // "slot_Option"
-QT_MOC_LITERAL(30, 312, 16), // "slot_updateImage"
-QT_MOC_LITERAL(31, 329, 12), // "slot_butStop"
-QT_MOC_LITERAL(32, 342, 14), // "slot_setStatus"
-QT_MOC_LITERAL(33, 357, 8), // "strStyle"
-QT_MOC_LITERAL(34, 366, 20), // "slot_setCameraResult"
-QT_MOC_LITERAL(35, 387, 3), // "row"
-QT_MOC_LITERAL(36, 391, 3), // "col"
-QT_MOC_LITERAL(37, 395, 6) // "result"
+QT_MOC_LITERAL(30, 312, 13), // "slot_actDebug"
+QT_MOC_LITERAL(31, 326, 12), // "slot_actIOIN"
+QT_MOC_LITERAL(32, 339, 13), // "slot_actIOOut"
+QT_MOC_LITERAL(33, 353, 16), // "slot_updateImage"
+QT_MOC_LITERAL(34, 370, 12), // "slot_butStop"
+QT_MOC_LITERAL(35, 383, 14), // "slot_setStatus"
+QT_MOC_LITERAL(36, 398, 8), // "strStyle"
+QT_MOC_LITERAL(37, 407, 20), // "slot_setCameraResult"
+QT_MOC_LITERAL(38, 428, 3), // "row"
+QT_MOC_LITERAL(39, 432, 3), // "col"
+QT_MOC_LITERAL(40, 436, 6) // "result"
 
     },
     "AOI\0sig_logOutput\0\0text\0color\0"
@@ -79,7 +82,8 @@ QT_MOC_LITERAL(37, 395, 6) // "result"
     "slot_butLoad\0slot_butUnLoad\0slot_butRun\0"
     "slot_butReset\0slot_butAuto\0slot_butSuspended\0"
     "slot_IOChangeInfo\0iIoNumber\0iCard\0bIn\0"
-    "status\0slot_Option\0slot_updateImage\0"
+    "status\0slot_Option\0slot_actDebug\0"
+    "slot_actIOIN\0slot_actIOOut\0slot_updateImage\0"
     "slot_butStop\0slot_setStatus\0strStyle\0"
     "slot_setCameraResult\0row\0col\0result"
 };
@@ -91,7 +95,7 @@ static const uint qt_meta_data_AOI[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      21,   14, // methods
+      24,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -99,29 +103,32 @@ static const uint qt_meta_data_AOI[] = {
        8,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,  119,    2, 0x06 /* Public */,
-       1,    1,  124,    2, 0x26 /* Public | MethodCloned */,
-       5,    0,  127,    2, 0x06 /* Public */,
-       6,    0,  128,    2, 0x06 /* Public */,
-       7,    0,  129,    2, 0x06 /* Public */,
-       8,    0,  130,    2, 0x06 /* Public */,
-       9,    0,  131,    2, 0x06 /* Public */,
-      10,    6,  132,    2, 0x06 /* Public */,
+       1,    2,  134,    2, 0x06 /* Public */,
+       1,    1,  139,    2, 0x26 /* Public | MethodCloned */,
+       5,    0,  142,    2, 0x06 /* Public */,
+       6,    0,  143,    2, 0x06 /* Public */,
+       7,    0,  144,    2, 0x06 /* Public */,
+       8,    0,  145,    2, 0x06 /* Public */,
+       9,    0,  146,    2, 0x06 /* Public */,
+      10,    6,  147,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      17,    2,  145,    2, 0x0a /* Public */,
-      18,    0,  150,    2, 0x0a /* Public */,
-      19,    0,  151,    2, 0x0a /* Public */,
-      20,    0,  152,    2, 0x0a /* Public */,
-      21,    0,  153,    2, 0x0a /* Public */,
-      22,    0,  154,    2, 0x0a /* Public */,
-      23,    0,  155,    2, 0x0a /* Public */,
-      24,    4,  156,    2, 0x0a /* Public */,
-      29,    0,  165,    2, 0x0a /* Public */,
-      30,    1,  166,    2, 0x0a /* Public */,
-      31,    0,  169,    2, 0x0a /* Public */,
-      32,    2,  170,    2, 0x0a /* Public */,
-      34,    3,  175,    2, 0x0a /* Public */,
+      17,    2,  160,    2, 0x0a /* Public */,
+      18,    0,  165,    2, 0x0a /* Public */,
+      19,    0,  166,    2, 0x0a /* Public */,
+      20,    0,  167,    2, 0x0a /* Public */,
+      21,    0,  168,    2, 0x0a /* Public */,
+      22,    0,  169,    2, 0x0a /* Public */,
+      23,    0,  170,    2, 0x0a /* Public */,
+      24,    4,  171,    2, 0x0a /* Public */,
+      29,    0,  180,    2, 0x0a /* Public */,
+      30,    1,  181,    2, 0x0a /* Public */,
+      31,    1,  184,    2, 0x0a /* Public */,
+      32,    1,  187,    2, 0x0a /* Public */,
+      33,    1,  190,    2, 0x0a /* Public */,
+      34,    0,  193,    2, 0x0a /* Public */,
+      35,    2,  194,    2, 0x0a /* Public */,
+      37,    3,  199,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, QMetaType::QColor,    3,    4,
@@ -143,10 +150,13 @@ static const uint qt_meta_data_AOI[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Bool, QMetaType::Int,   25,   26,   27,   28,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,    2,
+    QMetaType::Void, QMetaType::Bool,    2,
+    QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void, QMetaType::QString,   15,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString,   28,   33,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   35,   36,   37,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,   28,   36,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   38,   39,   40,
 
        0        // eod
 };
@@ -174,10 +184,13 @@ void AOI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         case 14: _t->slot_butSuspended(); break;
         case 15: _t->slot_IOChangeInfo((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         case 16: _t->slot_Option(); break;
-        case 17: _t->slot_updateImage((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 18: _t->slot_butStop(); break;
-        case 19: _t->slot_setStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 20: _t->slot_setCameraResult((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 17: _t->slot_actDebug((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 18: _t->slot_actIOIN((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 19: _t->slot_actIOOut((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 20: _t->slot_updateImage((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 21: _t->slot_butStop(); break;
+        case 22: _t->slot_setStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 23: _t->slot_setCameraResult((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -260,13 +273,13 @@ int AOI::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 21)
+        if (_id < 24)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 21;
+        _id -= 24;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 21)
+        if (_id < 24)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 21;
+        _id -= 24;
     }
     return _id;
 }

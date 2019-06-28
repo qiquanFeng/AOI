@@ -88,6 +88,7 @@ public:
 signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
 	void sig_testResult(int row, int col, int result);
+	void sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5);
 
 	public slots:
 	void slot_predict(QString boxID,int pannelID,int sampleID);

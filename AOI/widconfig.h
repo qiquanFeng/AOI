@@ -101,6 +101,7 @@ public:
 	QSqlDatabase m_db;
 	QObject *m_parent;
 	
+	QString getCurrentConfigName();
 
 signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));

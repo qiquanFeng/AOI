@@ -227,6 +227,11 @@ void widconfig::slot_updatelist() {
 	((AOI*)m_parent)->m_tabCameraStatus.resizeRowsToContents();
 	((AOI*)m_parent)->m_tabCameraStatus.resizeColumnsToContents();
 
+	((AOI*)m_parent)->m_configName = getCurrentConfigName();
+	((AOI*)m_parent)->m_labConfigName.setText(tr("Model Code:")+((AOI*)m_parent)->m_configName);
+
+
+
 	for (int r = 0; r < query.value("plateRows").toInt(); r++)
 	{
 		for (int c = 0; c < query.value("plateCols").toInt(); c++)
@@ -236,6 +241,14 @@ void widconfig::slot_updatelist() {
 		}
 	}
 
+}
+QString widconfig::getCurrentConfigName() {
+	QSqlQuery query(m_db);
+	query.exec("select configName from current_config where 1");
+	if (!query.next())
+		return "";
+
+	return query.value("configName").toString();
 }
 
 void widconfig::updateConfig(srt_config &config) {

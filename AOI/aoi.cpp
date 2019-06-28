@@ -6,7 +6,7 @@ AOI::AOI(QWidget *parent)
 	: QMainWindow(parent), m_labStatus(""), m_widDebug(tr("Operation Pannel"),"operation"),m_widOutputPannel(tr("OutputPannel"),"outpannel"), \
 	m_widFrame(tr("Preview Frame"),"frame"), m_widOutIOStatus(tr("Out IO Status"),"outpannel"), m_widLotNum(tr("LotNum"),"lot"), m_widResult(tr("Result"),"result"), m_result(new widResult),\
 	m_widInIOStatus(tr("In IO Status"),"instatus"), m_widCameraStatus(tr("Camera Status"),"camerastatus"), m_widStatus(tr("Status"),"status"), m_widOperater(tr("Operater"),"operater"), m_diaAuto(new DialogEx(this)),m_labImage(""),
-	m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")),\
+	m_labConfigName(m_configName),m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")),\
 	m_butStop(tr("stop")),m_tabOutIOStatus(2,16), m_tabInIOStatus(2,16), uiRows(3), uiColumns(11)
 {
 	ui.setupUi(this);
@@ -83,6 +83,9 @@ void AOI::keyPressEvent(QKeyEvent *evt){
 
 int AOI::createLayout(){
 	this->centralWidget()->setHidden(true);
+
+	m_butReset.setEnabled(false);
+
 	//****  Out IO Tab **********************************
 	m_tabOutIOStatus.setHorizontalHeaderLabels(QStringList() << "0" << "1" << "2" << "3" << "4" << "5" << "6"\
 		<< "7" << "8" << "9" << "10" << "11" << "12" << "13" << "14"<<"15");
@@ -160,17 +163,44 @@ int AOI::createLayout(){
 	slot_updateImage("15-03-01_Testing_1_23.jpg");
 	//********************** Menu *******************
 	m_actOption = new QAction(tr("&Option"));
+	
+	m_actInputIO = new QAction(tr("inIO"));
+	m_actOutputIO = new QAction(tr("outIO"));
+	m_actDebug = new QAction(tr("Debug"));
+	m_actInputIO->setChecked(true);
+	m_actOutputIO->setChecked(true);
+	m_actDebug->setChecked(true);
+	m_actInputIO->setCheckable(true);
+	m_actOutputIO->setCheckable(true);
+	m_actDebug->setCheckable(true);
+
 	QMenu *menSetting=menuBar()->addMenu(tr("setting"));
 	menuBar()->addMenu(tr("tool"));
+	QMenu *menMode=menuBar()->addMenu(tr("model"));
 	menuBar()->addMenu(tr("help"));
 	menSetting->addAction(m_actOption);
+	menMode->addAction(m_actInputIO);
+	menMode->addAction(m_actOutputIO);
+	menMode->addAction(m_actDebug);
 
 	connect(m_actOption, SIGNAL(triggered()), this, SLOT(slot_Option()));
+	connect(m_actInputIO, SIGNAL(triggered(bool)), this, SLOT(slot_actIOIN(bool)));
+	connect(m_actOutputIO, SIGNAL(triggered(bool)), this, SLOT(slot_actIOOut(bool)));
+	connect(m_actDebug, SIGNAL(triggered(bool)), this, SLOT(slot_actDebug(bool)));
 
 	return 0;
 }
 int AOI::setChildsAttribute() {
-	ui.mainToolBar->addWidget(&m_labStatus);
+	m_labStatus.setText("Stop!");
+	m_labStatus.setFixedWidth(500);
+	QWidget *wid = new QWidget;
+	ui.mainToolBar->addWidget(wid);
+	QHBoxLayout *phlay = new QHBoxLayout;
+	wid->setLayout(phlay);
+	phlay->addWidget(&m_labStatus);
+	phlay->addWidget(&m_labConfigName);
+
+
 	//m_labStatus.setFixedSize(400, 120);
 
 	m_editLog.setReadOnly(true);
@@ -200,6 +230,8 @@ void AOI::slot_butReset() {
 	th->m_bSuspended = false;
 	emit sig_resetAxis();
 	setFocus();
+
+	m_butAuto.setEnabled(true);
 };
 void AOI::slot_butAuto() {
 	emit sig_load();
@@ -213,6 +245,8 @@ void AOI::slot_butAuto() {
 	m_diaAuto->lab3.clear();
 	m_diaAuto->strLotNum.clear();
 
+	m_butAuto.setEnabled(false);
+	m_butReset.setEnabled(false);
 	m_diaAuto->setFocus();
 }
 void AOI::slot_butStop() {
@@ -227,16 +261,22 @@ void AOI::slot_butStop() {
 	th->m_bES = true;
 	th->m_bSuspended = false;
 	setFocus();
+	m_butAuto.setEnabled(true);
+	m_butReset.setEnabled(true);
 }
 void AOI::slot_butSuspended() {
 	slot_setStatus(tr("pause"), "color:Black;");
 	th->m_bSuspended = !th->m_bSuspended;
 	emit sig_Suspended();
-	
-	if (th->m_bSuspended)
+
+	if (th->m_bSuspended){
 		m_butSuspended.setText(tr("continue"));
-	else
+	m_butReset.setEnabled(true);
+	}
+	else{
 		m_butSuspended.setText(tr("pause"));
+	}
+	
 	setFocus();
 }
 
@@ -267,7 +307,46 @@ void AOI::slot_IOChangeInfo(int iIoNumber, int iCard,bool bIn, int status) {
 void AOI::slot_Option() {
 	m_widconfig->setModal(true);
 	m_widconfig->exec();
-
+}
+void AOI::slot_actIOIN(bool bl) {
+	if (bl) {
+		m_widInIOStatus.setParent(this);
+		m_widInIOStatus.setFloating(true);
+		m_widInIOStatus.setFixedSize(800, 150);
+		m_widInIOStatus.show();
+		m_widInIOStatus.setAllowedAreas(Qt::DockWidgetArea::NoDockWidgetArea);
+		m_widInIOStatus.move(300, 300);
+	}
+	else {
+		m_widInIOStatus.hide();
+	}
+	
+}
+void AOI::slot_actIOOut(bool bl) {
+	if (bl) {
+		m_widOutIOStatus.setParent(this);
+		m_widOutIOStatus.setFloating(true);
+		m_widOutIOStatus.setFixedSize(800, 150);
+		m_widOutIOStatus.show();
+		m_widOutIOStatus.setAllowedAreas(Qt::DockWidgetArea::NoDockWidgetArea);
+		m_widOutIOStatus.move(100, 100);
+	}
+	else {
+		m_widOutIOStatus.hide();
+	}
+}
+void AOI::slot_actDebug(bool bl) {
+	if (bl) {
+		axisdebug.setParent(this);
+		axisdebug.setFloating(true);
+		axisdebug.setFixedSize(1200, 100);
+		axisdebug.show();
+		axisdebug.setAllowedAreas(Qt::DockWidgetArea::NoDockWidgetArea);
+		axisdebug.move(200, 200);
+	}
+	else {
+		axisdebug.hide();
+	}
 }
 
 void AOI::slot_updateImage(QString strPath) {
@@ -283,6 +362,15 @@ void AOI::slot_setStatus(QString status,QString strStyle) {
 	m_labStatus.setStyleSheet(strStyle);
 }
 void AOI::slot_setCameraResult(int row,int col,int result) {
+
+	if (row == 0xFF&&col==0xFF) {
+		for (int r = 0; r < m_tabCameraStatus.rowCount(); r++) {
+			for (int c = 0; c < m_tabCameraStatus.columnCount(); c++) {
+				m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 255, 255));
+			}
+		}
+		return;
+	}
 
 	int c = std::floor(row % m_tabCameraStatus.columnCount());
 	int r = std::ceil(row / m_tabCameraStatus.columnCount());

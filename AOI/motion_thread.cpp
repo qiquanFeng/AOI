@@ -276,12 +276,15 @@ void Motion_thread::slot_auto() {
 		if (m_bES)
 			break;
 		short status = 0;
-
+		m_iPannelID = loadIndex + 1;
+		emit sig_updateResult(true, m_iPannelID, 0, 0, "", "");
+		emit sig_testResult(0xff, 0xff, 0);
 
 		axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
 		axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
 
 		//********** 上下 料盒 *********************************
+
 		if (loadIndex &&!(loadIndex % config.iBoxRows)) {
 			emit sig_setStatus("changeing load Box ...", "color:yellow;");
 			loadIndex = 0;
@@ -359,6 +362,7 @@ void Motion_thread::slot_auto() {
 
 		loadIndex++;
 		unloadIndex++;
+		
 
 
 		//********** 检测料盒 *************************************
@@ -666,6 +670,7 @@ Motion_thread1::Motion_thread1(QObject *parent): m_pManager(new QNetworkAccessMa
 	m_parent = (Motion_thread*)parent;
 	connect(this, &Motion_thread1::sig_logOutput, m_parent, &Motion_thread::sig_logOutput);
 	connect(this, &Motion_thread1::sig_testResult, m_parent, &Motion_thread::sig_testResult);
+	connect(this, &Motion_thread1::sig_updateResult, m_parent, &Motion_thread::sig_updateResult);
 }
 Motion_thread1::~Motion_thread1() {
 
@@ -740,7 +745,8 @@ QString Motion_thread1::onReply(QNetworkReply *pReply) {
 		else if (process_res == "NO")
 			gridColor = 2;
 
-		emit sig_testResult(m_parent->m_iSampleID,1,gridColor);
+		emit sig_testResult(m_parent->m_iSampleID,0,gridColor);
+		emit sig_updateResult(gridColor, m_parent->m_iPannelID, m_parent->m_iSampleID, 2002, img_path, " ");
 
 		//emit sigSendRes(pannel_id, currow, curcol, gridColor, process_time, md5, raw_image_path);
 		m_bReceived = true;

@@ -71,7 +71,7 @@
     <message>
         <location filename="aoi.cpp" line="9"/>
         <source>auto</source>
-        <translation>自动</translation>
+        <translation>开始</translation>
     </message>
     <message>
         <location filename="aoi.cpp" line="9"/>
@@ -84,22 +84,22 @@
         <translation>急停</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="157"/>
+        <location filename="aoi.cpp" line="162"/>
         <source>&amp;Option</source>
         <translation>配置</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="158"/>
+        <location filename="aoi.cpp" line="163"/>
         <source>setting</source>
         <translation>设定</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="159"/>
+        <location filename="aoi.cpp" line="164"/>
         <source>tool</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="160"/>
+        <location filename="aoi.cpp" line="165"/>
         <source>help</source>
         <translation>帮助</translation>
     </message>
@@ -108,13 +108,13 @@
         <translation type="vanished">请输入流程卡号！</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="228"/>
-        <location filename="aoi.cpp" line="235"/>
+        <location filename="aoi.cpp" line="241"/>
+        <location filename="aoi.cpp" line="248"/>
         <source>pause</source>
         <translation>暂停</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="233"/>
+        <location filename="aoi.cpp" line="246"/>
         <source>continue</source>
         <translation>继续</translation>
     </message>
@@ -123,8 +123,8 @@
         <translation type="vanished">流程卡号数量不等于 3</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="215"/>
-        <location filename="aoi.cpp" line="216"/>
+        <location filename="aoi.cpp" line="228"/>
+        <location filename="aoi.cpp" line="229"/>
         <source>Emergency Stop!</source>
         <translation>紧急停止</translation>
     </message>
@@ -155,17 +155,17 @@
     <message>
         <location filename="DialogEx.cpp" line="6"/>
         <source>LotNum1:</source>
-        <translation type="unfinished"></translation>
+        <translation>流程卡1</translation>
     </message>
     <message>
         <location filename="DialogEx.cpp" line="6"/>
         <source>LotNum2:</source>
-        <translation type="unfinished"></translation>
+        <translation>流程卡2</translation>
     </message>
     <message>
         <location filename="DialogEx.cpp" line="6"/>
         <source>LotNum3:</source>
-        <translation type="unfinished"></translation>
+        <translation>流程卡3</translation>
     </message>
     <message>
         <location filename="DialogEx.cpp" line="7"/>
@@ -189,89 +189,89 @@
 <context>
     <name>Motion_thread</name>
     <message>
-        <location filename="motion_thread.cpp" line="65"/>
+        <location filename="motion_thread.cpp" line="68"/>
         <source>reset...</source>
         <translation>开始复位</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="105"/>
+        <location filename="motion_thread.cpp" line="108"/>
         <source>reset success!</source>
         <translation>复位成功</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="46"/>
-        <location filename="motion_thread.cpp" line="108"/>
+        <location filename="motion_thread.cpp" line="49"/>
+        <location filename="motion_thread.cpp" line="111"/>
         <source>Emergency Stop!</source>
         <translation>紧急停止</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="159"/>
+        <location filename="motion_thread.cpp" line="162"/>
         <source>sent init post</source>
         <translation>发送相机初始化命令</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="210"/>
+        <location filename="motion_thread.cpp" line="213"/>
         <source>check box exists...</source>
         <translation>检查上料盒是否存在</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="216"/>
+        <location filename="motion_thread.cpp" line="219"/>
         <source>check box success!</source>
         <translation>检查盒子成功</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="169"/>
-        <location filename="motion_thread.cpp" line="268"/>
-        <location filename="motion_thread.cpp" line="320"/>
-        <location filename="motion_thread.cpp" line="327"/>
-        <location filename="motion_thread.cpp" line="373"/>
-        <location filename="motion_thread.cpp" line="416"/>
+        <location filename="motion_thread.cpp" line="172"/>
+        <location filename="motion_thread.cpp" line="271"/>
+        <location filename="motion_thread.cpp" line="323"/>
+        <location filename="motion_thread.cpp" line="330"/>
+        <location filename="motion_thread.cpp" line="376"/>
+        <location filename="motion_thread.cpp" line="419"/>
         <source>running</source>
         <translation>运行中...</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="363"/>
+        <location filename="motion_thread.cpp" line="366"/>
         <source>Check Load Box</source>
         <translation>检查上料弹夹</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="315"/>
+        <location filename="motion_thread.cpp" line="318"/>
         <source>Check load Box base</source>
         <translation>检查上料盒仓是否已满</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="369"/>
-        <location filename="motion_thread.cpp" line="412"/>
+        <location filename="motion_thread.cpp" line="372"/>
+        <location filename="motion_thread.cpp" line="415"/>
         <source>Check unLoad Box</source>
         <translation>检查下料弹夹</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="322"/>
+        <location filename="motion_thread.cpp" line="325"/>
         <source>Check unLoad Box Base</source>
         <translation>检查下料弹夹是否已满</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="187"/>
+        <location filename="motion_thread.cpp" line="190"/>
         <source>Please Input Lot Number</source>
-        <translation type="unfinished"></translation>
+        <translation>请输入流程卡号</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="396"/>
+        <location filename="motion_thread.cpp" line="399"/>
         <source>Load Plate Fail!</source>
         <translation>检查测试载板失败，即将退出！</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="438"/>
+        <location filename="motion_thread.cpp" line="441"/>
         <source>check unload plate</source>
         <translation>检测下料载板</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="442"/>
+        <location filename="motion_thread.cpp" line="445"/>
         <source>check unload plate fail!</source>
         <translation>下料载板入盒检测</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="511"/>
+        <location filename="motion_thread.cpp" line="514"/>
         <source>{&quot;box_id&quot;:&quot;%1&quot;,&quot;pannel_id&quot;:&quot;%2&quot;,&quot;sample_id&quot;:&quot;%3&quot;,&quot;machine_id&quot;:&quot;%4&quot;,&quot;time&quot;:&quot;%5&quot;,&quot;operator&quot;:&quot;%6&quot;,&quot;shift_id&quot;:&quot;%7&quot;,&quot;md5&quot;:&quot;%8&quot;,&quot;config&quot;:&quot;%9&quot;}</source>
         <translation></translation>
     </message>
@@ -279,12 +279,12 @@
 <context>
     <name>Motion_thread1</name>
     <message>
-        <location filename="motion_thread.cpp" line="607"/>
+        <location filename="motion_thread.cpp" line="610"/>
         <source>{&quot;box_id&quot;:&quot;%1&quot;,&quot;pannel_id&quot;:&quot;%2&quot;,&quot;sample_id&quot;:&quot;%3&quot;,&quot;machine_id&quot;:&quot;%4&quot;,&quot;time&quot;:&quot;%5&quot;,&quot;operator&quot;:&quot;%6&quot;,&quot;shift_id&quot;:&quot;%7&quot;,&quot;md5&quot;:&quot;%8&quot;,&quot;config&quot;:&quot;%9&quot;}</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="673"/>
+        <location filename="motion_thread.cpp" line="676"/>
         <source>sent init post</source>
         <translation>发送相机初始化命令</translation>
     </message>
@@ -472,6 +472,11 @@
         <location filename="widconfig.ui" line="504"/>
         <source>Y 速度</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="widconfig.cpp" line="231"/>
+        <source>Model Code:</source>
+        <translation>物料编码：</translation>
     </message>
 </context>
 </TS>

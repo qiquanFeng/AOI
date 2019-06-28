@@ -26,6 +26,8 @@
 #include <QMessageBox>
 #include "dialogex.h"
 #include "widresult.h"
+#include <qaction.h>
+#include "axisDebug.h"
 
 class AOI : public QMainWindow
 {
@@ -34,7 +36,11 @@ class AOI : public QMainWindow
 public:
 	AOI(QWidget *parent = 0);
 	~AOI();
+	QString m_configName;
+	QLabel m_labConfigName;
+
 	QListWidget wid;
+	axisDebug axisdebug;
 
 	Motion_thread *th;
 
@@ -64,6 +70,9 @@ public:
 	srt_config m_config;
 	//**  Menu Bar ****************
 	QAction *m_actOption;
+	QAction *m_actInputIO;
+	QAction *m_actOutputIO;
+	QAction *m_actDebug;
 	widconfig *m_widconfig;
 	DialogEx *m_diaAuto;
 	widResult *m_result;
@@ -143,6 +152,9 @@ private:
 	public slots:
 	void slot_IOChangeInfo(int iIoNumber, int iCard, bool bIn, int status);
 	void slot_Option();
+	void slot_actDebug(bool);
+	void slot_actIOIN(bool);
+	void slot_actIOOut(bool);
 	void slot_updateImage(QString strPath);
 	void slot_butStop();
 	void slot_setStatus(QString status,QString strStyle);

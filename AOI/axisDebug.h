@@ -11,6 +11,8 @@ public:
 	axisDebug(QWidget *parent = Q_NULLPTR);
 	~axisDebug();
 
+	public slots:
+	void slot_start();
 private:
 	Ui::axisDebug ui;
 };

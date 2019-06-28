@@ -5,7 +5,8 @@
 DockWidgetEx::DockWidgetEx(QString strTitle,QString strObjectName,QWidget *parent)
 	: QDockWidget(strTitle, parent)
 {
-	setFeatures(features()&~QDockWidget::DockWidgetClosable);
+	//setFeatures(features()&~QDockWidget::DockWidgetClosable);
+	setFeatures(QDockWidget::NoDockWidgetFeatures);
 	setObjectName(strObjectName);
 	setAllowedAreas(Qt::DockWidgetArea::AllDockWidgetAreas);
 }

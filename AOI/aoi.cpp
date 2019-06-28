@@ -3,11 +3,11 @@
 #include <QPushButton>
 
 AOI::AOI(QWidget *parent)
-	: QMainWindow(parent), m_labStatus(""), m_widDebug(tr("Operation Pannel"),"operation"),m_widOutputPannel(tr("OutputPannel"),"outpannel"), \
-	m_widFrame(tr("Preview Frame"),"frame"), m_widOutIOStatus(tr("Out IO Status"),"outpannel"), m_widLotNum(tr("LotNum"),"lot"), m_widResult(tr("Result"),"result"), m_result(new widResult),\
-	m_widInIOStatus(tr("In IO Status"),"instatus"), m_widCameraStatus(tr("Camera Status"),"camerastatus"), m_widStatus(tr("Status"),"status"), m_widOperater(tr("Operater"),"operater"), m_diaAuto(new DialogEx(this)),m_labImage(""),
-	m_labConfigName(m_configName),m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")),\
-	m_butStop(tr("stop")),m_tabOutIOStatus(2,16), m_tabInIOStatus(2,16), uiRows(3), uiColumns(11)
+	: QMainWindow(parent), m_labStatus(""), m_widDebug(tr("Operation Pannel"), "operation"), m_widOutputPannel(tr("OutputPannel"), "outpannel"), \
+	m_widFrame(tr("Preview Frame"), "frame"), m_widOutIOStatus(tr("Out IO Status"), "outpannel"), m_widLotNum(tr("LotNum"), "lot"), m_widResult(tr("Result"), "result"), m_result(new widResult), \
+	m_widInIOStatus(tr("In IO Status"), "instatus"), m_widCameraStatus(tr("Camera Status"), "camerastatus"), m_widStatus(tr("Status"), "status"), m_widOperater(tr("Operater"), "operater"), m_diaAuto(new DialogEx(this)), m_labImage(""),
+	m_labConfigName(m_configName), m_butLoad(tr("load")), m_butUnLoad(tr("unload")), m_butRun(tr("run")), m_butReset(tr("reset")), m_butAuto(tr("auto")), m_butSuspended(tr("suspended")), \
+	m_butStop(tr("stop")), m_tabOutIOStatus(2, 16), m_tabInIOStatus(2, 16), uiRows(3), uiColumns(11), axisdebug(this)
 {
 	ui.setupUi(this);
 
@@ -47,6 +47,7 @@ AOI::AOI(QWidget *parent)
 	connect(this, SIGNAL(sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5)),\
 		m_result, SLOT(slot_update(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5)));
 	connect(this, SIGNAL(sig_updateResult(bool,int,int,int,QString,QString)), m_result, SLOT(slot_update(bool, int, int, int, QString, QString)));
+	
 	//*****************************
 	setChildsAttribute();
 	createLayout();
@@ -191,7 +192,7 @@ int AOI::createLayout(){
 	return 0;
 }
 int AOI::setChildsAttribute() {
-	m_labStatus.setText("Stop!");
+	axisdebug.hide();
 	m_labStatus.setFixedWidth(500);
 	QWidget *wid = new QWidget;
 	ui.mainToolBar->addWidget(wid);

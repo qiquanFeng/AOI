@@ -142,11 +142,6 @@ private:
 		QSettings settings("layout.ini", QSettings::Format::IniFormat);
 		restoreGeometry(settings.value("geometry").toByteArray());
 		restoreState(settings.value("windowState").toByteArray());
-		/*
-		QList<QDockWidget *> dwList = this->findChildren<QDockWidget*>();
-		foreach(QDockWidget *dw, dwList) {
-			restoreDockWidget(dw);
-		}*/
 	}
 
 	public slots:

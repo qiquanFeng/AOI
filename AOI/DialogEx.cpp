@@ -142,5 +142,21 @@ void DialogEx::slot_commit() {
 	lab2.setStyleSheet("background-color:white;");
 	lab3.setStyleSheet("background-color:white;");
 	setEnabled(false);
-	emit sig_commit();
+
+	emit sig_commit(strLotNum);
+}
+
+void DialogEx::slot_setLot(int lotNumber) {
+	switch (lotNumber)
+	{
+	case 0:
+		lab1.setStyleSheet("background-color:green;color:red;");
+		break;
+	case 1:
+		lab2.setStyleSheet("background-color:green;color:red;");
+		break;
+	case 2:
+		lab3.setStyleSheet("background-color:green;color:red;");
+		break;
+	}
 }

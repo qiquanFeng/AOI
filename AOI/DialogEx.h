@@ -50,7 +50,7 @@ public:
 	QVBoxLayout lay;
 
 signals:
-	void sig_commit();
+	void sig_commit(QStringList);
 
 	public slots:
 	void slot_clear(QLabel *);
@@ -58,6 +58,7 @@ signals:
 	void slot_clear();
 	void slot_closeWindown();
 	void slot_commit();
+	void slot_setLot(int lotNumber);
 protected:
 	void keyPressEvent(QKeyEvent *);
 private:

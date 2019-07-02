@@ -11,6 +11,7 @@ Motion_thread::Motion_thread(QObject *parent)
 	configFilePath[1] = QString("DMC3800.ini");
 	connect(this, SIGNAL(sig_logOutput(QString, QColor)), parent, SLOT(slot_outputLog(QString, QColor)));
 	connect(this, SIGNAL(sig_statusChange(int,int, bool,int)), parent, SLOT(slot_IOChangeInfo(int, int,bool,int)));
+	connect(this, &Motion_thread::sig_axisChange,(AOI*)parent,&AOI::sig_axisChange);
 	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
 	connect(this, SIGNAL(sig_setStatus(QString, QString)), parent, SLOT(slot_setStatus(QString, QString)));
 
@@ -39,9 +40,23 @@ void Motion_thread::run() {
 			}
 		}
 		
+		for (int card = 0; card < 2; card++) {
+			for (int axis = 0; axis < 3; axis++) {
+				long pos=dmc_get_position(card,axis);
+
+				emit sig_axisChange(card,axis,pos);
+			}
+		}
+
 		if (inStatus[1][11]) {
-			m_bES = true;
-			dmc_stop(1, 2, 1);
+			if (!m_bResetMode) {
+				m_bES = true;
+				dmc_stop(1, 2, 1);
+			}
+		}
+
+		if (!inStatus[1][8]) {
+			m_bPannelCheck = true;
 		}
 
 		if (inStatus[0][5]) {
@@ -66,7 +81,18 @@ void Motion_thread::slot_sendChangeIO(int iIoNumber, int iCard) {
 }
 void Motion_thread::slot_resetAxis() {
 	emit sig_logOutput(tr("reset..."));
+	short status=0;
+	while (!status) {
+		if (!dmc_read_inbit(1, 4) || !dmc_read_inbit(1, 8)) {
+			status = 0;
+			emit sig_setStatus(tr("Fail:load or unload pannal!"), "color:blue;");
+		}
+		else{
+			status = 1;
+		}
+	}
 	
+	slot_writeOutIO(0, 3, 0, true);
 	slot_writeOutIO(0, 0, 1, true);
 	slot_writeOutIO(0, 1, 0, true);
 	slot_writeOutIO(1, 5, 1, true);
@@ -84,17 +110,30 @@ void Motion_thread::slot_resetAxis() {
 	axis_move(1, 1, 80000, 0, 0, 1, false, true);
 	axis_move(1, 0, 80000, 1, 0, 1, false, true);
 
-	short status=0;
-	while(!status){
+	status=0;
+
+	while(!status&& !m_bES){
 		int iresult = 1;
 		for (int card = 0; card < 2; card++) {
 			for (int axis = 0; axis < 3; axis++)
 			{
-				status = dmc_check_done(card, axis);
-				if (!status) { iresult = 0; }
+				WORD status = dmc_axis_io_status(card, axis);
+				if (card == 1 && axis == 2) {
+					if (!(dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
+					int kk=0;
+				}
+				else {
+					if (!(dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
+				}
+				
 			}
 		}
 		status = iresult;
+	}
+
+	if (!status) {
+		m_bSuspended = false;
+		return;
 	}
 
 	for (int card = 0; card < 2; card++) {
@@ -264,17 +303,20 @@ void Motion_thread::slot_test() {
 	//slot_MatrixMove(3, 11, 12.5, 19.5);
 	
 }
-void Motion_thread::slot_auto() {
+void Motion_thread::slot_auto(QStringList listBox) {
 	srt_config config = ((AOI*)m_parent)->m_config;
-	
+	int loopCount = 0;
 
 	emit sig_setStatus(tr("running"), "color:green;");
+	emit sig_setLot(loopCount);
 
 	int loadIndex = 0;
 	int unloadIndex = 0;
-	while (m_bAutoMode) {
+	while (m_bAutoMode&&loopCount<= listBox.size()) {
 		if (m_bES)
 			break;
+		emit sig_setLot(loopCount);
+
 		short status = 0;
 		m_iPannelID = loadIndex + 1;
 		emit sig_updateResult(true, m_iPannelID, 0, 0, "", "");
@@ -289,11 +331,12 @@ void Motion_thread::slot_auto() {
 			emit sig_setStatus("changeing load Box ...", "color:yellow;");
 			loadIndex = 0;
 			unloadIndex = 0;
+			++loopCount;
 
 			axis_move(1, 0, config.lLoadSpeed_Z, 1, config.lLoadPos_Z - \
-				((config.iBoxRows-1)*(config.iBoxPadding / 2 * 10000)+ (config.iBoxMargin / 2 * 10000)),0,false);
+				((config.iBoxRows-1)*(config.iBoxPadding / 2 * 10000)+ (config.iBoxMargin * 10000)),0,false);
 			axis_move(1, 1, config.lunLoadSpeed_Z, 1, config.lunLoadPos_Z + \
-				((config.iBoxRows - 1)*(config.iBoxPadding / 2 * 10000) + (config.iBoxMargin / 2 * 10000)),0, false);
+				((config.iBoxRows - 1)*(config.iBoxPadding / 2 * 10000) + (config.iBoxMargin * 10000)),0, false);
 			do {
 				status = 1;
 				if (dmc_check_done(1, 0)==0|| dmc_check_done(1, 1)==0) {
@@ -379,16 +422,17 @@ void Motion_thread::slot_auto() {
 		} while (!status);
 		emit sig_setStatus(tr("running"), "color:green;");
 
-
+		m_bPannelCheck = false;
 		axis_move(1, 2, config.lLoadSpeed_X, 1, config.lLoadPos_X, 0, true);
 
-		if (dmc_read_inbit(1, 8) == 0)
+		if (m_bPannelCheck)
 			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, false);
 		else
 			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, true);
 		
-		// ************************** 夹料
-		if (dmc_read_inbit(1, 8) == 0) {
+		// ************************** 夹料 
+		if (m_bPannelCheck) {
+			m_bPannelCheck = false;
 			axis_move(1, 2, 20000, 0, 0, 1, false);
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, 2000, 1, -9000);
@@ -412,9 +456,23 @@ void Motion_thread::slot_auto() {
 			slot_writeOutIO(0, 2, 0);
 			slot_writeOutIO(0, 0, 1);
 
+			axis_move(0, 0, config.lORG_Speed_TestX, 1, config.lTestFirstPos_X, 0, false);
+			axis_move(0, 1, config.lORG_Speed_TestY, 1, config.lTestFirstPos_Y, 0, false);
+
+			do {
+				status = 1;
+				if (dmc_check_done(0, 0) == 0 || dmc_check_done(0, 1) == 0) {
+					status = 0;
+				}
+			} while (!status);
+
+			m_markPosition.clear();
+
 			slot_MatrixMove(config.iPlateRows, config.iPlatCols,\
-				int((double)config.iPlatRowPadding/config.iPlateRows/10*10000+0.5), int((double)config.iPlatColPadding / config.iPlatCols / 10 * 10000+0.5),"Testing",loadIndex);
+				int((double)config.iPlatRowPadding/(config.iPlateRows-1)/10*10000+0.5), int((double)config.iPlatColPadding / (config.iPlatCols-1) / 10 * 10000+0.5), listBox.at(loopCount),loadIndex);
 			
+			//***************************************  标记 *******************************************************
+			slot_MarkPen(m_markPosition, int((double)config.iPlatRowPadding / (config.iPlateRows - 1) / 10 * 10000 + 0.5), int((double)config.iPlatColPadding / (config.iPlatCols - 1) / 10 * 10000 + 0.5));
 			//**************************************** 下料 ********************************************************
 			emit sig_setStatus(tr("Check unLoad Box"), "color:black;");
 			do {
@@ -455,6 +513,7 @@ void Motion_thread::slot_auto() {
 
 			slot_writeOutIO(0, 0, 1);
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
+			axis_move(0, 0, 80000, 1, -20000);
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
 			
 			
@@ -504,6 +563,30 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 			
 		}
 	}
+}
+int Motion_thread::slot_MarkPen(std::vector<long> position, double rowMargin, double colMargin) {
+	srt_config config = ((AOI*)m_parent)->m_config;
+	for (int i = 0; i < position.size(); i++) {
+		long row = std::floor(position.at(i) / config.iPlatCols);
+		long col = config.iPlatCols-1-(position.at(i) % config.iPlatCols);
+		long status=0;
+
+		axis_move(0, 0, config.lTestSpeed, 1, config.iPenPos_X - col*colMargin+config.iPenOffset, 0, false);
+		axis_move(0, 1, config.lTestSpeed, 1, config.iPenPos_Y + row*rowMargin, 0, false);
+
+		do {
+			status = 1;
+			if (dmc_check_done(0, 0) == 0 || dmc_check_done(0, 1) == 0) {
+				status = 0;
+			}
+		} while (!status);
+
+		slot_writeOutIO(0, 3, 1);
+		msleep(1000);
+		slot_writeOutIO(0, 3, 0);
+	}
+
+	return 0;
 }
 void Motion_thread::slot_predict(QString boxID, int pannelID, int sampleID) {
 	//QString strSend("{\"action\":\"1\"}");
@@ -635,6 +718,9 @@ int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int targ
 			return -1;
 		}
 	}
+	if (bReset)
+		m_bResetMode = true;
+
 	dmc_set_profile(card, axis, (double)speed*0.2, speed, 0.1, 0.1, 0);
 	if (orgMode) {
 		dmc_set_homemode(card, axis, absMode, 1, 0, 0);
@@ -645,13 +731,13 @@ int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int targ
 	}
 
 	short status;
-	do{
+	do {
 		::Sleep(10);
-		status=dmc_check_done(card, axis);
-		
+		status = dmc_check_done(card, axis);
 	} while (!status&&bAck);
-	
-	
+
+	m_bResetMode = false;
+
 	if (!orgMode||!bAck)
 		return 0;
 
@@ -747,6 +833,9 @@ QString Motion_thread1::onReply(QNetworkReply *pReply) {
 
 		emit sig_testResult(m_parent->m_iSampleID,0,gridColor);
 		emit sig_updateResult(gridColor, m_parent->m_iPannelID, m_parent->m_iSampleID, 2002, img_path, " ");
+		
+		if(gridColor!=1)
+			m_parent->m_markPosition.push_back(m_parent->m_iSampleID);
 
 		//emit sigSendRes(pannel_id, currow, curcol, gridColor, process_time, md5, raw_image_path);
 		m_bReceived = true;

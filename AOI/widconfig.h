@@ -23,6 +23,9 @@ struct srt_config {
 	int iPlatRowPadding;
 	int iPlatColPadding;
 
+	long iPenPos_X;
+	long iPenPos_Y;
+	long iPenOffset;
 	// 上料
 	long lLoadSpeed_Z;
 	long lLoadPos_Z;
@@ -64,6 +67,10 @@ struct srt_config {
 		iPlatRowPadding=0;
 		iPlatColPadding=0;
 
+		iPenPos_X = 0;
+		iPenPos_Y = 0;
+		iPenOffset = 0;
+
 		// 上料
 		lLoadSpeed_Z=1040000;
 		lLoadPos_Z=40000;
@@ -83,9 +90,9 @@ struct srt_config {
 		lORG_Speed_LoadX=20000;
 		lORG_Speed_LoadZ=80000;
 		lORG_Speed_unLoadZ=80000;
-		lORG_Speed_TestX=40000;
+		lORG_Speed_TestX=60000;
 		lORG_Speed_TestY=20000;
-		lORG_Speed_TestX2=3000;
+		lORG_Speed_TestX2=6000;
 	}
 };
 

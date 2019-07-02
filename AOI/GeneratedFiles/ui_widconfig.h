@@ -51,6 +51,17 @@ public:
     QDoubleSpinBox *boxPadding;
     QLabel *label_8;
     QDoubleSpinBox *boxMargin;
+    QGroupBox *groupBox_6;
+    QWidget *verticalLayoutWidget_7;
+    QVBoxLayout *verticalLayout_11;
+    QHBoxLayout *horizontalLayout_20;
+    QLabel *label_32;
+    QSpinBox *pen_offset;
+    QHBoxLayout *horizontalLayout_21;
+    QLabel *label_33;
+    QDoubleSpinBox *pen_X;
+    QLabel *label_34;
+    QDoubleSpinBox *pen_Y;
     QGroupBox *groupBox_2;
     QWidget *verticalLayoutWidget_3;
     QVBoxLayout *verticalLayout_3;
@@ -116,10 +127,10 @@ public:
     {
         if (widconfig->objectName().isEmpty())
             widconfig->setObjectName(QStringLiteral("widconfig"));
-        widconfig->resize(780, 576);
+        widconfig->resize(786, 679);
         horizontalLayoutWidget = new QWidget(widconfig);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(10, 10, 771, 561));
+        horizontalLayoutWidget->setGeometry(QRect(10, 10, 771, 661));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -218,6 +229,67 @@ public:
 
 
         verticalLayout->addWidget(groupBox);
+
+        groupBox_6 = new QGroupBox(horizontalLayoutWidget);
+        groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
+        verticalLayoutWidget_7 = new QWidget(groupBox_6);
+        verticalLayoutWidget_7->setObjectName(QStringLiteral("verticalLayoutWidget_7"));
+        verticalLayoutWidget_7->setGeometry(QRect(10, 10, 491, 80));
+        verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_7);
+        verticalLayout_11->setSpacing(6);
+        verticalLayout_11->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_11->setObjectName(QStringLiteral("verticalLayout_11"));
+        verticalLayout_11->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_20 = new QHBoxLayout();
+        horizontalLayout_20->setSpacing(6);
+        horizontalLayout_20->setObjectName(QStringLiteral("horizontalLayout_20"));
+        label_32 = new QLabel(verticalLayoutWidget_7);
+        label_32->setObjectName(QStringLiteral("label_32"));
+
+        horizontalLayout_20->addWidget(label_32);
+
+        pen_offset = new QSpinBox(verticalLayoutWidget_7);
+        pen_offset->setObjectName(QStringLiteral("pen_offset"));
+        pen_offset->setMinimum(-3000000);
+        pen_offset->setMaximum(3000000);
+
+        horizontalLayout_20->addWidget(pen_offset);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_20);
+
+        horizontalLayout_21 = new QHBoxLayout();
+        horizontalLayout_21->setSpacing(6);
+        horizontalLayout_21->setObjectName(QStringLiteral("horizontalLayout_21"));
+        label_33 = new QLabel(verticalLayoutWidget_7);
+        label_33->setObjectName(QStringLiteral("label_33"));
+
+        horizontalLayout_21->addWidget(label_33);
+
+        pen_X = new QDoubleSpinBox(verticalLayoutWidget_7);
+        pen_X->setObjectName(QStringLiteral("pen_X"));
+        pen_X->setMinimum(-3e+6);
+        pen_X->setMaximum(3e+6);
+
+        horizontalLayout_21->addWidget(pen_X);
+
+        label_34 = new QLabel(verticalLayoutWidget_7);
+        label_34->setObjectName(QStringLiteral("label_34"));
+
+        horizontalLayout_21->addWidget(label_34);
+
+        pen_Y = new QDoubleSpinBox(verticalLayoutWidget_7);
+        pen_Y->setObjectName(QStringLiteral("pen_Y"));
+        pen_Y->setMinimum(-3e+6);
+        pen_Y->setMaximum(3e+6);
+
+        horizontalLayout_21->addWidget(pen_Y);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_21);
+
+
+        verticalLayout->addWidget(groupBox_6);
 
         groupBox_2 = new QGroupBox(horizontalLayoutWidget);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
@@ -567,6 +639,10 @@ public:
         label_2->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\350\275\275\346\235\277\346\225\260", Q_NULLPTR));
         label->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\345\206\205\350\276\271\350\267\235", Q_NULLPTR));
         label_8->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\345\244\226\350\276\271\350\267\235", Q_NULLPTR));
+        groupBox_6->setTitle(QApplication::translate("widconfig", "\346\240\207\350\256\260\347\254\224", Q_NULLPTR));
+        label_32->setText(QApplication::translate("widconfig", "\345\201\217\347\247\273\357\274\210Offset)", Q_NULLPTR));
+        label_33->setText(QApplication::translate("widconfig", "X\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
+        label_34->setText(QApplication::translate("widconfig", "Y\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("widconfig", "\350\275\275\346\235\277", Q_NULLPTR));
         label_4->setText(QApplication::translate("widconfig", "\350\275\275\346\235\277\350\241\214\346\225\260", Q_NULLPTR));
         label_7->setText(QApplication::translate("widconfig", "\350\275\275\346\235\277\345\210\227\346\225\260", Q_NULLPTR));

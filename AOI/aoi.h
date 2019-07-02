@@ -36,6 +36,12 @@ class AOI : public QMainWindow
 public:
 	AOI(QWidget *parent = 0);
 	~AOI();
+	__inline void sleep(long msec) {
+		QTime time = QTime::currentTime().addMSecs(msec);
+		while (QTime::currentTime() < time) {
+			QApplication::processEvents();
+		}
+	}
 	QString m_configName;
 	QLabel m_labConfigName;
 
@@ -53,6 +59,7 @@ signals:
 	void sig_Suspended();
 
 	void sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5);
+	void sig_axisChange(int,int,long);
 
 	public slots:
 	void slot_outputLog(QString,QColor);
@@ -73,6 +80,7 @@ public:
 	QAction *m_actInputIO;
 	QAction *m_actOutputIO;
 	QAction *m_actDebug;
+	QAction *m_actCameraPosition;
 	widconfig *m_widconfig;
 	DialogEx *m_diaAuto;
 	widResult *m_result;
@@ -152,9 +160,10 @@ private:
 	public slots:
 	void slot_IOChangeInfo(int iIoNumber, int iCard, bool bIn, int status);
 	void slot_Option();
-	void slot_actDebug(bool);
-	void slot_actIOIN(bool);
-	void slot_actIOOut(bool);
+	void slot_actDebug();
+	void slot_actIOIN();
+	void slot_actIOOut();
+	void slot_actCamPos();
 	void slot_updateImage(QString strPath);
 	void slot_butStop();
 	void slot_setStatus(QString status,QString strStyle);

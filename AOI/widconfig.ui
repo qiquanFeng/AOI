@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>576</height>
+    <width>786</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>771</width>
-     <height>561</height>
+     <height>661</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,20">
@@ -113,6 +113,84 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="boxMargin"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="title">
+         <string>标记笔</string>
+        </property>
+        <widget class="QWidget" name="verticalLayoutWidget_7">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>491</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_20">
+            <item>
+             <widget class="QLabel" name="label_32">
+              <property name="text">
+               <string>偏移（Offset)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="pen_offset">
+              <property name="minimum">
+               <number>-3000000</number>
+              </property>
+              <property name="maximum">
+               <number>3000000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_21">
+            <item>
+             <widget class="QLabel" name="label_33">
+              <property name="text">
+               <string>X轴位置（相对镜头）</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="pen_X">
+              <property name="minimum">
+               <double>-3000000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>3000000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_34">
+              <property name="text">
+               <string>Y轴位置（相对镜头）</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="pen_Y">
+              <property name="minimum">
+               <double>-3000000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>3000000.000000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

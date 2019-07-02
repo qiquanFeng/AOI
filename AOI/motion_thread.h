@@ -29,6 +29,7 @@ public:
 	QMutex *mutex1;
 	bool m_bReceived;
 	QThread *th1;
+	std::vector<long> m_markPosition;
 
 	QString m_strBoxID;
 	int m_iPannelID;
@@ -39,14 +40,19 @@ public:
 	bool m_bAutoMode;// 自动模式
 	bool m_bResetMode;
 
+	bool m_bPannelCheck;
+
 	int motion_Init();
 	int axis_move(int card, int axis, int speed, int absMode,int target, int orgMode = 0,bool bAck=true,bool bReset=false);
+	int slot_MarkPen(std::vector<long> position,double rowMargin,double colMargin );
 signals:
+	void sig_axisChange(int,int,long);
 	void sig_statusChange(int iIoNumber, int iCard,bool bIn,int status);
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
 	void sig_updateImage(QString strPath);
 	void sig_predict();
 	void sig_setStatus(QString, QString);
+	void sig_setLot(int lotNumber);
 
 	void sig_testResult(int row, int col, int result);
 	void sig_updateResult(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5);
@@ -60,7 +66,7 @@ signals:
 		void slot_load();
 		void slot_test();
 		void slot_unload();
-		void slot_auto();
+		void slot_auto(QStringList list);
 		void slot_Suspended();
 		
 		void slot_MatrixMove(int row,int col, double rowMargin, double colMargin, QString boxID, int pannelID);

@@ -6,135 +6,321 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1019</width>
-    <height>86</height>
+    <width>619</width>
+    <height>91</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>axisDebug</string>
   </property>
   <widget class="QWidget" name="widget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
-      <width>1011</width>
-      <height>61</height>
+      <y>30</y>
+      <width>611</width>
+      <height>34</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>运动卡</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox_card">
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>平台X轴</string>
+         </property>
+        </widget>
        </item>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="label_C0A0">
+         <property name="toolTip">
+          <string>card1</string>
+         </property>
+         <property name="text">
+          <string>C0:A0__</string>
+         </property>
+        </widget>
        </item>
-      </widget>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>轴</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox_axis">
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>平台Y轴</string>
+         </property>
+        </widget>
        </item>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="label_C0A1">
+         <property name="text">
+          <string>C0:A1__</string>
+         </property>
+        </widget>
        </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>载板夹</string>
+         </property>
+        </widget>
        </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>速度</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="spinBox_speed">
-       <property name="maximum">
-        <number>90000</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>目标</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="spinBox_target">
-       <property name="maximum">
-        <number>3000000</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>模式</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox_mode">
-       <item>
-        <property name="text">
-         <string>相对运动</string>
-        </property>
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="label_C0A2">
+         <property name="text">
+          <string>C0:A2__</string>
+         </property>
+        </widget>
        </item>
-       <item>
-        <property name="text">
-         <string>绝对运动</string>
-        </property>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>上料轴</string>
+         </property>
+        </widget>
        </item>
-      </widget>
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="label_C1A0">
+         <property name="text">
+          <string>C1:A0__</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_start">
-       <property name="text">
-        <string>开始</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>下料轴</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="label_C1A1">
+         <property name="text">
+          <string>C1:A1__</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_stop">
-       <property name="text">
-        <string>急停</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>推杆</string>
+         </property>
+        </widget>
+       </item>
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="label_C1A2">
+         <property name="text">
+          <string>C1:A2__</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>2</x>
+      <y>2</y>
+      <width>36</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>运动卡</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_card">
+    <property name="geometry">
+     <rect>
+      <x>44</x>
+      <y>3</y>
+      <width>32</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>82</x>
+      <y>2</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>轴</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_axis">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>3</y>
+      <width>32</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>138</x>
+      <y>2</y>
+      <width>24</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>速度</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_speed">
+    <property name="geometry">
+     <rect>
+      <x>168</x>
+      <y>3</y>
+      <width>58</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>90000</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>232</x>
+      <y>2</y>
+      <width>24</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>目标</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_target">
+    <property name="geometry">
+     <rect>
+      <x>262</x>
+      <y>3</y>
+      <width>76</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>-3000000</number>
+    </property>
+    <property name="maximum">
+     <number>3000000</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>344</x>
+      <y>2</y>
+      <width>24</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>模式</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_mode">
+    <property name="geometry">
+     <rect>
+      <x>374</x>
+      <y>3</y>
+      <width>74</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>相对运动</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>绝对运动</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="pushButton_start">
+    <property name="geometry">
+     <rect>
+      <x>454</x>
+      <y>2</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_stop">
+    <property name="geometry">
+     <rect>
+      <x>535</x>
+      <y>2</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>急停</string>
+    </property>
    </widget>
   </widget>
  </widget>

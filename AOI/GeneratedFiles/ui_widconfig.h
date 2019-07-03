@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -55,6 +56,7 @@ public:
     QWidget *verticalLayoutWidget_7;
     QVBoxLayout *verticalLayout_11;
     QHBoxLayout *horizontalLayout_20;
+    QCheckBox *checkBox_pen;
     QLabel *label_32;
     QSpinBox *pen_offset;
     QHBoxLayout *horizontalLayout_21;
@@ -234,7 +236,7 @@ public:
         groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
         verticalLayoutWidget_7 = new QWidget(groupBox_6);
         verticalLayoutWidget_7->setObjectName(QStringLiteral("verticalLayoutWidget_7"));
-        verticalLayoutWidget_7->setGeometry(QRect(10, 10, 491, 80));
+        verticalLayoutWidget_7->setGeometry(QRect(10, 10, 547, 80));
         verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_7);
         verticalLayout_11->setSpacing(6);
         verticalLayout_11->setContentsMargins(11, 11, 11, 11);
@@ -243,6 +245,11 @@ public:
         horizontalLayout_20 = new QHBoxLayout();
         horizontalLayout_20->setSpacing(6);
         horizontalLayout_20->setObjectName(QStringLiteral("horizontalLayout_20"));
+        checkBox_pen = new QCheckBox(verticalLayoutWidget_7);
+        checkBox_pen->setObjectName(QStringLiteral("checkBox_pen"));
+
+        horizontalLayout_20->addWidget(checkBox_pen);
+
         label_32 = new QLabel(verticalLayoutWidget_7);
         label_32->setObjectName(QStringLiteral("label_32"));
 
@@ -640,6 +647,7 @@ public:
         label->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\345\206\205\350\276\271\350\267\235", Q_NULLPTR));
         label_8->setText(QApplication::translate("widconfig", "\345\274\271\345\244\271\345\244\226\350\276\271\350\267\235", Q_NULLPTR));
         groupBox_6->setTitle(QApplication::translate("widconfig", "\346\240\207\350\256\260\347\254\224", Q_NULLPTR));
+        checkBox_pen->setText(QApplication::translate("widconfig", "\346\230\257\345\220\246\345\220\257\347\224\250", Q_NULLPTR));
         label_32->setText(QApplication::translate("widconfig", "\345\201\217\347\247\273\357\274\210Offset)", Q_NULLPTR));
         label_33->setText(QApplication::translate("widconfig", "X\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
         label_34->setText(QApplication::translate("widconfig", "Y\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));

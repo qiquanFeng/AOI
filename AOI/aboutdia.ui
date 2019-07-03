@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>aboutDia</class>
+ <widget class="QDialog" name="aboutDia">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>609</width>
+    <height>213</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>aboutDia</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>601</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AOI (Automatic Optical Inspection)&lt;/p&gt;&lt;p&gt;Version: 1.0.0&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'arial'; color:#333333; background-color:#ffffff;&quot;&gt;©2019 JSL&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:14px; font-weight:600; font-style:italic; color:#0000ff;&quot;&gt;J&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:14px; font-weight:600; font-style:italic; color:#9f9ea3;&quot;&gt;oying&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:14px; font-weight:600; font-style:italic; color:#0000ff;&quot;&gt; S&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:14px; font-weight:600; font-style:italic; color:#9f9ea3;&quot;&gt;haring&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:14px; font-weight:600; font-style:italic; color:#0000ff;&quot;&gt; L&lt;/span&gt;&lt;span style=&quot; font-family:'微软雅黑'; font-size:14px; font-weight:600; font-style:italic; color:#9f9ea3;&quot;&gt;earning&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

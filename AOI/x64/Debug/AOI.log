@@ -1,14 +1,3 @@
-﻿  Moc'ing aoi.h...
-  Moc'ing axisDebug.h...
-  moc_aoi.cpp
-  moc_axisDebug.cpp
-  aoi.cpp
-  axisDebug.cpp
-  dockwidgetex.cpp
-  main.cpp
-  motion_thread.cpp
-  widconfig.cpp
-  正在生成代码...
-  LINK : 没有找到 D:\projects\AOI\x64\Debug\\AOI.exe 或上一个增量链接没有生成它；正在执行完全链接
-  AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.exe
-  AOI.vcxproj -> D:\projects\AOI\x64\Debug\AOI.pdb (Full PDB)
+﻿  motion_thread.cpp
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Debug\AOI.exe
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Debug\AOI.pdb (Full PDB)

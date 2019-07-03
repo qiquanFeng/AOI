@@ -1,6 +1,7 @@
 #include "widconfig.h"
 #include <QSqlDatabase>
 #include "aoi.h"
+#include <qcheckbox.h>
 
 widconfig::widconfig(QWidget *parent)
 	: QDialog(parent), m_parent((QObject*)parent)
@@ -46,7 +47,7 @@ void widconfig::slot_configAdd() {
 	query.prepare("insert into AOI_config values(:configName,:boxRows,:boxMargin,:boxPadding,:plateRows,:plateCols,:plateRowPadding,:plateColPadding,\
 :loadSpeed_Z,:loadPos_Z,:loadSpeed_X,:loadPos_X,:loadSpeed_Y,:loadPos_Y,\
 :unLoadSpeed_Z,:unLoadPos_Z,:unLoadSpeed_X,:unLoadPos_X,:unLoadSpeed_Y,:unLoadPos_Y,:testFirstPos_X,:testFirstPos_Y,:testSpeed,\
-:ORG_Speed_LoadX,:ORG_Speed_LoadZ,:ORG_Speed_unLoadZ,:ORG_Speed_TestX,:ORG_Speed_TestY,:ORG_Speed_TestX2,:penPos_X,:penPos_Y,:penOffset)");
+:ORG_Speed_LoadX,:ORG_Speed_LoadZ,:ORG_Speed_unLoadZ,:ORG_Speed_TestX,:ORG_Speed_TestY,:ORG_Speed_TestX2,:penPos_X,:penPos_Y,:penOffset,:penE)");
 	query.bindValue(":configName", ui.lineEdit_configName->text());
 	query.bindValue(":boxRows", ui.boxRows->value());
 	query.bindValue(":boxMargin", ui.boxMargin->value());
@@ -82,6 +83,7 @@ void widconfig::slot_configAdd() {
 	query.bindValue(":penPos_X", ui.pen_X->value());
 	query.bindValue(":penPos_Y", ui.pen_Y->value());
 	query.bindValue(":penOffset", ui.pen_offset->value());
+	query.bindValue(":penE", ui.checkBox_pen->isChecked());
 
 	if (!query.exec()) {
 		emit sig_logOutput("Add Config Fail:" + query.lastError().text(),QColor(255,0,0));
@@ -119,7 +121,7 @@ void widconfig::slot_configSave() {
 	query.prepare("insert into AOI_config values(:configName,:boxRows,:boxMargin,:boxPadding,:plateRows,:plateCols,:plateRowPadding,:plateColPadding,\
 :loadSpeed_Z,:loadPos_Z,:loadSpeed_X,:loadPos_X,:loadSpeed_Y,:loadPos_Y,\
 :unLoadSpeed_Z,:unLoadPos_Z,:unLoadSpeed_X,:unLoadPos_X,:unLoadSpeed_Y,:unLoadPos_Y,:testFirstPos_X,:testFirstPos_Y,:testSpeed,\
-:ORG_Speed_LoadX,:ORG_Speed_LoadZ,:ORG_Speed_unLoadZ,:ORG_Speed_TestX,:ORG_Speed_TestY,:ORG_Speed_TestX2,:penPos_X,:penPos_Y,:penOffset)");
+:ORG_Speed_LoadX,:ORG_Speed_LoadZ,:ORG_Speed_unLoadZ,:ORG_Speed_TestX,:ORG_Speed_TestY,:ORG_Speed_TestX2,:penPos_X,:penPos_Y,:penOffset,:penEnable)");
 	query.bindValue(":configName", strConfigName);
 	query.bindValue(":boxRows", ui.boxRows->value());
 	query.bindValue(":boxMargin", ui.boxMargin->value());
@@ -146,6 +148,7 @@ void widconfig::slot_configSave() {
 	query.bindValue(":penPos_X", ui.pen_X->value());
 	query.bindValue(":penPos_Y", ui.pen_Y->value());
 	query.bindValue(":penOffset", ui.pen_offset->value());
+	query.bindValue(":penEnable", ui.checkBox_pen->isChecked());
 
 	AOI *aoi = (AOI*)m_parent;
 	query.bindValue(":ORG_Speed_LoadX", aoi->m_config.lORG_Speed_LoadX);
@@ -207,6 +210,7 @@ void widconfig::slot_updatelist() {
 	ui.plateRowPadding->setValue(query.value("plateRowPadding").toDouble());
 	ui.plateColPadding->setValue(query.value("plateColPadding").toDouble());
 
+	ui.checkBox_pen->setChecked(query.value("penEnable").toBool());
 	ui.pen_X->setValue(query.value("penPos_X").toInt());
 	ui.pen_Y->setValue(query.value("penPos_Y").toDouble());
 	ui.pen_offset->setValue(query.value("penOffset").toDouble());
@@ -272,6 +276,7 @@ void widconfig::updateConfig(srt_config &config) {
 	config.iPlatCols = ui.plateCols->value();
 	config.iPlateRows = ui.plateRows->value();
 	config.iPlatRowPadding= ui.plateRowPadding->value();
+	config.bEnablePen = ui.checkBox_pen->isChecked();
 	config.iPenPos_X= ui.pen_X->value();
 	config.iPenPos_Y = ui.pen_Y->value();
 	config.iPenOffset = ui.pen_offset->value();

@@ -23,6 +23,7 @@ struct srt_config {
 	int iPlatRowPadding;
 	int iPlatColPadding;
 
+	bool bEnablePen;
 	long iPenPos_X;
 	long iPenPos_Y;
 	long iPenOffset;
@@ -67,6 +68,7 @@ struct srt_config {
 		iPlatRowPadding=0;
 		iPlatColPadding=0;
 
+		bEnablePen = false;
 		iPenPos_X = 0;
 		iPenPos_Y = 0;
 		iPenOffset = 0;

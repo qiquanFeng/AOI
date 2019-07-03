@@ -1,6 +1,7 @@
 #ifndef AOI_H
 #define AOI_H
 
+#include "globaldefault.h"
 #include <QtWidgets/QMainWindow>
 #include "ui_aoi.h"
 #include <QFile>
@@ -28,6 +29,7 @@
 #include "widresult.h"
 #include <qaction.h>
 #include "axisDebug.h"
+#include "aboutdia.h"
 
 class AOI : public QMainWindow
 {
@@ -42,6 +44,7 @@ public:
 			QApplication::processEvents();
 		}
 	}
+	aboutDia m_about;
 	QString m_configName;
 	QLabel m_labConfigName;
 
@@ -81,6 +84,7 @@ public:
 	QAction *m_actOutputIO;
 	QAction *m_actDebug;
 	QAction *m_actCameraPosition;
+	QAction *m_actAbout;
 	widconfig *m_widconfig;
 	DialogEx *m_diaAuto;
 	widResult *m_result;
@@ -161,10 +165,12 @@ private:
 	void slot_actCamPos();
 	void slot_updateImage(QString strPath);
 	void slot_butStop();
-	void slot_setStatus(QString status,QString strStyle);
+	void slot_setStatus(enumStatus status);
 	void slot_setCameraResult(int row,int col,int result);
 
-
+	__inline void slot_display() {
+		m_about.exec();
+	}
 };
 
 #endif // AOI_H

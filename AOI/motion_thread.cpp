@@ -13,7 +13,7 @@ Motion_thread::Motion_thread(QObject *parent)
 	connect(this, SIGNAL(sig_statusChange(int,int, bool,int)), parent, SLOT(slot_IOChangeInfo(int, int,bool,int)));
 	connect(this, &Motion_thread::sig_axisChange,(AOI*)parent,&AOI::sig_axisChange);
 	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
-	connect(this, SIGNAL(sig_setStatus(QString, QString)), parent, SLOT(slot_setStatus(QString, QString)));
+	connect(this, SIGNAL(sig_setStatus(enumStatus)), parent, SLOT(slot_setStatus(enumStatus)));
 
 	connect(this, &Motion_thread::sig_updateResult, (AOI*)parent, &AOI::sig_updateResult);
 
@@ -61,7 +61,7 @@ void Motion_thread::run() {
 
 		if (inStatus[0][5]) {
 			m_bES = true;
-			emit sig_setStatus(tr("Emergency Stop!"), "color:red;");
+			emit sig_setStatus(stop);
 			dmc_stop(0, 0, 1);
 			dmc_stop(0, 1, 1);
 			dmc_stop(0, 2, 1);
@@ -85,7 +85,7 @@ void Motion_thread::slot_resetAxis() {
 	while (!status) {
 		if (!dmc_read_inbit(1, 4) || !dmc_read_inbit(1, 8)) {
 			status = 0;
-			emit sig_setStatus(tr("Fail:load or unload pannal!"), "color:blue;");
+			emit sig_setStatus(abnormalPannel_unLoad);
 		}
 		else{
 			status = 1;
@@ -208,7 +208,7 @@ int Motion_thread::motion_Init() {
 }
 void Motion_thread::slot_load() {
 	srt_config config = ((AOI*)m_parent)->m_config;
-	emit sig_setStatus(tr("running"), "color:green;");
+	emit sig_setStatus(running);
 	slot_writeOutIO(0, 0, 1, true);
 	slot_writeOutIO(0, 1, 0, true);
 	slot_writeOutIO(1, 5, 1, true);
@@ -226,7 +226,7 @@ void Motion_thread::slot_load() {
 
 	m_bAutoMode = true;
 
-	emit sig_setStatus(tr("Please Input Lot Number"), "color:black;");
+	emit sig_setStatus(lotNumber);
 }
 void Motion_thread::slot_unload() {
 	emit sig_logOutput("start unload...");
@@ -307,7 +307,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 	srt_config config = ((AOI*)m_parent)->m_config;
 	int loopCount = 0;
 
-	emit sig_setStatus(tr("running"), "color:green;");
+	emit sig_setStatus(running);
 	emit sig_setLot(loopCount);
 
 	int loadIndex = 0;
@@ -328,7 +328,6 @@ void Motion_thread::slot_auto(QStringList listBox) {
 		//********** 上下 料盒 *********************************
 
 		if (loadIndex &&!(loadIndex % config.iBoxRows)) {
-			emit sig_setStatus("changeing load Box ...", "color:yellow;");
 			loadIndex = 0;
 			unloadIndex = 0;
 			++loopCount;
@@ -361,19 +360,20 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			slot_writeOutIO(1, 7, 0);
 			msleep(3000);
 
-			emit sig_setStatus(tr("Check load Box base"), "color:black;");
+			emit sig_setStatus(running);
 			do{
 				status=dmc_read_inbit(1, 12);
+				if (!status) emit sig_setStatus(abnormalBoxBase_Load);
 				msleep(20);
 			} while (!status);
-			emit sig_setStatus(tr("running"), "color:green;");
+			emit sig_setStatus(running);
 
-			emit sig_setStatus(tr("Check unLoad Box Base"), "color:black;");
 			do {
 				status = dmc_read_inbit(1, 0);
+				if (!status) emit sig_setStatus(abnormalBoxBase_unLoad);
 				msleep(20);
 			} while (!status);
-			emit sig_setStatus(tr("running"), "color:green;");
+			emit sig_setStatus(running);
 
 			slot_writeOutIO(1, 5, 1);
 			slot_writeOutIO(1, 7, 1);
@@ -410,17 +410,19 @@ void Motion_thread::slot_auto(QStringList listBox) {
 
 		//********** 检测料盒 *************************************
 		
-		emit sig_setStatus(tr("Check Load Box"), "color:black;");
+		emit sig_setStatus(running);
 		do {
 			msleep(10);
 			status = dmc_read_inbit(1, 9);
+			if (!status) emit sig_setStatus(abnormalBox_Load);
 		} while (!status);
 
-		emit sig_setStatus(tr("Check unLoad Box"), "color:black;");
+		emit sig_setStatus(running);
 		do {
 			status = dmc_read_inbit(1, 5);
+			if (!status) emit sig_setStatus(abnormalBox_unLoad);
 		} while (!status);
-		emit sig_setStatus(tr("running"), "color:green;");
+		emit sig_setStatus(running);
 
 		m_bPannelCheck = false;
 		axis_move(1, 2, config.lLoadSpeed_X, 1, config.lLoadPos_X, 0, true);
@@ -444,7 +446,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 				status = dmc_read_inbit(0, 2);
 				if (dmc_check_done(0, 2)) {
 					emit sig_logOutput(QString::fromLocal8Bit("载板上料检测失败！"));
-					emit sig_setStatus(tr("Load Plate Fail!"), "color:red;");
+					emit sig_setStatus(abnormalPannel_Load);
 					m_bES=true;
 					return;
 				}
@@ -472,13 +474,15 @@ void Motion_thread::slot_auto(QStringList listBox) {
 				int((double)config.iPlatRowPadding/(config.iPlateRows-1)/10*10000+0.5), int((double)config.iPlatColPadding / (config.iPlatCols-1) / 10 * 10000+0.5), listBox.at(loopCount),loadIndex);
 			
 			//***************************************  标记 *******************************************************
-			slot_MarkPen(m_markPosition, int((double)config.iPlatRowPadding / (config.iPlateRows - 1) / 10 * 10000 + 0.5), int((double)config.iPlatColPadding / (config.iPlatCols - 1) / 10 * 10000 + 0.5));
+			if(config.bEnablePen)
+				slot_MarkPen(m_markPosition, int((double)config.iPlatRowPadding / (config.iPlateRows - 1) / 10 * 10000 + 0.5), int((double)config.iPlatColPadding / (config.iPlatCols - 1) / 10 * 10000 + 0.5));
 			//**************************************** 下料 ********************************************************
-			emit sig_setStatus(tr("Check unLoad Box"), "color:black;");
+			emit sig_setStatus(running);
 			do {
 				status = dmc_read_inbit(1, 5);
+				if (!status) emit sig_setStatus(abnormalPannel_unLoad);
 			} while (!status);
-			emit sig_setStatus(tr("running"), "color:green;");
+			emit sig_setStatus(running);
 
 			slot_writeOutIO(0, 1, 0);
 			slot_writeOutIO(0, 2, 1);
@@ -500,11 +504,11 @@ void Motion_thread::slot_auto(QStringList listBox) {
 				status = dmc_read_inbit(1, 4);
 				if (!status && !inx) {
 					emit sig_logOutput(QString::fromLocal8Bit("下料载板异常！"), QColor(255, 255, 0));
-					emit sig_setStatus(tr("check unload plate"), "color:black;");
+					emit sig_setStatus(abnormalPannel_unLoad);
 				}
 				if (inx > 200) {//超时1分钟
 					emit sig_logOutput(QString::fromLocal8Bit("下料载板异常超时，即将停止！"), QColor(255, 255, 0));
-					emit sig_setStatus(tr("check unload plate fail!"), "color:black;");
+					emit sig_setStatus(abnormalPannel_unLoad);
 					m_bES = true;
 					return;
 				}

@@ -168,33 +168,38 @@ int AOI::createLayout(){
 	
 	m_actInputIO = new QAction(tr("inIO"));
 	m_actOutputIO = new QAction(tr("outIO"));
-	m_actDebug = new QAction(tr("Debug"));
+	m_actDebug = new QAction(tr("axis"));
 	m_actCameraPosition = new QAction(tr("CamPos"));
+	m_actAbout = new QAction(tr("about"));
+
 	//m_actInputIO->setCheckable(true);
 	//m_actOutputIO->setCheckable(true);
 	//m_actDebug->setCheckable(true);
 
 	QMenu *menSetting=menuBar()->addMenu(tr("setting"));
-	menuBar()->addMenu(tr("tool"));
-	QMenu *menMode=menuBar()->addMenu(tr("model"));
-	menuBar()->addMenu(tr("help"));
+	QMenu *menTool=menuBar()->addMenu(tr("tool"));
+	QMenu *menDebug=menuBar()->addMenu(tr("Debug"));
+	QMenu *menHelp=menuBar()->addMenu(tr("help"));
+
 	menSetting->addAction(m_actOption);
-	menMode->addAction(m_actInputIO);
-	menMode->addAction(m_actOutputIO);
-	menMode->addAction(m_actDebug);
-	menMode->addAction(m_actCameraPosition);
+	menDebug->addAction(m_actInputIO);
+	menDebug->addAction(m_actOutputIO);
+	menDebug->addAction(m_actDebug);
+	menTool->addAction(m_actCameraPosition);
+	menHelp->addAction(m_actAbout);
 
 	connect(m_actOption, SIGNAL(triggered()), this, SLOT(slot_Option()));
 	connect(m_actInputIO, SIGNAL(triggered()), this, SLOT(slot_actIOIN()));
 	connect(m_actOutputIO, SIGNAL(triggered()), this, SLOT(slot_actIOOut()));
 	connect(m_actDebug, SIGNAL(triggered()), this, SLOT(slot_actDebug()));
 	connect(m_actCameraPosition, SIGNAL(triggered()), this, SLOT(slot_actCamPos()));
+	connect(m_actAbout, SIGNAL(triggered()), this, SLOT(slot_display()));
 
 	return 0;
 }
 int AOI::setChildsAttribute() {
 	axisdebug.hide();
-	m_labStatus.setFixedWidth(500);
+	m_labStatus.setFixedWidth(730);
 	QWidget *wid = new QWidget;
 	ui.mainToolBar->addWidget(wid);
 	QHBoxLayout *phlay = new QHBoxLayout;
@@ -258,7 +263,7 @@ void AOI::slot_butAuto() {
 }
 void AOI::slot_butStop() {
 	emit sig_logOutput(tr("Emergency Stop!"),QColor(255,0,0));
-	slot_setStatus(tr("Emergency Stop!"), "color:red;");
+	slot_setStatus(stop);
 	dmc_stop(0, 0, 1);
 	dmc_stop(0, 1, 1);
 	dmc_stop(0, 2, 1);
@@ -272,7 +277,7 @@ void AOI::slot_butStop() {
 	m_butReset.setEnabled(true);
 }
 void AOI::slot_butSuspended() {
-	slot_setStatus(tr("pause"), "color:Black;");
+	slot_setStatus(pause);
 	th->m_bSuspended = !th->m_bSuspended;
 	emit sig_Suspended();
 
@@ -313,8 +318,8 @@ void AOI::slot_IOChangeInfo(int iIoNumber, int iCard,bool bIn, int status) {
 	
 }
 void AOI::slot_Option() {
-	m_widconfig->setModal(true);
-	m_widconfig->exec();
+	m_widconfig->setModal(false);
+	m_widconfig->show();
 }
 void AOI::slot_actIOIN() {
 		m_widInIOStatus.setParent(this);
@@ -376,17 +381,19 @@ void AOI::slot_actCamPos() {
 	th->axis_move(0, 2, m_config.lORG_Speed_TestX2, 0, 0, 1, true);
 
 	//********** ¼ì²âÁÏºÐ *************************************
-	slot_setStatus(tr("Check Load Box"), "color:black;");
+	slot_setStatus(running);
 	do {
 		sleep(10);
 		status = dmc_read_inbit(1, 9);
+		if (!status) slot_setStatus(abnormalBox_Load);
 	} while (!status);
 
-	slot_setStatus(tr("Check unLoad Box"), "color:black;");
+	slot_setStatus(running);
 	do {
 		status = dmc_read_inbit(1, 5);
+		if (!status) slot_setStatus(abnormalBox_unLoad);
 	} while (!status);
-	slot_setStatus(tr("running"), "color:green;");
+	slot_setStatus(running);
 
 	th->axis_move(1, 2, m_config.lLoadSpeed_X, 1, m_config.lLoadPos_X, 0, true);
 
@@ -404,7 +411,7 @@ void AOI::slot_actCamPos() {
 			status = dmc_read_inbit(0, 2);
 			if (dmc_check_done(0, 2)) {
 				emit sig_logOutput(QString::fromLocal8Bit("ÔØ°åÉÏÁÏ¼ì²âÊ§°Ü£¡"));
-				slot_setStatus(tr("Load Plate Fail!"), "color:red;");
+				slot_setStatus(abnormalPannel_Load);
 				th->m_bES = true;
 				return;
 			}
@@ -438,8 +445,47 @@ void AOI::slot_updateImage(QString strPath) {
 	m_labImage.setScaledContents(true);
 	file.close();
 }
-void AOI::slot_setStatus(QString status,QString strStyle) {
-	m_labStatus.setText(status);
+void AOI::slot_setStatus(enumStatus status) {
+	QString strText,strStyle;
+	switch (status) {
+	case running:
+		strText = QString(tr("running..."));
+		strStyle = QString("color:blue;");
+		break;
+	case stop:
+		strText = QString(tr("Stop!"));
+		strStyle = QString("color:red;");
+		break;
+	case pause:
+		strText = QString(tr("pause."));
+		strStyle = QString("color:red;");
+		break;
+	case abnormalBox_Load:
+		strText = QString(tr("abnormal Load Box!"));
+		strStyle = QString("color:red;");
+		break;
+	case abnormalBox_unLoad:
+		strText = QString(tr("abnormal unLoad Box!"));
+		strStyle = QString("color:red;");
+		break;
+	case abnormalPannel_Load:
+		strText = QString(tr("abnormal Load Pannel!"));
+		strStyle = QString("color:red;");
+		break;
+	case abnormalPannel_unLoad:
+		strText = QString(tr("abnormal unLoad Pannel!"));
+		strStyle = QString("color:red;");
+		break;
+	case abnormalBoxBase_Load:
+		strText = QString(tr("abnormal Load Box Base!"));
+		strStyle = QString("color:red;");
+		break;
+	case abnormalBoxBase_unLoad:
+		strText = QString(tr("abnormal unLoad Box Base!"));
+		strStyle = QString("color:red;");
+		break;
+	}
+	m_labStatus.setText(strText);
 	m_labStatus.setStyleSheet(strStyle);
 }
 void AOI::slot_setCameraResult(int row,int col,int result) {

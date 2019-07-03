@@ -145,6 +145,15 @@
     <ClCompile Include="axisDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="aboutdia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_aboutdia.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_aboutdia.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="aoi.h">
@@ -201,6 +210,12 @@
     <CustomBuild Include="axisDebug.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="aboutdia.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aboutdia.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_aoi.h">
@@ -220,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_axisDebug.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_aboutdia.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globaldefault.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

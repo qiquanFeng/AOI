@@ -38,6 +38,8 @@ class AOI : public QMainWindow
 public:
 	AOI(QWidget *parent = 0);
 	~AOI();
+	std::vector<enumStatus> m_status;
+
 	__inline void sleep(long msec) {
 		QTime time = QTime::currentTime().addMSecs(msec);
 		while (QTime::currentTime() < time) {
@@ -85,6 +87,8 @@ public:
 	QAction *m_actDebug;
 	QAction *m_actCameraPosition;
 	QAction *m_actAbout;
+	QAction *m_actContour;
+
 	widconfig *m_widconfig;
 	DialogEx *m_diaAuto;
 	widResult *m_result;
@@ -165,7 +169,7 @@ private:
 	void slot_actCamPos();
 	void slot_updateImage(QString strPath);
 	void slot_butStop();
-	void slot_setStatus(enumStatus status);
+	void slot_setStatus(int status);
 	void slot_setCameraResult(int row,int col,int result);
 
 	__inline void slot_display() {

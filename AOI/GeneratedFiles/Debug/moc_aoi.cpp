@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_AOI_t {
-    QByteArrayData data[45];
-    char stringdata0[497];
+    QByteArrayData data[44];
+    char stringdata0[486];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -69,13 +69,12 @@ QT_MOC_LITERAL(34, 368, 14), // "slot_actCamPos"
 QT_MOC_LITERAL(35, 383, 16), // "slot_updateImage"
 QT_MOC_LITERAL(36, 400, 12), // "slot_butStop"
 QT_MOC_LITERAL(37, 413, 14), // "slot_setStatus"
-QT_MOC_LITERAL(38, 428, 10), // "enumStatus"
-QT_MOC_LITERAL(39, 439, 20), // "slot_setCameraResult"
-QT_MOC_LITERAL(40, 460, 3), // "row"
-QT_MOC_LITERAL(41, 464, 3), // "col"
-QT_MOC_LITERAL(42, 468, 6), // "result"
-QT_MOC_LITERAL(43, 475, 12), // "slot_display"
-QT_MOC_LITERAL(44, 488, 8) // "__inline"
+QT_MOC_LITERAL(38, 428, 20), // "slot_setCameraResult"
+QT_MOC_LITERAL(39, 449, 3), // "row"
+QT_MOC_LITERAL(40, 453, 3), // "col"
+QT_MOC_LITERAL(41, 457, 6), // "result"
+QT_MOC_LITERAL(42, 464, 12), // "slot_display"
+QT_MOC_LITERAL(43, 477, 8) // "__inline"
 
     },
     "AOI\0sig_logOutput\0\0text\0color\0"
@@ -89,7 +88,7 @@ QT_MOC_LITERAL(44, 488, 8) // "__inline"
     "iIoNumber\0iCard\0bIn\0status\0slot_Option\0"
     "slot_actDebug\0slot_actIOIN\0slot_actIOOut\0"
     "slot_actCamPos\0slot_updateImage\0"
-    "slot_butStop\0slot_setStatus\0enumStatus\0"
+    "slot_butStop\0slot_setStatus\0"
     "slot_setCameraResult\0row\0col\0result\0"
     "slot_display\0__inline"
 };
@@ -136,8 +135,8 @@ static const uint qt_meta_data_AOI[] = {
       35,    1,  207,    2, 0x0a /* Public */,
       36,    0,  210,    2, 0x0a /* Public */,
       37,    1,  211,    2, 0x0a /* Public */,
-      39,    3,  214,    2, 0x0a /* Public */,
-      43,    0,  221,   44, 0x0a /* Public */,
+      38,    3,  214,    2, 0x0a /* Public */,
+      42,    0,  221,   43, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, QMetaType::QColor,    3,    4,
@@ -166,8 +165,8 @@ static const uint qt_meta_data_AOI[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,   15,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 38,   29,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   40,   41,   42,
+    QMetaType::Void, QMetaType::Int,   29,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   39,   40,   41,
     QMetaType::Void,
 
        0        // eod
@@ -203,7 +202,7 @@ void AOI::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         case 21: _t->slot_actCamPos(); break;
         case 22: _t->slot_updateImage((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 23: _t->slot_butStop(); break;
-        case 24: _t->slot_setStatus((*reinterpret_cast< enumStatus(*)>(_a[1]))); break;
+        case 24: _t->slot_setStatus((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 25: _t->slot_setCameraResult((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
         case 26: _t->slot_display(); break;
         default: ;

@@ -52,7 +52,7 @@ signals:
 	void sig_logOutput(QString text, QColor color = QColor(0, 0, 0));
 	void sig_updateImage(QString strPath);
 	void sig_predict();
-	void sig_setStatus(enumStatus);
+	void sig_setStatus(int status);
 	void sig_setLot(int lotNumber);
 
 	void sig_testResult(int row, int col, int result);
@@ -69,6 +69,8 @@ signals:
 		void slot_unload();
 		void slot_auto(QStringList list);
 		void slot_Suspended();
+
+		void slot_contour(bool);
 		
 		void slot_MatrixMove(int row,int col, double rowMargin, double colMargin, QString boxID, int pannelID);
 		QString onReply(QNetworkReply *pReply);

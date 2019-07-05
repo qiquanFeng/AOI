@@ -69,6 +69,9 @@ AOI::AOI(QWidget *parent)
 AOI::~AOI()
 {
 	slot_butStop();
+	th->m_bES = false;
+	th->m_bSuspended = true;
+	slot_setStatus(stop);
 	saveLayout();
 }
 
@@ -171,6 +174,8 @@ int AOI::createLayout(){
 	m_actDebug = new QAction(tr("axis"));
 	m_actCameraPosition = new QAction(tr("CamPos"));
 	m_actAbout = new QAction(tr("about"));
+	m_actContour = new QAction(tr("contour"));
+	m_actContour->setCheckable(true);
 
 	//m_actInputIO->setCheckable(true);
 	//m_actOutputIO->setCheckable(true);
@@ -186,6 +191,7 @@ int AOI::createLayout(){
 	menDebug->addAction(m_actOutputIO);
 	menDebug->addAction(m_actDebug);
 	menTool->addAction(m_actCameraPosition);
+	menTool->addAction(m_actContour);
 	menHelp->addAction(m_actAbout);
 
 	connect(m_actOption, SIGNAL(triggered()), this, SLOT(slot_Option()));
@@ -194,12 +200,12 @@ int AOI::createLayout(){
 	connect(m_actDebug, SIGNAL(triggered()), this, SLOT(slot_actDebug()));
 	connect(m_actCameraPosition, SIGNAL(triggered()), this, SLOT(slot_actCamPos()));
 	connect(m_actAbout, SIGNAL(triggered()), this, SLOT(slot_display()));
-
+	connect(m_actContour, SIGNAL(triggered(bool)), th, SLOT(slot_contour(bool)));
 	return 0;
 }
 int AOI::setChildsAttribute() {
 	axisdebug.hide();
-	m_labStatus.setFixedWidth(730);
+	m_labStatus.setFixedWidth(500);
 	QWidget *wid = new QWidget;
 	ui.mainToolBar->addWidget(wid);
 	QHBoxLayout *phlay = new QHBoxLayout;
@@ -235,35 +241,41 @@ void AOI::slot_butRun() {
 }
 void AOI::slot_butReset() {
 	m_actCameraPosition->setEnabled(false);
+	m_butAuto.setEnabled(false);
 	th->m_bSuspended = false;
 	th->m_bES = false;
+	th->m_bResetMode = true;
 
 	m_butAuto.setEnabled(false);
 	emit sig_resetAxis();
 	setFocus();
 
+	while (th->m_bResetMode) {
+		this->sleep(200);
+	}
 	m_butAuto.setEnabled(true);
 	m_actCameraPosition->setEnabled(TRUE);
+	slot_setStatus(success);
 };
 void AOI::slot_butAuto() {
+	m_butReset.setEnabled(false);
+	m_butAuto.setEnabled(false);
 	emit sig_load();
 	while (!th->m_bAutoMode) {
 		QApplication::processEvents();
 	}
 
 	m_diaAuto->setEnabled(true);
-	m_diaAuto->lab1.clear();
-	m_diaAuto->lab2.clear();
-	m_diaAuto->lab3.clear();
+	m_diaAuto->clearStrLotNum();
 	m_diaAuto->strLotNum.clear();
 
-	m_butAuto.setEnabled(false);
-	m_butReset.setEnabled(false);
+	
 	m_diaAuto->setFocus();
+	slot_setStatus(running);
 }
 void AOI::slot_butStop() {
+	m_butAuto.setEnabled(false);
 	emit sig_logOutput(tr("Emergency Stop!"),QColor(255,0,0));
-	slot_setStatus(stop);
 	dmc_stop(0, 0, 1);
 	dmc_stop(0, 1, 1);
 	dmc_stop(0, 2, 1);
@@ -272,22 +284,22 @@ void AOI::slot_butStop() {
 	dmc_stop(1, 2, 1);
 	th->m_bES = true;
 	th->m_bSuspended = false;
-	setFocus();
-	m_butAuto.setEnabled(true);
+	slot_setStatus(stop);
 	m_butReset.setEnabled(true);
 }
 void AOI::slot_butSuspended() {
-	slot_setStatus(pause);
+	m_butReset.setEnabled(false);
 	th->m_bSuspended = !th->m_bSuspended;
 	emit sig_Suspended();
 
 	m_butAuto.setEnabled(false);
 	if (th->m_bSuspended){
 		m_butSuspended.setText(tr("continue"));
-	m_butReset.setEnabled(true);
+		slot_setStatus(pause);
 	}
 	else{
 		m_butSuspended.setText(tr("pause"));
+		slot_setStatus(_continue);
 	}
 	
 	setFocus();
@@ -445,9 +457,57 @@ void AOI::slot_updateImage(QString strPath) {
 	m_labImage.setScaledContents(true);
 	file.close();
 }
-void AOI::slot_setStatus(enumStatus status) {
+void AOI::slot_setStatus(int sta) {
 	QString strText,strStyle;
-	switch (status) {
+	enumStatus status = (enumStatus)sta;
+
+	if (th->m_bES) {
+		dmc_write_outbit(0, 4, 0);
+		dmc_write_outbit(0, 5, 0);
+	}else if (th->m_bSuspended) {
+		dmc_write_outbit(0, 4, 1);
+		dmc_write_outbit(0, 5, 1);
+		dmc_write_outbit(0, 6, 1);
+		dmc_write_outbit(0, 7, 0);
+	}
+	else {
+		dmc_write_outbit(0, 4, 1);
+		dmc_write_outbit(0, 5, 1);
+		dmc_write_outbit(0, 7, 1);
+		dmc_write_outbit(0, 6, 0);
+	}
+
+	if (status == nextLoop) {
+		m_butAuto.setEnabled(true);
+		return;
+	}
+
+	if(m_status.size()==0)
+		m_status.push_back(status);
+
+	if (m_status.at(m_status.size() - 1) == pause) {
+		if (status == _continue) {
+			m_status.pop_back();
+		}
+		else {
+			m_status.at(m_status.size() - 2)=status;
+		}
+	}
+	else {
+		if (status == pause) {
+			m_status.push_back(status);
+		}
+		else {
+			m_status.clear();
+			m_status.push_back(status);
+		}
+	}
+	
+	switch (m_status.at(m_status.size()-1)) {
+	case success:
+		strText = QString(tr(""));
+		strStyle = QString("color:blue;");
+		break;
 	case running:
 		strText = QString(tr("running..."));
 		strStyle = QString("color:blue;");
@@ -456,9 +516,17 @@ void AOI::slot_setStatus(enumStatus status) {
 		strText = QString(tr("Stop!"));
 		strStyle = QString("color:red;");
 		break;
+	case stop2:
+		strText = QString(tr("Stop2!"));
+		strStyle = QString("color:red;");
+		break;
+	case stop3:
+		strText = QString(tr("Stop3!"));
+		strStyle = QString("color:red;");
+		break;
 	case pause:
 		strText = QString(tr("pause."));
-		strStyle = QString("color:red;");
+		strStyle = QString("color:black;");
 		break;
 	case abnormalBox_Load:
 		strText = QString(tr("abnormal Load Box!"));
@@ -484,12 +552,15 @@ void AOI::slot_setStatus(enumStatus status) {
 		strText = QString(tr("abnormal unLoad Box Base!"));
 		strStyle = QString("color:red;");
 		break;
+	case lotNumber:
+		strText = QString(tr("Please Input Lot Number!"));
+		strStyle = QString("color:black;");
+		break;
 	}
 	m_labStatus.setText(strText);
 	m_labStatus.setStyleSheet(strStyle);
 }
 void AOI::slot_setCameraResult(int row,int col,int result) {
-
 	if (row == 0xFF&&col==0xFF) {
 		for (int r = 0; r < m_tabCameraStatus.rowCount(); r++) {
 			for (int c = 0; c < m_tabCameraStatus.columnCount(); c++) {

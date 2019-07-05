@@ -119,29 +119,85 @@
         <translation>调试</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="353"/>
+        <location filename="aoi.cpp" line="360"/>
         <source>Fail:auto mode running!</source>
         <translation>执行失败：自动模式中！</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="384"/>
-        <source>Check Load Box</source>
-        <translation>检查上料弹夹</translation>
-    </message>
-    <message>
-        <location filename="aoi.cpp" line="390"/>
-        <source>Check unLoad Box</source>
-        <translation>检查下料弹夹</translation>
-    </message>
-    <message>
-        <location filename="aoi.cpp" line="394"/>
-        <source>running</source>
+        <location filename="aoi.cpp" line="464"/>
+        <source>running...</source>
         <translation>运行中...</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="412"/>
+        <location filename="aoi.cpp" line="468"/>
+        <source>Stop!</source>
+        <translation>急停中...</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="472"/>
+        <source>Stop2!</source>
+        <translation>紧急停止中（物理按钮）</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="476"/>
+        <source>Stop3!</source>
+        <translation>紧急停止中（推杆）</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="480"/>
+        <source>pause.</source>
+        <translation>暂停</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="484"/>
+        <source>abnormal Load Box!</source>
+        <translation>上料盒异常！</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="488"/>
+        <source>abnormal unLoad Box!</source>
+        <translation>下料盒异常！</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="492"/>
+        <source>abnormal Load Pannel!</source>
+        <translation>上料载板异常！</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="496"/>
+        <source>abnormal unLoad Pannel!</source>
+        <translation>下料载板异常！</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="500"/>
+        <source>abnormal Load Box Base!</source>
+        <translation>上料仓已满！</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="504"/>
+        <source>abnormal unLoad Box Base!</source>
+        <translation>下料仓已满</translation>
+    </message>
+    <message>
+        <location filename="aoi.cpp" line="508"/>
+        <source>Please Input Lot Number!</source>
+        <translation>请输入流程卡号</translation>
+    </message>
+    <message>
+        <source>Check Load Box</source>
+        <translation type="vanished">检查上料弹夹</translation>
+    </message>
+    <message>
+        <source>Check unLoad Box</source>
+        <translation type="vanished">检查下料弹夹</translation>
+    </message>
+    <message>
+        <source>running</source>
+        <translation type="vanished">运行中...</translation>
+    </message>
+    <message>
         <source>Load Plate Fail!</source>
-        <translation>检查测试载板失败，即将退出！</translation>
+        <translation type="vanished">检查测试载板失败，即将退出！</translation>
     </message>
     <message>
         <location filename="aoi.cpp" line="179"/>
@@ -163,13 +219,12 @@
         <translation type="vanished">请输入流程卡号！</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="280"/>
-        <location filename="aoi.cpp" line="290"/>
+        <location filename="aoi.cpp" line="297"/>
         <source>pause</source>
         <translation>暂停</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="286"/>
+        <location filename="aoi.cpp" line="293"/>
         <source>continue</source>
         <translation>继续</translation>
     </message>
@@ -178,8 +233,7 @@
         <translation type="vanished">流程卡号数量不等于 3</translation>
     </message>
     <message>
-        <location filename="aoi.cpp" line="265"/>
-        <location filename="aoi.cpp" line="266"/>
+        <location filename="aoi.cpp" line="274"/>
         <source>Emergency Stop!</source>
         <translation>紧急停止</translation>
     </message>
@@ -244,94 +298,77 @@
 <context>
     <name>Motion_thread</name>
     <message>
-        <location filename="motion_thread.cpp" line="83"/>
+        <location filename="motion_thread.cpp" line="90"/>
         <source>reset...</source>
         <translation>开始复位</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="147"/>
+        <location filename="motion_thread.cpp" line="154"/>
         <source>reset success!</source>
         <translation>复位成功</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="64"/>
-        <location filename="motion_thread.cpp" line="150"/>
+        <location filename="motion_thread.cpp" line="158"/>
         <source>Emergency Stop!</source>
         <translation>紧急停止</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="201"/>
+        <location filename="motion_thread.cpp" line="212"/>
         <source>sent init post</source>
         <translation>发送相机初始化命令</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="252"/>
+        <location filename="motion_thread.cpp" line="264"/>
         <source>check box exists...</source>
         <translation>检查上料盒是否存在</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="258"/>
+        <location filename="motion_thread.cpp" line="270"/>
         <source>check box success!</source>
         <translation>检查盒子成功</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="211"/>
-        <location filename="motion_thread.cpp" line="310"/>
-        <location filename="motion_thread.cpp" line="369"/>
-        <location filename="motion_thread.cpp" line="376"/>
-        <location filename="motion_thread.cpp" line="423"/>
-        <location filename="motion_thread.cpp" line="481"/>
         <source>running</source>
-        <translation>运行中...</translation>
+        <translation type="vanished">运行中...</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="413"/>
         <source>Check Load Box</source>
-        <translation>检查上料弹夹</translation>
+        <translation type="vanished">检查上料弹夹</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="364"/>
         <source>Check load Box base</source>
-        <translation>检查上料盒仓是否已满</translation>
+        <translation type="vanished">检查上料盒仓是否已满</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="419"/>
-        <location filename="motion_thread.cpp" line="477"/>
         <source>Check unLoad Box</source>
-        <translation>检查下料弹夹</translation>
+        <translation type="vanished">检查下料弹夹</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="371"/>
         <source>Check unLoad Box Base</source>
-        <translation>检查下料弹夹是否已满</translation>
+        <translation type="vanished">检查下料弹夹是否已满</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="88"/>
         <source>Fail:load or unload pannal!</source>
-        <translation>复位失败：上/下料载板 卡板</translation>
+        <translation type="vanished">复位失败：上/下料载板 卡板</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="229"/>
         <source>Please Input Lot Number</source>
-        <translation>请输入流程卡号</translation>
+        <translation type="vanished">请输入流程卡号</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="447"/>
         <source>Load Plate Fail!</source>
-        <translation>检查测试载板失败，即将退出！</translation>
+        <translation type="vanished">检查测试载板失败，即将退出！</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="503"/>
         <source>check unload plate</source>
-        <translation>检测下料载板</translation>
+        <translation type="vanished">检测下料载板</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="507"/>
         <source>check unload plate fail!</source>
-        <translation>下料载板入盒检测</translation>
+        <translation type="vanished">下料载板入盒检测</translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="601"/>
+        <location filename="motion_thread.cpp" line="622"/>
         <source>{&quot;box_id&quot;:&quot;%1&quot;,&quot;pannel_id&quot;:&quot;%2&quot;,&quot;sample_id&quot;:&quot;%3&quot;,&quot;machine_id&quot;:&quot;%4&quot;,&quot;time&quot;:&quot;%5&quot;,&quot;operator&quot;:&quot;%6&quot;,&quot;shift_id&quot;:&quot;%7&quot;,&quot;md5&quot;:&quot;%8&quot;,&quot;config&quot;:&quot;%9&quot;}</source>
         <translation></translation>
     </message>
@@ -339,12 +376,12 @@
 <context>
     <name>Motion_thread1</name>
     <message>
-        <location filename="motion_thread.cpp" line="697"/>
+        <location filename="motion_thread.cpp" line="718"/>
         <source>{&quot;box_id&quot;:&quot;%1&quot;,&quot;pannel_id&quot;:&quot;%2&quot;,&quot;sample_id&quot;:&quot;%3&quot;,&quot;machine_id&quot;:&quot;%4&quot;,&quot;time&quot;:&quot;%5&quot;,&quot;operator&quot;:&quot;%6&quot;,&quot;shift_id&quot;:&quot;%7&quot;,&quot;md5&quot;:&quot;%8&quot;,&quot;config&quot;:&quot;%9&quot;}</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="motion_thread.cpp" line="767"/>
+        <location filename="motion_thread.cpp" line="788"/>
         <source>sent init post</source>
         <translation>发送相机初始化命令</translation>
     </message>
@@ -589,120 +626,125 @@
     </message>
     <message>
         <location filename="widconfig.ui" line="143"/>
+        <source>是否启用</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widconfig.ui" line="150"/>
         <source>偏移（Offset)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="164"/>
+        <location filename="widconfig.ui" line="171"/>
         <source>X轴位置（相对镜头）</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="181"/>
+        <location filename="widconfig.ui" line="188"/>
         <source>Y轴位置（相对镜头）</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="204"/>
+        <location filename="widconfig.ui" line="211"/>
         <source>载板</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="221"/>
+        <location filename="widconfig.ui" line="228"/>
         <source>载板行数</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="231"/>
+        <location filename="widconfig.ui" line="238"/>
         <source>载板列数</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="245"/>
+        <location filename="widconfig.ui" line="252"/>
         <source>行间距（总间距mm）</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="259"/>
+        <location filename="widconfig.ui" line="266"/>
         <source>列间距（总间距mm）</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="279"/>
+        <location filename="widconfig.ui" line="286"/>
         <source>上料</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="296"/>
+        <location filename="widconfig.ui" line="303"/>
         <source>X 位置(推杆)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="313"/>
+        <location filename="widconfig.ui" line="320"/>
         <source>X 速度(推杆)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="331"/>
-        <location filename="widconfig.ui" line="455"/>
+        <location filename="widconfig.ui" line="338"/>
+        <location filename="widconfig.ui" line="462"/>
         <source>Y 位置（平台）</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="348"/>
-        <location filename="widconfig.ui" line="472"/>
+        <location filename="widconfig.ui" line="355"/>
+        <location filename="widconfig.ui" line="479"/>
         <source>Y 速度（平台）</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="366"/>
-        <location filename="widconfig.ui" line="490"/>
+        <location filename="widconfig.ui" line="373"/>
+        <location filename="widconfig.ui" line="497"/>
         <source>Z 位置</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="383"/>
-        <location filename="widconfig.ui" line="507"/>
+        <location filename="widconfig.ui" line="390"/>
+        <location filename="widconfig.ui" line="514"/>
         <source>Z 速度</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="403"/>
+        <location filename="widconfig.ui" line="410"/>
         <source>下料</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="420"/>
+        <location filename="widconfig.ui" line="427"/>
         <source>X 位置（平台）</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="437"/>
+        <location filename="widconfig.ui" line="444"/>
         <source>X 速度（平台）</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="527"/>
+        <location filename="widconfig.ui" line="534"/>
         <source>测试</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="544"/>
+        <location filename="widconfig.ui" line="551"/>
         <source>首个位置 X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="561"/>
+        <location filename="widconfig.ui" line="568"/>
         <source>首个位置 Y</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.ui" line="582"/>
+        <location filename="widconfig.ui" line="589"/>
         <source>Y 速度</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widconfig.cpp" line="243"/>
+        <location filename="widconfig.cpp" line="247"/>
         <source>Model Code:</source>
         <translation>物料编码：</translation>
     </message>

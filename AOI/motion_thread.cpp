@@ -1,6 +1,7 @@
 #include "motion_thread.h"
 #include "aoi.h"
 #include "AOI.h"
+#define UPDATESTATUS(status) emit sig_setStatus(status);if(m_bES) return
 using namespace rapidjson;
 
 Motion_thread::Motion_thread(QObject *parent)
@@ -13,7 +14,7 @@ Motion_thread::Motion_thread(QObject *parent)
 	connect(this, SIGNAL(sig_statusChange(int,int, bool,int)), parent, SLOT(slot_IOChangeInfo(int, int,bool,int)));
 	connect(this, &Motion_thread::sig_axisChange,(AOI*)parent,&AOI::sig_axisChange);
 	connect(this, SIGNAL(sig_updateImage(QString)), parent, SLOT(slot_updateImage(QString)),Qt::DirectConnection);
-	connect(this, SIGNAL(sig_setStatus(enumStatus)), parent, SLOT(slot_setStatus(enumStatus)));
+	connect(this, SIGNAL(sig_setStatus(int)), parent, SLOT(slot_setStatus(int)));
 
 	connect(this, &Motion_thread::sig_updateResult, (AOI*)parent, &AOI::sig_updateResult);
 
@@ -51,7 +52,13 @@ void Motion_thread::run() {
 		if (inStatus[1][11]) {
 			if (!m_bResetMode) {
 				m_bES = true;
+				dmc_stop(0, 0, 1);
+				dmc_stop(0, 1, 1);
+				dmc_stop(0, 2, 1);
+				dmc_stop(1, 0, 1);
+				dmc_stop(1, 1, 1);
 				dmc_stop(1, 2, 1);
+				emit sig_setStatus(stop3);
 			}
 		}
 
@@ -61,7 +68,7 @@ void Motion_thread::run() {
 
 		if (inStatus[0][5]) {
 			m_bES = true;
-			emit sig_setStatus(stop);
+			emit sig_setStatus(stop2);
 			dmc_stop(0, 0, 1);
 			dmc_stop(0, 1, 1);
 			dmc_stop(0, 2, 1);
@@ -145,13 +152,17 @@ void Motion_thread::slot_resetAxis() {
 
 	if (!m_bES) {
 		emit sig_logOutput(tr("reset success!"), QColor(0, 255, 0));
+		emit sig_setStatus(success);
 	}
 	else {
 		emit sig_logOutput(tr("Emergency Stop!"), QColor(255, 0, 0));
+		emit sig_setStatus(stop);
 	}
 		
 	m_bES = false;
 	m_bSuspended = false;
+	m_bResetMode = false;
+
 }
 int Motion_thread::slot_writeOutIO(WORD card, WORD bitNo, WORD status,bool bReset) {
 	if (!bReset) {
@@ -201,14 +212,20 @@ int Motion_thread::motion_Init() {
 	emit sig_logOutput(tr("sent init post"));
 	m_HTTP_Interface->sendPost(strSend.toLatin1(), QUrl("http://127.0.0.1:6789/init"), 6789);
 	
-	//connect(m_HTTP_Interface->m_pManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onReply(QNetworkReply *)));
+
+	
 	th1 = new Motion_thread1(this);
 	connect(m_HTTP_Interface->m_pManager, SIGNAL(finished(QNetworkReply *)), th1, SLOT(onReply(QNetworkReply *)));
+
+	strSend=QString("{\"detec_en\":\"0\"}");
+	m_HTTP_Interface->sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/settings"), 6789);
+
 	return m_CardNum;
 }
 void Motion_thread::slot_load() {
 	srt_config config = ((AOI*)m_parent)->m_config;
-	emit sig_setStatus(running);
+	UPDATESTATUS(running);
+
 	slot_writeOutIO(0, 0, 1, true);
 	slot_writeOutIO(0, 1, 0, true);
 	slot_writeOutIO(1, 5, 1, true);
@@ -226,7 +243,7 @@ void Motion_thread::slot_load() {
 
 	m_bAutoMode = true;
 
-	emit sig_setStatus(lotNumber);
+	UPDATESTATUS(lotNumber);
 }
 void Motion_thread::slot_unload() {
 	emit sig_logOutput("start unload...");
@@ -307,12 +324,12 @@ void Motion_thread::slot_auto(QStringList listBox) {
 	srt_config config = ((AOI*)m_parent)->m_config;
 	int loopCount = 0;
 
-	emit sig_setStatus(running);
+	UPDATESTATUS(running);
 	emit sig_setLot(loopCount);
 
 	int loadIndex = 0;
 	int unloadIndex = 0;
-	while (m_bAutoMode&&loopCount<= listBox.size()) {
+	while (m_bAutoMode&&loopCount< listBox.size()) {
 		if (m_bES)
 			break;
 		emit sig_setLot(loopCount);
@@ -360,20 +377,20 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			slot_writeOutIO(1, 7, 0);
 			msleep(3000);
 
-			emit sig_setStatus(running);
+			UPDATESTATUS(running);
 			do{
 				status=dmc_read_inbit(1, 12);
-				if (!status) emit sig_setStatus(abnormalBoxBase_Load);
+				if (!status) UPDATESTATUS(abnormalBoxBase_Load);
 				msleep(20);
 			} while (!status);
-			emit sig_setStatus(running);
+			UPDATESTATUS(running);
 
 			do {
 				status = dmc_read_inbit(1, 0);
-				if (!status) emit sig_setStatus(abnormalBoxBase_unLoad);
+				if (!status) UPDATESTATUS(abnormalBoxBase_unLoad);
 				msleep(20);
 			} while (!status);
-			emit sig_setStatus(running);
+			UPDATESTATUS(running);
 
 			slot_writeOutIO(1, 5, 1);
 			slot_writeOutIO(1, 7, 1);
@@ -403,26 +420,27 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			} while (!status);
 		}
 
-		loadIndex++;
-		unloadIndex++;
+		loadIndex+=1;
+		unloadIndex+=1;
 		
 
 
 		//********** 检测料盒 *************************************
 		
-		emit sig_setStatus(running);
+		UPDATESTATUS(running);
 		do {
-			msleep(10);
+			msleep(100);
 			status = dmc_read_inbit(1, 9);
-			if (!status) emit sig_setStatus(abnormalBox_Load);
+			if (!status) UPDATESTATUS(abnormalBox_Load);
 		} while (!status);
 
-		emit sig_setStatus(running);
+		UPDATESTATUS(running);
 		do {
+			msleep(100);
 			status = dmc_read_inbit(1, 5);
-			if (!status) emit sig_setStatus(abnormalBox_unLoad);
+			if (!status) UPDATESTATUS(abnormalBox_unLoad);
 		} while (!status);
-		emit sig_setStatus(running);
+		UPDATESTATUS(running);
 
 		m_bPannelCheck = false;
 		axis_move(1, 2, config.lLoadSpeed_X, 1, config.lLoadPos_X, 0, true);
@@ -446,11 +464,9 @@ void Motion_thread::slot_auto(QStringList listBox) {
 				status = dmc_read_inbit(0, 2);
 				if (dmc_check_done(0, 2)) {
 					emit sig_logOutput(QString::fromLocal8Bit("载板上料检测失败！"));
-					emit sig_setStatus(abnormalPannel_Load);
-					m_bES=true;
-					return;
+					UPDATESTATUS(abnormalPannel_Load);
 				}
-			} while (status);
+			} while (!status);
 			dmc_stop(0, 2, 1);
 			msleep(500);
 			slot_writeOutIO(0, 1, 1);
@@ -476,13 +492,15 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			//***************************************  标记 *******************************************************
 			if(config.bEnablePen)
 				slot_MarkPen(m_markPosition, int((double)config.iPlatRowPadding / (config.iPlateRows - 1) / 10 * 10000 + 0.5), int((double)config.iPlatColPadding / (config.iPlatCols - 1) / 10 * 10000 + 0.5));
+			
+			msleep(1000);
 			//**************************************** 下料 ********************************************************
-			emit sig_setStatus(running);
+			UPDATESTATUS(running);
 			do {
 				status = dmc_read_inbit(1, 5);
-				if (!status) emit sig_setStatus(abnormalPannel_unLoad);
+				if (!status) UPDATESTATUS(abnormalPannel_unLoad);
 			} while (!status);
-			emit sig_setStatus(running);
+			UPDATESTATUS(running);
 
 			slot_writeOutIO(0, 1, 0);
 			slot_writeOutIO(0, 2, 1);
@@ -504,11 +522,11 @@ void Motion_thread::slot_auto(QStringList listBox) {
 				status = dmc_read_inbit(1, 4);
 				if (!status && !inx) {
 					emit sig_logOutput(QString::fromLocal8Bit("下料载板异常！"), QColor(255, 255, 0));
-					emit sig_setStatus(abnormalPannel_unLoad);
+					UPDATESTATUS(abnormalPannel_unLoad);
 				}
 				if (inx > 200) {//超时1分钟
 					emit sig_logOutput(QString::fromLocal8Bit("下料载板异常超时，即将停止！"), QColor(255, 255, 0));
-					emit sig_setStatus(abnormalPannel_unLoad);
+					UPDATESTATUS(abnormalPannel_unLoad);
 					m_bES = true;
 					return;
 				}
@@ -519,10 +537,10 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
 			axis_move(0, 0, 80000, 1, -20000);
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
-			
-			
 		}
-}
+	}
+	UPDATESTATUS(success);
+	UPDATESTATUS(nextLoop);
 }
 void Motion_thread::slot_Suspended() {
 	
@@ -571,6 +589,8 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 int Motion_thread::slot_MarkPen(std::vector<long> position, double rowMargin, double colMargin) {
 	srt_config config = ((AOI*)m_parent)->m_config;
 	for (int i = 0; i < position.size(); i++) {
+		if (m_bES)
+			return -1;
 		long row = std::floor(position.at(i) / config.iPlatCols);
 		long col = config.iPlatCols-1-(position.at(i) % config.iPlatCols);
 		long status=0;
@@ -585,6 +605,8 @@ int Motion_thread::slot_MarkPen(std::vector<long> position, double rowMargin, do
 			}
 		} while (!status);
 
+		if (m_bES)
+			return -1;
 		slot_writeOutIO(0, 3, 1);
 		msleep(1000);
 		slot_writeOutIO(0, 3, 0);
@@ -615,6 +637,17 @@ void Motion_thread::slot_predict(QString boxID, int pannelID, int sampleID) {
 	);
 	m_HTTP_Interface->sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/predict"), 6789);
 
+}
+void Motion_thread::slot_contour(bool bis) {
+	QString strSend;
+	if (bis) {
+		strSend=QString("{\"detec_en\":\"1\"}");
+	}
+	else {
+		strSend=QString("{\"detec_en\":\"0\"}");
+	}
+
+	m_HTTP_Interface->sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/settings"), 6789);
 }
 
 QString Motion_thread::onReply(QNetworkReply *pReply) {
@@ -740,7 +773,7 @@ int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int targ
 		status = dmc_check_done(card, axis);
 	} while (!status&&bAck);
 
-	m_bResetMode = false;
+	//m_bResetMode = false;
 
 	if (!orgMode||!bAck)
 		return 0;

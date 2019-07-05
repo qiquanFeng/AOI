@@ -1,14 +1,23 @@
 #pragma once
+#include "qmetatype.h"
 
 enum enumStatus {
-	running = 0,
+	success = 0,
+	running,
 	stop,
+	stop2,
+	stop3,
 	pause,
+	_continue,
 	abnormalBox_Load,
 	abnormalBox_unLoad,
 	abnormalPannel_Load,
 	abnormalPannel_unLoad,
 	abnormalBoxBase_Load,
 	abnormalBoxBase_unLoad,
-	lotNumber
+	lotNumber,
+	nextLoop
+
 };
+
+Q_DECLARE_METATYPE(enumStatus);

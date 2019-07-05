@@ -1,0 +1,28 @@
+QDockWidget::title:hover{
+	border:1px solid black;
+	background-color:white;
+	font-size:50px;
+}
+
+#status QLabel{
+	font: 75 32pt "微软雅黑";
+}
+QToolBar QLabel{
+	font: 75 24pt "微软雅黑";
+}
+QDialog .LabelEx{
+	border-top:0px solid black;
+	border-bottom:1px solid #c8c8c8;
+	font: 12pt "宋体";
+}
+
+QDialog QPushButton{
+	
+}
+
+#operater QPushButton{
+	font: 24pt "宋体";
+}
+#result QLabel{
+	font: 24pt "宋体";
+}

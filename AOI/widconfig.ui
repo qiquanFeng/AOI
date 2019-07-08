@@ -324,7 +324,7 @@
             <item>
              <widget class="QSpinBox" name="loadSpeed_X">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>
@@ -359,7 +359,7 @@
             <item>
              <widget class="QSpinBox" name="loadSpeed_Y">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>
@@ -394,7 +394,7 @@
             <item>
              <widget class="QSpinBox" name="loadSpeed_Z">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>
@@ -448,7 +448,7 @@
             <item>
              <widget class="QSpinBox" name="unLoadSpeed_X">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>
@@ -483,7 +483,7 @@
             <item>
              <widget class="QSpinBox" name="unLoadSpeed_Y">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>
@@ -518,7 +518,7 @@
             <item>
              <widget class="QSpinBox" name="unLoadSpeed_Z">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>
@@ -593,7 +593,7 @@
             <item>
              <widget class="QSpinBox" name="testSpeed">
               <property name="maximum">
-               <number>100000</number>
+               <number>1000000</number>
               </property>
              </widget>
             </item>

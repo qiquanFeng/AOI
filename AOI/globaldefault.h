@@ -16,7 +16,8 @@ enum enumStatus {
 	abnormalBoxBase_Load,
 	abnormalBoxBase_unLoad,
 	lotNumber,
-	nextLoop
+	nextLoop,
+	lotOver
 
 };
 

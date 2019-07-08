@@ -397,7 +397,7 @@ public:
 
         loadSpeed_X = new QSpinBox(verticalLayoutWidget_4);
         loadSpeed_X->setObjectName(QStringLiteral("loadSpeed_X"));
-        loadSpeed_X->setMaximum(100000);
+        loadSpeed_X->setMaximum(1000000);
 
         horizontalLayout_7->addWidget(loadSpeed_X);
 
@@ -426,7 +426,7 @@ public:
 
         loadSpeed_Y = new QSpinBox(verticalLayoutWidget_4);
         loadSpeed_Y->setObjectName(QStringLiteral("loadSpeed_Y"));
-        loadSpeed_Y->setMaximum(100000);
+        loadSpeed_Y->setMaximum(1000000);
 
         horizontalLayout_8->addWidget(loadSpeed_Y);
 
@@ -455,7 +455,7 @@ public:
 
         loadSpeed_Z = new QSpinBox(verticalLayoutWidget_4);
         loadSpeed_Z->setObjectName(QStringLiteral("loadSpeed_Z"));
-        loadSpeed_Z->setMaximum(100000);
+        loadSpeed_Z->setMaximum(1000000);
 
         horizontalLayout_11->addWidget(loadSpeed_Z);
 
@@ -497,7 +497,7 @@ public:
 
         unLoadSpeed_X = new QSpinBox(verticalLayoutWidget_5);
         unLoadSpeed_X->setObjectName(QStringLiteral("unLoadSpeed_X"));
-        unLoadSpeed_X->setMaximum(100000);
+        unLoadSpeed_X->setMaximum(1000000);
 
         horizontalLayout_9->addWidget(unLoadSpeed_X);
 
@@ -526,7 +526,7 @@ public:
 
         unLoadSpeed_Y = new QSpinBox(verticalLayoutWidget_5);
         unLoadSpeed_Y->setObjectName(QStringLiteral("unLoadSpeed_Y"));
-        unLoadSpeed_Y->setMaximum(100000);
+        unLoadSpeed_Y->setMaximum(1000000);
 
         horizontalLayout_12->addWidget(unLoadSpeed_Y);
 
@@ -555,7 +555,7 @@ public:
 
         unLoadSpeed_Z = new QSpinBox(verticalLayoutWidget_5);
         unLoadSpeed_Z->setObjectName(QStringLiteral("unLoadSpeed_Z"));
-        unLoadSpeed_Z->setMaximum(100000);
+        unLoadSpeed_Z->setMaximum(1000000);
 
         horizontalLayout_13->addWidget(unLoadSpeed_Z);
 
@@ -615,7 +615,7 @@ public:
 
         testSpeed = new QSpinBox(verticalLayoutWidget_6);
         testSpeed->setObjectName(QStringLiteral("testSpeed"));
-        testSpeed->setMaximum(100000);
+        testSpeed->setMaximum(1000000);
 
         horizontalLayout_15->addWidget(testSpeed);
 

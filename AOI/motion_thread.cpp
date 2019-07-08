@@ -244,6 +244,7 @@ void Motion_thread::slot_load() {
 	m_bAutoMode = true;
 
 	UPDATESTATUS(lotNumber);
+	UPDATESTATUS(lotNumber);
 }
 void Motion_thread::slot_unload() {
 	emit sig_logOutput("start unload...");
@@ -381,14 +382,14 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			do{
 				status=dmc_read_inbit(1, 12);
 				if (!status) UPDATESTATUS(abnormalBoxBase_Load);
-				msleep(20);
+				msleep(200);
 			} while (!status);
 			UPDATESTATUS(running);
 
 			do {
 				status = dmc_read_inbit(1, 0);
 				if (!status) UPDATESTATUS(abnormalBoxBase_unLoad);
-				msleep(20);
+				msleep(200);
 			} while (!status);
 			UPDATESTATUS(running);
 
@@ -420,8 +421,8 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			} while (!status);
 		}
 
-		loadIndex+=1;
-		unloadIndex+=1;
+		loadIndex++;
+		unloadIndex++;
 		
 
 
@@ -450,7 +451,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 		else
 			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, true);
 		
-		// ************************** º–¡œ 
+		// ************************** º–¡œ ***************************************
 		if (m_bPannelCheck) {
 			m_bPannelCheck = false;
 			axis_move(1, 2, 20000, 0, 0, 1, false);
@@ -539,6 +540,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
 		}
 	}
+	emit sig_setLot(-1);
 	UPDATESTATUS(success);
 	UPDATESTATUS(nextLoop);
 }

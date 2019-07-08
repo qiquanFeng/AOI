@@ -464,6 +464,8 @@ void AOI::slot_setStatus(int sta) {
 	if (th->m_bES) {
 		dmc_write_outbit(0, 4, 0);
 		dmc_write_outbit(0, 5, 0);
+		dmc_write_outbit(0, 6, 1);
+		dmc_write_outbit(0, 7, 1);
 	}else if (th->m_bSuspended) {
 		dmc_write_outbit(0, 4, 1);
 		dmc_write_outbit(0, 5, 1);
@@ -471,14 +473,33 @@ void AOI::slot_setStatus(int sta) {
 		dmc_write_outbit(0, 7, 0);
 	}
 	else {
-		dmc_write_outbit(0, 4, 1);
-		dmc_write_outbit(0, 5, 1);
-		dmc_write_outbit(0, 7, 1);
-		dmc_write_outbit(0, 6, 0);
+		if (sta == running) {
+			dmc_write_outbit(0, 4, 1);
+			dmc_write_outbit(0, 5, 1);
+			dmc_write_outbit(0, 7, 1);
+			dmc_write_outbit(0, 6, 0);
+		}
+		else if (sta==lotNumber) {
+			dmc_write_outbit(0, 4, 1);
+			dmc_write_outbit(0, 5, 1);
+			dmc_write_outbit(0, 6, 1);
+			dmc_write_outbit(0, 7, 0);
+		}
+		else {
+			dmc_write_outbit(0, 4, 0);
+			dmc_write_outbit(0, 5, 0);
+			dmc_write_outbit(0, 6, 1);
+			dmc_write_outbit(0, 7, 1);
+		}
+		
 	}
 
 	if (status == nextLoop) {
 		m_butAuto.setEnabled(true);
+		strText = QString(tr("change Box and input lot number!"));
+		strStyle = QString("color:red;");
+		m_labStatus.setText(strText);
+		m_labStatus.setStyleSheet(strStyle);
 		return;
 	}
 
@@ -526,7 +547,7 @@ void AOI::slot_setStatus(int sta) {
 		break;
 	case pause:
 		strText = QString(tr("pause."));
-		strStyle = QString("color:black;");
+		strStyle = QString("color:blue;");
 		break;
 	case abnormalBox_Load:
 		strText = QString(tr("abnormal Load Box!"));
@@ -554,7 +575,7 @@ void AOI::slot_setStatus(int sta) {
 		break;
 	case lotNumber:
 		strText = QString(tr("Please Input Lot Number!"));
-		strStyle = QString("color:black;");
+		strStyle = QString("color:blue;");
 		break;
 	}
 	m_labStatus.setText(strText);

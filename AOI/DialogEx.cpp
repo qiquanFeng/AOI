@@ -81,21 +81,21 @@ void DialogEx::slot_clear(QLabel *pLab) {
 	{
 	case 1:
 		lab1.setText(strLotNum.at(0));
-		lab1.setStyleSheet("background-color:green;");
+		lab1.setStyleSheet("background-color:white;");
 		break;
 	case 2:
 		lab1.setText(strLotNum.at(0));
 		lab2.setText(strLotNum.at(1));
-		lab2.setStyleSheet("background-color:green;");
-		lab1.setStyleSheet("background-color:green;");
+		lab2.setStyleSheet("background-color:white;");
+		lab1.setStyleSheet("background-color:white;");
 		break;
 	case 3:
 		lab1.setText(strLotNum.at(0));
 		lab2.setText(strLotNum.at(1));
 		lab3.setText(strLotNum.at(2));
-		lab3.setStyleSheet("background-color:green;");
-		lab2.setStyleSheet("background-color:green;");
-		lab1.setStyleSheet("background-color:green;");
+		lab3.setStyleSheet("background-color:white;");
+		lab2.setStyleSheet("background-color:white;");
+		lab1.setStyleSheet("background-color:white;");
 		break;
 	default:
 		break;
@@ -133,8 +133,6 @@ void DialogEx::slot_clear() {
 	strLotNum.clear();
 }
 void DialogEx::slot_commit() {
-
-
 	if (strLotNum.size() <= 0) {
 		return;
 	}
@@ -150,13 +148,28 @@ void DialogEx::slot_setLot(int lotNumber) {
 	switch (lotNumber)
 	{
 	case 0:
-		lab1.setStyleSheet("background-color:green;color:red;");
+		lab1.setStyleSheet("background-color:#FFFF40;");
 		break;
 	case 1:
-		lab2.setStyleSheet("background-color:green;color:red;");
+		lab2.setStyleSheet("background-color:#FFFF40;");
+		lab1.setStyleSheet("background-color:#80ff80;");
 		break;
 	case 2:
-		lab3.setStyleSheet("background-color:green;color:red;");
+		lab3.setStyleSheet("background-color:#FFFF40;");
+		lab2.setStyleSheet("background-color:#80ff80;");
+		break;
+	case -1:
+		switch (strLotNum.size()) {
+			case 1:
+				lab1.setStyleSheet("background-color:#80ff80;");
+				break;
+			case 2:
+				lab2.setStyleSheet("background-color:#80ff80;");
+				break;
+			case 3:
+				lab3.setStyleSheet("background-color:#80ff80;");
+				break;
+		}
 		break;
 	}
 }

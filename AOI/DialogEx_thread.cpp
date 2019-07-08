@@ -21,11 +21,13 @@ void DialogEx_thread::run() {
 	if (inx >=0) {
 		m_parent->bFirstKey = true;
 		//emit sig_clear(m_parent->strLotNum.size()+1);
-		emit sig_setStyle(inx+1, "background-color:red;");
+		emit sig_setStyle(inx + 1, "background-color:red;");
 		msleep(300);
 		emit sig_setStyle(inx + 1, "background-color:blue;");
 		msleep(300);
 		emit sig_setStyle(inx + 1, "background-color:green;");
+		msleep(300);
+		emit sig_setStyle(inx + 1, "background-color:white;");
 		m_parent->str_temp.clear();
 		m_parent->mutex_key.unlock();
 		return;
@@ -41,16 +43,16 @@ void DialogEx_thread::run() {
 
 	switch (m_parent->strLotNum.size()) {
 	case 1:
-		emit sig_setStyle(1,"background-color:green;",m_parent->strLotNum.at(0));
+		emit sig_setStyle(1,"background-color:white;",m_parent->strLotNum.at(0));
 		break;
 	case 2:
-		emit sig_setStyle(1,"background-color:green;", m_parent->strLotNum.at(0));
-		emit sig_setStyle(2,"background-color:green;", m_parent->strLotNum.at(1));
+		emit sig_setStyle(1,"background-color:white;", m_parent->strLotNum.at(0));
+		emit sig_setStyle(2,"background-color:white;", m_parent->strLotNum.at(1));
 		break;
 	case 3:
-		emit sig_setStyle(1,"background-color:green;", m_parent->strLotNum.at(0));
-		emit sig_setStyle(2,"background-color:green;", m_parent->strLotNum.at(1));
-		emit sig_setStyle(3,"background-color:green;", m_parent->strLotNum.at(2));
+		emit sig_setStyle(1,"background-color:white;", m_parent->strLotNum.at(0));
+		emit sig_setStyle(2,"background-color:white;", m_parent->strLotNum.at(1));
+		emit sig_setStyle(3,"background-color:white;", m_parent->strLotNum.at(2));
 		break;
 	}
 	

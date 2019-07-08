@@ -26,3 +26,6 @@ QDialog QPushButton{
 #result QLabel{
 	font: 24pt "宋体";
 }
+.DialogEx QLabel{
+	font: 20pt "宋体";
+}

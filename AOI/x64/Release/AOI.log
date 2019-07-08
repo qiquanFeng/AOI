@@ -1,2 +1,12 @@
-﻿  aoi.cpp
-  AOI.vcxproj -> D:\projects\AOI\x64\Release\AOI.exe
+﻿  Uic'ing widconfig.ui...
+E:\work\sourcecode\AOI\AOI\widconfig.ui : warning : Z-order assignment: '' is not a valid widget.
+  moc_aoi.cpp
+  moc_widconfig.cpp
+  aoi.cpp
+  axisDebug.cpp
+  dockwidgetex.cpp
+  main.cpp
+  motion_thread.cpp
+  widconfig.cpp
+  正在生成代码...
+  AOI.vcxproj -> E:\work\sourcecode\AOI\x64\Release\AOI.exe

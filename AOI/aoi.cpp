@@ -10,6 +10,7 @@ AOI::AOI(QWidget *parent)
 	m_butStop(tr("stop")), m_tabOutIOStatus(2, 16), m_tabInIOStatus(2, 16), uiRows(3), uiColumns(11), axisdebug(this)
 {
 	ui.setupUi(this);
+	setWindowIcon(QIcon("logo.png"));
 
 	m_widconfig=new widconfig(this);
 
@@ -63,7 +64,7 @@ AOI::AOI(QWidget *parent)
 
 	applyLayout();
 
-	emit sig_updateResult(true,1,1,123,"test","testMD5");
+	emit sig_updateResult(true,0,0,0," "," ");
 }
 
 AOI::~AOI()

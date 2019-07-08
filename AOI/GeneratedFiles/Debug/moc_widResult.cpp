@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_widResult_t {
-    QByteArrayData data[9];
-    char stringdata0[74];
+    QByteArrayData data[12];
+    char stringdata0[108];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,11 +39,15 @@ QT_MOC_LITERAL(4, 31, 7), // "iPannel"
 QT_MOC_LITERAL(5, 39, 7), // "iSample"
 QT_MOC_LITERAL(6, 47, 11), // "timeProcess"
 QT_MOC_LITERAL(7, 59, 7), // "strPath"
-QT_MOC_LITERAL(8, 67, 6) // "strMD5"
+QT_MOC_LITERAL(8, 67, 6), // "strMD5"
+QT_MOC_LITERAL(9, 74, 11), // "slot_butMD5"
+QT_MOC_LITERAL(10, 86, 8), // "__inline"
+QT_MOC_LITERAL(11, 95, 12) // "slot_butPath"
 
     },
     "widResult\0slot_update\0\0bresult\0iPannel\0"
-    "iSample\0timeProcess\0strPath\0strMD5"
+    "iSample\0timeProcess\0strPath\0strMD5\0"
+    "slot_butMD5\0__inline\0slot_butPath"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,7 +57,7 @@ static const uint qt_meta_data_widResult[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -61,10 +65,14 @@ static const uint qt_meta_data_widResult[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    6,   19,    2, 0x0a /* Public */,
+       1,    6,   29,    2, 0x0a /* Public */,
+       9,    0,   42,   10, 0x0a /* Public */,
+      11,    0,   43,   10, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Bool, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::QString, QMetaType::QString,    3,    4,    5,    6,    7,    8,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -76,6 +84,8 @@ void widResult::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->slot_update((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< QString(*)>(_a[6]))); break;
+        case 1: _t->slot_butMD5(); break;
+        case 2: _t->slot_butPath(); break;
         default: ;
         }
     }
@@ -106,13 +116,13 @@ int widResult::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
 }

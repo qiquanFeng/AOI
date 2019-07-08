@@ -4,8 +4,10 @@ widResult::widResult(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	ui.lab_imagepath->setStyleSheet("font: 75 12pt ""Î¢ÈíÑÅºÚ"";");
+	ui.pushButton_imagepath->setStyleSheet("font: 75 12pt ""Î¢ÈíÑÅºÚ"";");
 
+	connect(ui.pushButton_imagepath, SIGNAL(clicked()), this, SLOT(slot_butPath()));
+	connect(ui.pushButton_MD5, SIGNAL(clicked()), this, SLOT(slot_butMD5()));
 }
 
 widResult::~widResult()
@@ -14,8 +16,13 @@ widResult::~widResult()
 
 void widResult::slot_update(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5) {
 	if (bresult) {
-		ui.lab_result->setText("OK");
-		ui.lab_result->setStyleSheet("background-color:green;");
+		if (timeProcess == 0) {
+			ui.lab_result->setText("");
+			//ui.lab_result->setStyleSheet("background-color:white;");
+		}else{
+			ui.lab_result->setText("OK");
+			ui.lab_result->setStyleSheet("background-color:green;");
+		}
 	}
 	else
 	{
@@ -33,10 +40,10 @@ void widResult::slot_update(bool bresult, int iPannel, int iSample, int timeProc
 		ui.lab_processtime->setText(QString::number(timeProcess));
 
 	if (strPath.size() > 0) {
-		ui.lab_imagepath->setText(strPath);
+		ui.pushButton_imagepath->setText(strPath);
 	}
 		
 
 	if (strMD5.size()>0)
-		ui.lab_MD5->setText(strMD5);
+		ui.pushButton_MD5->setText(strMD5);
 }

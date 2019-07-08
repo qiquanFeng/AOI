@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -40,16 +41,16 @@ public:
     QLabel *lab_processtime;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_15;
-    QLabel *lab_imagepath;
+    QPushButton *pushButton_imagepath;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_17;
-    QLabel *lab_MD5;
+    QPushButton *pushButton_MD5;
 
     void setupUi(QWidget *widResult)
     {
         if (widResult->objectName().isEmpty())
             widResult->setObjectName(QStringLiteral("widResult"));
-        widResult->resize(493, 412);
+        widResult->resize(499, 421);
         verticalLayoutWidget = new QWidget(widResult);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(0, 0, 491, 411));
@@ -130,10 +131,11 @@ public:
 
         horizontalLayout_8->addWidget(label_15);
 
-        lab_imagepath = new QLabel(verticalLayoutWidget);
-        lab_imagepath->setObjectName(QStringLiteral("lab_imagepath"));
+        pushButton_imagepath = new QPushButton(verticalLayoutWidget);
+        pushButton_imagepath->setObjectName(QStringLiteral("pushButton_imagepath"));
+        pushButton_imagepath->setLayoutDirection(Qt::LeftToRight);
 
-        horizontalLayout_8->addWidget(lab_imagepath);
+        horizontalLayout_8->addWidget(pushButton_imagepath, 0, Qt::AlignLeft);
 
 
         verticalLayout->addLayout(horizontalLayout_8);
@@ -146,10 +148,10 @@ public:
 
         horizontalLayout_9->addWidget(label_17);
 
-        lab_MD5 = new QLabel(verticalLayoutWidget);
-        lab_MD5->setObjectName(QStringLiteral("lab_MD5"));
+        pushButton_MD5 = new QPushButton(verticalLayoutWidget);
+        pushButton_MD5->setObjectName(QStringLiteral("pushButton_MD5"));
 
-        horizontalLayout_9->addWidget(lab_MD5);
+        horizontalLayout_9->addWidget(pushButton_MD5, 0, Qt::AlignLeft);
 
 
         verticalLayout->addLayout(horizontalLayout_9);
@@ -172,9 +174,9 @@ public:
         label_13->setText(QApplication::translate("widResult", "process time", Q_NULLPTR));
         lab_processtime->setText(QString());
         label_15->setText(QApplication::translate("widResult", "iamge path", Q_NULLPTR));
-        lab_imagepath->setText(QString());
+        pushButton_imagepath->setText(QApplication::translate("widResult", "PushButton", Q_NULLPTR));
         label_17->setText(QApplication::translate("widResult", "MD5", Q_NULLPTR));
-        lab_MD5->setText(QString());
+        pushButton_MD5->setText(QApplication::translate("widResult", "PushButton", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>493</width>
-    <height>412</height>
+    <width>499</width>
+    <height>421</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -104,10 +104,13 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLabel" name="lab_imagepath">
+      <item alignment="Qt::AlignLeft">
+       <widget class="QPushButton" name="pushButton_imagepath">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
         <property name="text">
-         <string/>
+         <string>PushButton</string>
         </property>
        </widget>
       </item>
@@ -122,10 +125,10 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLabel" name="lab_MD5">
+      <item alignment="Qt::AlignLeft">
+       <widget class="QPushButton" name="pushButton_MD5">
         <property name="text">
-         <string/>
+         <string>PushButton</string>
         </property>
        </widget>
       </item>

@@ -259,6 +259,7 @@ void AOI::slot_butReset() {
 	slot_setStatus(success);
 };
 void AOI::slot_butAuto() {
+	m_butSuspended.setEnabled(true);
 	m_butReset.setEnabled(false);
 	m_butAuto.setEnabled(false);
 	emit sig_load();
@@ -273,6 +274,7 @@ void AOI::slot_butAuto() {
 	
 	m_diaAuto->setFocus();
 	slot_setStatus(running);
+	
 }
 void AOI::slot_butStop() {
 	m_butAuto.setEnabled(false);
@@ -285,8 +287,15 @@ void AOI::slot_butStop() {
 	dmc_stop(1, 2, 1);
 	th->m_bES = true;
 	th->m_bSuspended = false;
+	
+	m_status.clear();
 	slot_setStatus(stop);
 	m_butReset.setEnabled(true);
+
+	
+	m_butSuspended.setEnabled(false);
+	m_butSuspended.setText(tr("pause"));
+
 }
 void AOI::slot_butSuspended() {
 	m_butReset.setEnabled(false);
@@ -295,7 +304,7 @@ void AOI::slot_butSuspended() {
 
 	m_butAuto.setEnabled(false);
 	if (th->m_bSuspended){
-		m_butSuspended.setText(tr("continue"));
+		m_butSuspended.setText(tr("continue"));	
 		slot_setStatus(pause);
 	}
 	else{
@@ -428,7 +437,7 @@ void AOI::slot_actCamPos() {
 				th->m_bES = true;
 				return;
 			}
-		} while (status);
+		} while (!status);
 		dmc_stop(0, 2, 1);
 		sleep(500);
 		dmc_write_outbit(0, 1, 1);
@@ -474,7 +483,7 @@ void AOI::slot_setStatus(int sta) {
 		dmc_write_outbit(0, 7, 0);
 	}
 	else {
-		if (sta == running) {
+		if (sta == running|| sta == _continue || sta == success) {
 			dmc_write_outbit(0, 4, 1);
 			dmc_write_outbit(0, 5, 1);
 			dmc_write_outbit(0, 7, 1);
@@ -510,9 +519,8 @@ void AOI::slot_setStatus(int sta) {
 	if (m_status.at(m_status.size() - 1) == pause) {
 		if (status == _continue) {
 			m_status.pop_back();
-		}
-		else {
-			m_status.at(m_status.size() - 2)=status;
+			if (m_status.size() < 1)
+				m_status.push_back(success);
 		}
 	}
 	else {

@@ -133,7 +133,7 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_8">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0">
              <item>
               <widget class="QGroupBox" name="groupBox">
                <property name="minimumSize">
@@ -150,7 +150,7 @@
                  <rect>
                   <x>10</x>
                   <y>10</y>
-                  <width>691</width>
+                  <width>681</width>
                   <height>80</height>
                  </rect>
                 </property>
@@ -213,7 +213,7 @@
                  <rect>
                   <x>10</x>
                   <y>10</y>
-                  <width>691</width>
+                  <width>681</width>
                   <height>80</height>
                  </rect>
                 </property>
@@ -278,12 +278,164 @@
                </widget>
               </widget>
              </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_9">
+               <property name="title">
+                <string>测试</string>
+               </property>
+               <widget class="QWidget" name="verticalLayoutWidget_9">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>20</y>
+                  <width>681</width>
+                  <height>81</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_12">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_18">
+                   <item>
+                    <widget class="QLabel" name="label_31">
+                     <property name="text">
+                      <string>首个位置 X</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="testFirstPos_X">
+                     <property name="minimum">
+                      <number>-100000</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100000</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_35">
+                     <property name="text">
+                      <string>首个位置 Y</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="testFirstPos_Y">
+                     <property name="minimum">
+                      <number>-100000</number>
+                     </property>
+                     <property name="maximum">
+                      <number>100000</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_6">
+               <property name="minimumSize">
+                <size>
+                 <width>700</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="title">
+                <string>标记笔</string>
+               </property>
+               <widget class="QWidget" name="verticalLayoutWidget_7">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>20</y>
+                  <width>681</width>
+                  <height>80</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_11">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="0,0,0">
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_pen">
+                     <property name="text">
+                      <string>是否启用</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_32">
+                     <property name="text">
+                      <string>偏移（Offset)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSpinBox" name="pen_offset">
+                     <property name="minimum">
+                      <number>-3000000</number>
+                     </property>
+                     <property name="maximum">
+                      <number>3000000</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="0,0,0,0">
+                   <item>
+                    <widget class="QLabel" name="label_33">
+                     <property name="text">
+                      <string>X轴位置（相对镜头）</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item alignment="Qt::AlignLeft">
+                    <widget class="QDoubleSpinBox" name="pen_X">
+                     <property name="minimum">
+                      <double>-3000000.000000000000000</double>
+                     </property>
+                     <property name="maximum">
+                      <double>3000000.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_34">
+                     <property name="text">
+                      <string>Y轴位置（相对镜头）</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="pen_Y">
+                     <property name="minimum">
+                      <double>-3000000.000000000000000</double>
+                     </property>
+                     <property name="maximum">
+                      <double>3000000.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>
          </widget>
-         <zorder></zorder>
-         <zorder>horizontalLayoutWidget_2</zorder>
         </widget>
         <widget class="QWidget" name="tab2">
          <attribute name="title">
@@ -563,49 +715,11 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_14">
-                 <item>
-                  <widget class="QLabel" name="label_23">
-                   <property name="text">
-                    <string>首个位置 X</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="testFirstPos_X">
-                   <property name="minimum">
-                    <number>-100000</number>
-                   </property>
-                   <property name="maximum">
-                    <number>100000</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_24">
-                   <property name="text">
-                    <string>首个位置 Y</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="testFirstPos_Y">
-                   <property name="minimum">
-                    <number>-100000</number>
-                   </property>
-                   <property name="maximum">
-                    <number>100000</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_15">
                  <item>
                   <widget class="QLabel" name="label_26">
                    <property name="text">
-                    <string>Y 速度</string>
+                    <string>遍历速度</string>
                    </property>
                   </widget>
                  </item>
@@ -627,91 +741,6 @@
                   <widget class="QSpinBox" name="testClawSpeed">
                    <property name="maximum">
                     <number>1000000</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_6">
-             <property name="title">
-              <string>标记笔</string>
-             </property>
-             <widget class="QWidget" name="verticalLayoutWidget_7">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>10</y>
-                <width>1031</width>
-                <height>80</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_11">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <item>
-                  <widget class="QCheckBox" name="checkBox_pen">
-                   <property name="text">
-                    <string>是否启用</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_32">
-                   <property name="text">
-                    <string>偏移（Offset)</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="pen_offset">
-                   <property name="minimum">
-                    <number>-3000000</number>
-                   </property>
-                   <property name="maximum">
-                    <number>3000000</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_21">
-                 <item>
-                  <widget class="QLabel" name="label_33">
-                   <property name="text">
-                    <string>X轴位置（相对镜头）</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="pen_X">
-                   <property name="minimum">
-                    <double>-3000000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>3000000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_34">
-                   <property name="text">
-                    <string>Y轴位置（相对镜头）</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="pen_Y">
-                   <property name="minimum">
-                    <double>-3000000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>3000000.000000000000000</double>
                    </property>
                   </widget>
                  </item>

@@ -71,6 +71,26 @@ public:
     QDoubleSpinBox *plateRowPadding;
     QLabel *label_9;
     QDoubleSpinBox *plateColPadding;
+    QGroupBox *groupBox_9;
+    QWidget *verticalLayoutWidget_9;
+    QVBoxLayout *verticalLayout_12;
+    QHBoxLayout *horizontalLayout_18;
+    QLabel *label_31;
+    QSpinBox *testFirstPos_X;
+    QLabel *label_35;
+    QSpinBox *testFirstPos_Y;
+    QGroupBox *groupBox_6;
+    QWidget *verticalLayoutWidget_7;
+    QVBoxLayout *verticalLayout_11;
+    QHBoxLayout *horizontalLayout_20;
+    QCheckBox *checkBox_pen;
+    QLabel *label_32;
+    QSpinBox *pen_offset;
+    QHBoxLayout *horizontalLayout_21;
+    QLabel *label_33;
+    QDoubleSpinBox *pen_X;
+    QLabel *label_34;
+    QDoubleSpinBox *pen_Y;
     QWidget *tab2;
     QWidget *verticalLayoutWidget_8;
     QVBoxLayout *verticalLayout_9;
@@ -113,28 +133,11 @@ public:
     QGroupBox *groupBox_5;
     QWidget *verticalLayoutWidget_6;
     QVBoxLayout *verticalLayout_6;
-    QHBoxLayout *horizontalLayout_14;
-    QLabel *label_23;
-    QSpinBox *testFirstPos_X;
-    QLabel *label_24;
-    QSpinBox *testFirstPos_Y;
     QHBoxLayout *horizontalLayout_15;
     QLabel *label_26;
     QSpinBox *testSpeed;
     QLabel *label_30;
     QSpinBox *testClawSpeed;
-    QGroupBox *groupBox_6;
-    QWidget *verticalLayoutWidget_7;
-    QVBoxLayout *verticalLayout_11;
-    QHBoxLayout *horizontalLayout_20;
-    QCheckBox *checkBox_pen;
-    QLabel *label_32;
-    QSpinBox *pen_offset;
-    QHBoxLayout *horizontalLayout_21;
-    QLabel *label_33;
-    QDoubleSpinBox *pen_X;
-    QLabel *label_34;
-    QDoubleSpinBox *pen_Y;
     QGroupBox *groupBox_8;
     QWidget *verticalLayoutWidget_11;
     QVBoxLayout *verticalLayout_10;
@@ -239,7 +242,7 @@ public:
         groupBox->setMinimumSize(QSize(700, 0));
         verticalLayoutWidget_2 = new QWidget(groupBox);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(10, 10, 691, 80));
+        verticalLayoutWidget_2->setGeometry(QRect(10, 10, 681, 80));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -295,7 +298,7 @@ public:
         groupBox_2->setMinimumSize(QSize(700, 0));
         verticalLayoutWidget_3 = new QWidget(groupBox_2);
         verticalLayoutWidget_3->setObjectName(QStringLiteral("verticalLayoutWidget_3"));
-        verticalLayoutWidget_3->setGeometry(QRect(10, 10, 691, 80));
+        verticalLayoutWidget_3->setGeometry(QRect(10, 10, 681, 80));
         verticalLayout_3 = new QVBoxLayout(verticalLayoutWidget_3);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -358,11 +361,121 @@ public:
 
         verticalLayout_8->addWidget(groupBox_2);
 
+        groupBox_9 = new QGroupBox(horizontalLayoutWidget_2);
+        groupBox_9->setObjectName(QStringLiteral("groupBox_9"));
+        verticalLayoutWidget_9 = new QWidget(groupBox_9);
+        verticalLayoutWidget_9->setObjectName(QStringLiteral("verticalLayoutWidget_9"));
+        verticalLayoutWidget_9->setGeometry(QRect(10, 20, 681, 81));
+        verticalLayout_12 = new QVBoxLayout(verticalLayoutWidget_9);
+        verticalLayout_12->setSpacing(6);
+        verticalLayout_12->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_12->setObjectName(QStringLiteral("verticalLayout_12"));
+        verticalLayout_12->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_18 = new QHBoxLayout();
+        horizontalLayout_18->setSpacing(6);
+        horizontalLayout_18->setObjectName(QStringLiteral("horizontalLayout_18"));
+        label_31 = new QLabel(verticalLayoutWidget_9);
+        label_31->setObjectName(QStringLiteral("label_31"));
+
+        horizontalLayout_18->addWidget(label_31);
+
+        testFirstPos_X = new QSpinBox(verticalLayoutWidget_9);
+        testFirstPos_X->setObjectName(QStringLiteral("testFirstPos_X"));
+        testFirstPos_X->setMinimum(-100000);
+        testFirstPos_X->setMaximum(100000);
+
+        horizontalLayout_18->addWidget(testFirstPos_X);
+
+        label_35 = new QLabel(verticalLayoutWidget_9);
+        label_35->setObjectName(QStringLiteral("label_35"));
+
+        horizontalLayout_18->addWidget(label_35);
+
+        testFirstPos_Y = new QSpinBox(verticalLayoutWidget_9);
+        testFirstPos_Y->setObjectName(QStringLiteral("testFirstPos_Y"));
+        testFirstPos_Y->setMinimum(-100000);
+        testFirstPos_Y->setMaximum(100000);
+
+        horizontalLayout_18->addWidget(testFirstPos_Y);
+
+
+        verticalLayout_12->addLayout(horizontalLayout_18);
+
+
+        verticalLayout_8->addWidget(groupBox_9);
+
+        groupBox_6 = new QGroupBox(horizontalLayoutWidget_2);
+        groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
+        groupBox_6->setMinimumSize(QSize(700, 0));
+        groupBox_6->setMaximumSize(QSize(200, 16777215));
+        verticalLayoutWidget_7 = new QWidget(groupBox_6);
+        verticalLayoutWidget_7->setObjectName(QStringLiteral("verticalLayoutWidget_7"));
+        verticalLayoutWidget_7->setGeometry(QRect(10, 20, 681, 80));
+        verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_7);
+        verticalLayout_11->setSpacing(6);
+        verticalLayout_11->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_11->setObjectName(QStringLiteral("verticalLayout_11"));
+        verticalLayout_11->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_20 = new QHBoxLayout();
+        horizontalLayout_20->setSpacing(6);
+        horizontalLayout_20->setObjectName(QStringLiteral("horizontalLayout_20"));
+        checkBox_pen = new QCheckBox(verticalLayoutWidget_7);
+        checkBox_pen->setObjectName(QStringLiteral("checkBox_pen"));
+
+        horizontalLayout_20->addWidget(checkBox_pen);
+
+        label_32 = new QLabel(verticalLayoutWidget_7);
+        label_32->setObjectName(QStringLiteral("label_32"));
+
+        horizontalLayout_20->addWidget(label_32);
+
+        pen_offset = new QSpinBox(verticalLayoutWidget_7);
+        pen_offset->setObjectName(QStringLiteral("pen_offset"));
+        pen_offset->setMinimum(-3000000);
+        pen_offset->setMaximum(3000000);
+
+        horizontalLayout_20->addWidget(pen_offset);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_20);
+
+        horizontalLayout_21 = new QHBoxLayout();
+        horizontalLayout_21->setSpacing(6);
+        horizontalLayout_21->setObjectName(QStringLiteral("horizontalLayout_21"));
+        label_33 = new QLabel(verticalLayoutWidget_7);
+        label_33->setObjectName(QStringLiteral("label_33"));
+
+        horizontalLayout_21->addWidget(label_33);
+
+        pen_X = new QDoubleSpinBox(verticalLayoutWidget_7);
+        pen_X->setObjectName(QStringLiteral("pen_X"));
+        pen_X->setMinimum(-3e+6);
+        pen_X->setMaximum(3e+6);
+
+        horizontalLayout_21->addWidget(pen_X, 0, Qt::AlignLeft);
+
+        label_34 = new QLabel(verticalLayoutWidget_7);
+        label_34->setObjectName(QStringLiteral("label_34"));
+
+        horizontalLayout_21->addWidget(label_34);
+
+        pen_Y = new QDoubleSpinBox(verticalLayoutWidget_7);
+        pen_Y->setObjectName(QStringLiteral("pen_Y"));
+        pen_Y->setMinimum(-3e+6);
+        pen_Y->setMaximum(3e+6);
+
+        horizontalLayout_21->addWidget(pen_Y);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_21);
+
+
+        verticalLayout_8->addWidget(groupBox_6);
+
 
         horizontalLayout_4->addLayout(verticalLayout_8);
 
         tabWidget->addTab(tab, QString());
-        horizontalLayoutWidget_2->raise();
         tab2 = new QWidget();
         tab2->setObjectName(QStringLiteral("tab2"));
         verticalLayoutWidget_8 = new QWidget(tab2);
@@ -583,36 +696,6 @@ public:
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
         verticalLayout_6->setContentsMargins(0, 0, 0, 0);
-        horizontalLayout_14 = new QHBoxLayout();
-        horizontalLayout_14->setSpacing(6);
-        horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
-        label_23 = new QLabel(verticalLayoutWidget_6);
-        label_23->setObjectName(QStringLiteral("label_23"));
-
-        horizontalLayout_14->addWidget(label_23);
-
-        testFirstPos_X = new QSpinBox(verticalLayoutWidget_6);
-        testFirstPos_X->setObjectName(QStringLiteral("testFirstPos_X"));
-        testFirstPos_X->setMinimum(-100000);
-        testFirstPos_X->setMaximum(100000);
-
-        horizontalLayout_14->addWidget(testFirstPos_X);
-
-        label_24 = new QLabel(verticalLayoutWidget_6);
-        label_24->setObjectName(QStringLiteral("label_24"));
-
-        horizontalLayout_14->addWidget(label_24);
-
-        testFirstPos_Y = new QSpinBox(verticalLayoutWidget_6);
-        testFirstPos_Y->setObjectName(QStringLiteral("testFirstPos_Y"));
-        testFirstPos_Y->setMinimum(-100000);
-        testFirstPos_Y->setMaximum(100000);
-
-        horizontalLayout_14->addWidget(testFirstPos_Y);
-
-
-        verticalLayout_6->addLayout(horizontalLayout_14);
-
         horizontalLayout_15 = new QHBoxLayout();
         horizontalLayout_15->setSpacing(6);
         horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
@@ -643,72 +726,6 @@ public:
 
 
         verticalLayout_9->addWidget(groupBox_5);
-
-        groupBox_6 = new QGroupBox(verticalLayoutWidget_8);
-        groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
-        verticalLayoutWidget_7 = new QWidget(groupBox_6);
-        verticalLayoutWidget_7->setObjectName(QStringLiteral("verticalLayoutWidget_7"));
-        verticalLayoutWidget_7->setGeometry(QRect(10, 10, 1031, 80));
-        verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_7);
-        verticalLayout_11->setSpacing(6);
-        verticalLayout_11->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_11->setObjectName(QStringLiteral("verticalLayout_11"));
-        verticalLayout_11->setContentsMargins(0, 0, 0, 0);
-        horizontalLayout_20 = new QHBoxLayout();
-        horizontalLayout_20->setSpacing(6);
-        horizontalLayout_20->setObjectName(QStringLiteral("horizontalLayout_20"));
-        checkBox_pen = new QCheckBox(verticalLayoutWidget_7);
-        checkBox_pen->setObjectName(QStringLiteral("checkBox_pen"));
-
-        horizontalLayout_20->addWidget(checkBox_pen);
-
-        label_32 = new QLabel(verticalLayoutWidget_7);
-        label_32->setObjectName(QStringLiteral("label_32"));
-
-        horizontalLayout_20->addWidget(label_32);
-
-        pen_offset = new QSpinBox(verticalLayoutWidget_7);
-        pen_offset->setObjectName(QStringLiteral("pen_offset"));
-        pen_offset->setMinimum(-3000000);
-        pen_offset->setMaximum(3000000);
-
-        horizontalLayout_20->addWidget(pen_offset);
-
-
-        verticalLayout_11->addLayout(horizontalLayout_20);
-
-        horizontalLayout_21 = new QHBoxLayout();
-        horizontalLayout_21->setSpacing(6);
-        horizontalLayout_21->setObjectName(QStringLiteral("horizontalLayout_21"));
-        label_33 = new QLabel(verticalLayoutWidget_7);
-        label_33->setObjectName(QStringLiteral("label_33"));
-
-        horizontalLayout_21->addWidget(label_33);
-
-        pen_X = new QDoubleSpinBox(verticalLayoutWidget_7);
-        pen_X->setObjectName(QStringLiteral("pen_X"));
-        pen_X->setMinimum(-3e+6);
-        pen_X->setMaximum(3e+6);
-
-        horizontalLayout_21->addWidget(pen_X);
-
-        label_34 = new QLabel(verticalLayoutWidget_7);
-        label_34->setObjectName(QStringLiteral("label_34"));
-
-        horizontalLayout_21->addWidget(label_34);
-
-        pen_Y = new QDoubleSpinBox(verticalLayoutWidget_7);
-        pen_Y->setObjectName(QStringLiteral("pen_Y"));
-        pen_Y->setMinimum(-3e+6);
-        pen_Y->setMaximum(3e+6);
-
-        horizontalLayout_21->addWidget(pen_Y);
-
-
-        verticalLayout_11->addLayout(horizontalLayout_21);
-
-
-        verticalLayout_9->addWidget(groupBox_6);
 
         groupBox_8 = new QGroupBox(verticalLayoutWidget_8);
         groupBox_8->setObjectName(QStringLiteral("groupBox_8"));
@@ -844,7 +861,7 @@ public:
 
         retranslateUi(widconfig);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(widconfig);
@@ -866,6 +883,14 @@ public:
         label_7->setText(QApplication::translate("widconfig", "\350\275\275\346\235\277\345\210\227\346\225\260", Q_NULLPTR));
         label_5->setText(QApplication::translate("widconfig", "\350\241\214\351\227\264\350\267\235\357\274\210\346\200\273\351\227\264\350\267\235mm\357\274\211", Q_NULLPTR));
         label_9->setText(QApplication::translate("widconfig", "\345\210\227\351\227\264\350\267\235\357\274\210\346\200\273\351\227\264\350\267\235mm\357\274\211", Q_NULLPTR));
+        groupBox_9->setTitle(QApplication::translate("widconfig", "\346\265\213\350\257\225", Q_NULLPTR));
+        label_31->setText(QApplication::translate("widconfig", "\351\246\226\344\270\252\344\275\215\347\275\256 X", Q_NULLPTR));
+        label_35->setText(QApplication::translate("widconfig", "\351\246\226\344\270\252\344\275\215\347\275\256 Y", Q_NULLPTR));
+        groupBox_6->setTitle(QApplication::translate("widconfig", "\346\240\207\350\256\260\347\254\224", Q_NULLPTR));
+        checkBox_pen->setText(QApplication::translate("widconfig", "\346\230\257\345\220\246\345\220\257\347\224\250", Q_NULLPTR));
+        label_32->setText(QApplication::translate("widconfig", "\345\201\217\347\247\273\357\274\210Offset)", Q_NULLPTR));
+        label_33->setText(QApplication::translate("widconfig", "X\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
+        label_34->setText(QApplication::translate("widconfig", "Y\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("widconfig", "\344\272\247\345\223\201", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("widconfig", "\344\270\212\346\226\231", Q_NULLPTR));
         label_6->setText(QApplication::translate("widconfig", "X \344\275\215\347\275\256(\346\216\250\346\235\206)", Q_NULLPTR));
@@ -882,15 +907,8 @@ public:
         label_21->setText(QApplication::translate("widconfig", "Z \344\275\215\347\275\256", Q_NULLPTR));
         label_22->setText(QApplication::translate("widconfig", "Z \351\200\237\345\272\246", Q_NULLPTR));
         groupBox_5->setTitle(QApplication::translate("widconfig", "\346\265\213\350\257\225", Q_NULLPTR));
-        label_23->setText(QApplication::translate("widconfig", "\351\246\226\344\270\252\344\275\215\347\275\256 X", Q_NULLPTR));
-        label_24->setText(QApplication::translate("widconfig", "\351\246\226\344\270\252\344\275\215\347\275\256 Y", Q_NULLPTR));
         label_26->setText(QApplication::translate("widconfig", "Y \351\200\237\345\272\246", Q_NULLPTR));
         label_30->setText(QApplication::translate("widconfig", "\345\244\271\345\255\220\351\200\237\345\272\246", Q_NULLPTR));
-        groupBox_6->setTitle(QApplication::translate("widconfig", "\346\240\207\350\256\260\347\254\224", Q_NULLPTR));
-        checkBox_pen->setText(QApplication::translate("widconfig", "\346\230\257\345\220\246\345\220\257\347\224\250", Q_NULLPTR));
-        label_32->setText(QApplication::translate("widconfig", "\345\201\217\347\247\273\357\274\210Offset)", Q_NULLPTR));
-        label_33->setText(QApplication::translate("widconfig", "X\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
-        label_34->setText(QApplication::translate("widconfig", "Y\350\275\264\344\275\215\347\275\256\357\274\210\347\233\270\345\257\271\351\225\234\345\244\264\357\274\211", Q_NULLPTR));
         groupBox_8->setTitle(QApplication::translate("widconfig", "\345\233\236\351\233\266\351\200\237\345\272\246", Q_NULLPTR));
         label_15->setText(QApplication::translate("widconfig", "\344\270\212\346\226\231", Q_NULLPTR));
         label_16->setText(QApplication::translate("widconfig", "\345\271\263\345\217\260\345\267\246\345\217\263", Q_NULLPTR));

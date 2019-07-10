@@ -120,6 +120,7 @@ signals:
 	void slot_configAdd();
 	void slot_configDel();
 	void slot_configSave();
+	void slot_mechanicalConfigSave();
 	void slot_configFit();
 	void slot_updatelist();
 	

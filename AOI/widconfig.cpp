@@ -12,6 +12,7 @@ widconfig::widconfig(QWidget *parent)
 	connect(ui.pushButton_add, SIGNAL(clicked()), this, SLOT(slot_configAdd()));
 	connect(ui.pushButton_del, SIGNAL(clicked()), this, SLOT(slot_configDel()));
 	connect(ui.pushButton_save, SIGNAL(clicked()), this, SLOT(slot_configSave()));
+	connect(ui.pushButton_save2, SIGNAL(clicked()), this, SLOT(slot_mechanicalConfigSave()));
 	connect(ui.pushButton_fit, SIGNAL(clicked()), this, SLOT(slot_configFit()));
 	connect(this,&widconfig::sig_logOutput, (AOI*)parent, &AOI::slot_outputLog);
 
@@ -56,30 +57,8 @@ void widconfig::slot_configAdd() {
 	query.bindValue(":plateCols", ui.plateCols->value());
 	query.bindValue(":plateRowPadding", ui.plateRowPadding->value());
 	query.bindValue(":plateColPadding", ui.plateColPadding->value());
-	query.bindValue(":loadSpeed_Z", ui.loadSpeed_Z->value());
-	query.bindValue(":loadPos_Z", ui.loadPos_Z->value());
-	query.bindValue(":loadSpeed_X", ui.loadSpeed_X->value());
-	query.bindValue(":loadPos_X", ui.loadPos_X->value());
-	query.bindValue(":loadSpeed_Y", ui.loadSpeed_Y->value());
-	query.bindValue(":loadPos_Y", ui.loadPos_Y->value());
-	query.bindValue(":unLoadSpeed_Z", ui.unLoadSpeed_Z->value());
-	query.bindValue(":unLoadPos_Z", ui.unLoadPos_Z->value());
-	query.bindValue(":unLoadSpeed_X", ui.unLoadSpeed_X->value());
-	query.bindValue(":unLoadPos_X", ui.unLoadPos_X->value());
-	query.bindValue(":unLoadSpeed_Y", ui.unLoadSpeed_Y->value());
-	query.bindValue(":unLoadPos_Y", ui.unLoadPos_Y->value());
 	query.bindValue(":testFirstPos_X", ui.testFirstPos_X->value());
 	query.bindValue(":testFirstPos_Y", ui.testFirstPos_Y->value());
-	query.bindValue(":testSpeed", ui.testSpeed->value());
-	
-	AOI *aoi=(AOI*)m_parent;
-	query.bindValue(":ORG_Speed_LoadX", aoi->m_config.lORG_Speed_LoadX);
-	query.bindValue(":ORG_Speed_LoadZ", aoi->m_config.lORG_Speed_LoadZ);
-	query.bindValue(":ORG_Speed_unLoadZ", aoi->m_config.lORG_Speed_unLoadZ);
-	query.bindValue(":ORG_Speed_TestX", aoi->m_config.lORG_Speed_TestX);
-	query.bindValue(":ORG_Speed_TestY", aoi->m_config.lORG_Speed_TestY);
-	query.bindValue(":ORG_Speed_TestX2", aoi->m_config.lORG_Speed_TestX2);
-
 	query.bindValue(":penPos_X", ui.pen_X->value());
 	query.bindValue(":penPos_Y", ui.pen_Y->value());
 	query.bindValue(":penOffset", ui.pen_offset->value());
@@ -89,6 +68,8 @@ void widconfig::slot_configAdd() {
 		emit sig_logOutput("Add Config Fail:" + query.lastError().text(),QColor(255,0,0));
 		return;
 	}
+
+	AOI *aoi=(AOI*)m_parent;
 	updateConfig(aoi->m_config);
 	slot_updatelist();
 }
@@ -119,9 +100,7 @@ void widconfig::slot_configSave() {
 	}
 
 	query.prepare("insert into AOI_config values(:configName,:boxRows,:boxMargin,:boxPadding,:plateRows,:plateCols,:plateRowPadding,:plateColPadding,\
-:loadSpeed_Z,:loadPos_Z,:loadSpeed_X,:loadPos_X,:loadSpeed_Y,:loadPos_Y,\
-:unLoadSpeed_Z,:unLoadPos_Z,:unLoadSpeed_X,:unLoadPos_X,:unLoadSpeed_Y,:unLoadPos_Y,:testFirstPos_X,:testFirstPos_Y,:testSpeed,\
-:ORG_Speed_LoadX,:ORG_Speed_LoadZ,:ORG_Speed_unLoadZ,:ORG_Speed_TestX,:ORG_Speed_TestY,:ORG_Speed_TestX2,:penPos_X,:penPos_Y,:penOffset,:penEnable)");
+:testFirstPos_X,:testFirstPos_Y,:penPos_X,:penPos_Y,:penOffset,:penEnable)");
 	query.bindValue(":configName", strConfigName);
 	query.bindValue(":boxRows", ui.boxRows->value());
 	query.bindValue(":boxMargin", ui.boxMargin->value());
@@ -130,36 +109,15 @@ void widconfig::slot_configSave() {
 	query.bindValue(":plateCols", ui.plateCols->value());
 	query.bindValue(":plateRowPadding", ui.plateRowPadding->value());
 	query.bindValue(":plateColPadding", ui.plateColPadding->value());
-	query.bindValue(":loadSpeed_Z", ui.loadSpeed_Z->value());
-	query.bindValue(":loadPos_Z", ui.loadPos_Z->value());
-	query.bindValue(":loadSpeed_X", ui.loadSpeed_X->value());
-	query.bindValue(":loadPos_X", ui.loadPos_X->value());
-	query.bindValue(":loadSpeed_Y", ui.loadSpeed_Y->value());
-	query.bindValue(":loadPos_Y", ui.loadPos_Y->value());
-	query.bindValue(":unLoadSpeed_Z", ui.unLoadSpeed_Z->value());
-	query.bindValue(":unLoadPos_Z", ui.unLoadPos_Z->value());
-	query.bindValue(":unLoadSpeed_X", ui.unLoadSpeed_X->value());
-	query.bindValue(":unLoadPos_X", ui.unLoadPos_X->value());
-	query.bindValue(":unLoadSpeed_Y", ui.unLoadSpeed_Y->value());
-	query.bindValue(":unLoadPos_Y", ui.unLoadPos_Y->value());
 	query.bindValue(":testFirstPos_X", ui.testFirstPos_X->value());
 	query.bindValue(":testFirstPos_Y", ui.testFirstPos_Y->value());
-	query.bindValue(":testSpeed", ui.testSpeed->value());
 	query.bindValue(":penPos_X", ui.pen_X->value());
 	query.bindValue(":penPos_Y", ui.pen_Y->value());
 	query.bindValue(":penOffset", ui.pen_offset->value());
 	query.bindValue(":penEnable", ui.checkBox_pen->isChecked());
 
-	AOI *aoi = (AOI*)m_parent;
-	query.bindValue(":ORG_Speed_LoadX", aoi->m_config.lORG_Speed_LoadX);
-	query.bindValue(":ORG_Speed_LoadZ", aoi->m_config.lORG_Speed_LoadZ);
-	query.bindValue(":ORG_Speed_unLoadZ", aoi->m_config.lORG_Speed_unLoadZ);
-	query.bindValue(":ORG_Speed_TestX", aoi->m_config.lORG_Speed_TestX);
-	query.bindValue(":ORG_Speed_TestY", aoi->m_config.lORG_Speed_TestY);
-	query.bindValue(":ORG_Speed_TestX2", aoi->m_config.lORG_Speed_TestX2);
-
 	if (!query.exec()) {
-		emit sig_logOutput("Add Config Fail:" + query.lastError().text(), QColor(255, 0, 0));
+		emit sig_logOutput("Save Config Fail:" + query.lastError().text(), QColor(255, 0, 0));
 		return;
 	}
 
@@ -167,6 +125,42 @@ void widconfig::slot_configSave() {
 	emit sig_logOutput("Save Success!", QColor(0, 255, 0));
 	
 }
+void widconfig::slot_mechanicalConfigSave() {
+	QSqlQuery query(m_db);
+	query.exec("delete from mechanical_config where 1");
+	query.prepare("insert into mechanical_config values(:loadX_Speed,:loadY_Speed,:loadZ_Speed,:loadX_Pos,:loadY_Pos,:loadZ_Pos,\
+:unLoadX_Speed,:unLoadY_Speed,:unLoadZ_Speed,:unLoadX_Pos,:unLoadY_Pos,:unLoadZ_Pos,:testSpeed,:clawSpeed,:lORG_Speed_LoadZ,\
+:lORG_Speed_unLoadZ,:lORG_Speed_LoadX,:lORG_Speed_TestX,:lORG_Speed_TestY,:lORG_Speed_TestX2)");
+	query.bindValue(":loadX_Speed", ui.loadSpeed_X->value());
+	query.bindValue(":loadY_Speed", ui.loadSpeed_Y->value());
+	query.bindValue(":loadZ_Speed", ui.loadSpeed_Z->value());
+	query.bindValue(":loadX_Pos", ui.loadPos_X->value());
+	query.bindValue(":loadY_Pos", ui.loadPos_Y->value());
+	query.bindValue(":loadZ_Pos", ui.loadPos_Z->value());
+	query.bindValue(":unLoadX_Speed", ui.unLoadSpeed_X->value());
+	query.bindValue(":unLoadY_Speed", ui.unLoadSpeed_Y->value());
+	query.bindValue(":unLoadZ_Speed", ui.unLoadSpeed_Z->value());
+	query.bindValue(":unLoadX_Pos", ui.unLoadPos_X->value());
+	query.bindValue(":unLoadY_Pos", ui.unLoadPos_Y->value());
+	query.bindValue(":unLoadZ_Pos", ui.unLoadPos_Z->value());
+	query.bindValue(":testSpeed", ui.testSpeed->value());
+	query.bindValue(":clawSpeed", ui.testClawSpeed->value());
+	query.bindValue(":lORG_Speed_LoadZ", ui.org_load_speed->value());
+	query.bindValue(":lORG_Speed_unLoadZ", ui.org_unload_speed->value());
+	query.bindValue(":lORG_Speed_LoadX", ui.org_push_speed->value());
+	query.bindValue(":lORG_Speed_TestX", ui.org_testX_speed->value());
+	query.bindValue(":lORG_Speed_TestY", ui.org_testY_speed->value());
+	query.bindValue(":lORG_Speed_TestX2", ui.org_testX2_speed->value());
+
+	if (!query.exec()) {
+		emit sig_logOutput("Add Config Fail:" + query.lastError().text(), QColor(255, 0, 0));
+		return;
+	}
+
+	slot_updatelist();
+	emit sig_logOutput("mechanical Save Success!", QColor(0, 255, 0));
+}
+
 void widconfig::slot_configFit() {
 	QSqlQuery query(m_db);
 	query.exec("select configName from AOI_config where configName like '%"+ui.lineEdit_configName->text()+"%'");
@@ -209,44 +203,19 @@ void widconfig::slot_updatelist() {
 	ui.plateCols->setValue(query.value("plateCols").toInt());
 	ui.plateRowPadding->setValue(query.value("plateRowPadding").toDouble());
 	ui.plateColPadding->setValue(query.value("plateColPadding").toDouble());
-
 	ui.checkBox_pen->setChecked(query.value("penEnable").toBool());
 	ui.pen_X->setValue(query.value("penPos_X").toInt());
 	ui.pen_Y->setValue(query.value("penPos_Y").toDouble());
 	ui.pen_offset->setValue(query.value("penOffset").toDouble());
-
-	ui.loadSpeed_Z->setValue(query.value("loadSpeed_Z").toInt());
-	ui.loadPos_Z->setValue(query.value("loadPos_Z").toInt());
-	ui.loadSpeed_X->setValue(query.value("loadSpeed_X").toInt());
-	ui.loadPos_X->setValue(query.value("loadPos_X").toInt());
-	ui.loadSpeed_Y->setValue(query.value("loadSpeed_Y").toInt());
-	ui.loadPos_Y->setValue(query.value("loadPos_Y").toInt());
-	ui.unLoadSpeed_Z->setValue(query.value("unLoadSpeed_Z").toInt());
-	ui.unLoadPos_Z->setValue(query.value("unLoadPos_Z").toInt());
-	ui.unLoadSpeed_X->setValue(query.value("unLoadSpeed_X").toInt());
-	ui.unLoadPos_X->setValue(query.value("unLoadPos_X").toInt());
-	ui.unLoadSpeed_Y->setValue(query.value("unLoadSpeed_Y").toInt());
-	ui.unLoadPos_Y->setValue(query.value("unLoadPos_Y").toInt());
 	ui.testFirstPos_X->setValue(query.value("testFirstPos_X").toInt());
 	ui.testFirstPos_Y->setValue(query.value("testFirstPos_Y").toInt());
-	ui.testSpeed->setValue(query.value("testSpeed").toInt());
-	query.value("ORG_Speed_LoadX");
-	query.value("ORG_Speed_LoadZ");
-	query.value("ORG_Speed_unLoadZ");
-	query.value("ORG_Speed_TestX");
-	query.value("ORG_Speed_TestY");
-	query.value("ORG_Speed_TestX2");
 
-	updateConfig(((AOI*)m_parent)->m_config);
 	((AOI*)m_parent)->m_tabCameraStatus.setRowCount(query.value("plateRows").toInt());
 	((AOI*)m_parent)->m_tabCameraStatus.setColumnCount(query.value("plateCols").toInt());
 	((AOI*)m_parent)->m_tabCameraStatus.resizeRowsToContents();
 	((AOI*)m_parent)->m_tabCameraStatus.resizeColumnsToContents();
-
 	((AOI*)m_parent)->m_configName = getCurrentConfigName();
 	((AOI*)m_parent)->m_labConfigName.setText(tr("Model Code:")+((AOI*)m_parent)->m_configName);
-
-
 
 	for (int r = 0; r < query.value("plateRows").toInt(); r++)
 	{
@@ -257,6 +226,31 @@ void widconfig::slot_updatelist() {
 		}
 	}
 
+	query.exec("select * from mechanical_config where 1");
+	if (!query.next())
+		return;
+	ui.loadSpeed_Z->setValue(query.value("loadZ_Speed").toInt());
+	ui.loadPos_Z->setValue(query.value("loadZ_Pos").toInt());
+	ui.loadSpeed_X->setValue(query.value("loadX_Speed").toInt());
+	ui.loadPos_X->setValue(query.value("loadX_Pos").toInt());
+	ui.loadSpeed_Y->setValue(query.value("loadY_Speed").toInt());
+	ui.loadPos_Y->setValue(query.value("loadY_Pos").toInt());
+	ui.unLoadSpeed_Z->setValue(query.value("unLoadZ_Speed").toInt());
+	ui.unLoadPos_Z->setValue(query.value("unLoadZ_Pos").toInt());
+	ui.unLoadSpeed_X->setValue(query.value("unLoadX_Speed").toInt());
+	ui.unLoadPos_X->setValue(query.value("unLoadX_Pos").toInt());
+	ui.unLoadSpeed_Y->setValue(query.value("unLoadY_Speed").toInt());
+	ui.unLoadPos_Y->setValue(query.value("unLoadY_Pos").toInt());
+	ui.testSpeed->setValue(query.value("testSpeed").toInt());
+	ui.testClawSpeed->setValue(query.value("clawSpeed").toInt());
+	ui.org_push_speed->setValue(query.value("lORG_Speed_LoadX").toInt());
+	ui.org_load_speed->setValue(query.value("lORG_Speed_LoadZ").toInt());
+	ui.org_unload_speed->setValue(query.value("lORG_Speed_unLoadZ").toInt());
+	ui.org_testX_speed->setValue(query.value("lORG_Speed_TestX").toInt());
+	ui.org_testY_speed->setValue(query.value("lORG_Speed_TestY").toInt());
+	ui.org_testX2_speed->setValue(query.value("lORG_Speed_TestX2").toInt());
+
+	updateConfig(((AOI*)m_parent)->m_config);
 }
 QString widconfig::getCurrentConfigName() {
 	QSqlQuery query(m_db);

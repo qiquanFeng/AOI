@@ -152,9 +152,11 @@ int AOI::createLayout(){
 	m_widOutIOStatus.setWidget(&m_tabOutIOStatus);
 	m_widInIOStatus.setWidget(&m_tabInIOStatus);
 	m_widCameraStatus.setWidget(&m_tabCameraStatus);
+	m_widCameraStatus.setMinimumWidth(700);
 	
 	m_widResult.setWidget(m_result);
 	m_widLotNum.setWidget(m_diaAuto);
+	m_widLotNum.setFixedWidth(580);
 	//****************** Layout *********************
 	addDockWidget(Qt::LeftDockWidgetArea, &m_widFrame);
 	addDockWidget(Qt::BottomDockWidgetArea, &m_widOutputPannel);
@@ -177,7 +179,8 @@ int AOI::createLayout(){
 	m_actAbout = new QAction(tr("about"));
 	m_actContour = new QAction(tr("contour"));
 	m_actContour->setCheckable(true);
-
+	m_actCamPos = new QAction(tr("run to Camera Position"));
+	m_actCamPos->setCheckable(true);
 	//m_actInputIO->setCheckable(true);
 	//m_actOutputIO->setCheckable(true);
 	//m_actDebug->setCheckable(true);
@@ -191,8 +194,9 @@ int AOI::createLayout(){
 	menDebug->addAction(m_actInputIO);
 	menDebug->addAction(m_actOutputIO);
 	menDebug->addAction(m_actDebug);
-	menTool->addAction(m_actCameraPosition);
+	//menTool->addAction(m_actCameraPosition);
 	menTool->addAction(m_actContour);
+	menTool->addAction(m_actCamPos);
 	menHelp->addAction(m_actAbout);
 
 	connect(m_actOption, SIGNAL(triggered()), this, SLOT(slot_Option()));
@@ -590,13 +594,18 @@ void AOI::slot_setStatus(int sta) {
 	m_labStatus.setText(strText);
 	m_labStatus.setStyleSheet(strStyle);
 }
-void AOI::slot_setCameraResult(int row,int col,int result) {
-	if (row == 0xFF&&col==0xFF) {
+void AOI::slot_setCameraResult(int row,int cmd,int result) {
+	if (row == 0xFF&&cmd==0xFF) {
 		for (int r = 0; r < m_tabCameraStatus.rowCount(); r++) {
 			for (int c = 0; c < m_tabCameraStatus.columnCount(); c++) {
 				m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 255, 255));
 			}
 		}
+		return;
+	}
+
+	if (cmd == 0xffff) {
+		uiNGCount = 0;
 		return;
 	}
 
@@ -606,6 +615,7 @@ void AOI::slot_setCameraResult(int row,int col,int result) {
 	switch (result) {
 	case 0:
 		m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 0, 0));
+		uiNGCount++;
 		break;
 	case 1:
 		m_tabCameraStatus.item(r, c)->setBackground(QColor(0, 255, 0));
@@ -613,5 +623,11 @@ void AOI::slot_setCameraResult(int row,int col,int result) {
 	case 2:
 		m_tabCameraStatus.item(r, c)->setBackground(QColor(255, 255, 0));
 		break;
+	}
+
+	if (uiNGCount > ((double)m_tabCameraStatus.rowCount()*m_tabCameraStatus.columnCount()*0.5f+0.5f)) {
+		slot_butSuspended();
+		QMessageBox::warning(this, tr("NG products!"), tr("excessive NG products!"));
+		uiNGCount = 0;
 	}
 }

@@ -29,3 +29,12 @@ QDialog QPushButton{
 .DialogEx QLabel{
 	font: 20pt "宋体";
 }
+widResult .QPushButton{
+	border:0px solid black;
+}
+
+widResult .QPushButton:pressed{
+	border:1px solid black;
+	background-color:blue;
+}
+

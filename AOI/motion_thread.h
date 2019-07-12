@@ -42,7 +42,7 @@ public:
 	bool m_bResetMode;
 
 	bool m_bPannelCheck;
-
+	QTime m_startTime;
 	int motion_Init();
 	int axis_move(int card, int axis, int speed, int absMode,int target, int orgMode = 0,bool bAck=true,bool bReset=false);
 	int slot_MarkPen(std::vector<long> position,double rowMargin,double colMargin );

@@ -15,21 +15,22 @@ widResult::~widResult()
 }
 
 void widResult::slot_update(bool bresult, int iPannel, int iSample, int timeProcess, QString strPath, QString strMD5) {
-	if (bresult) {
-		if (timeProcess == 0) {
-			ui.lab_result->setText("");
-			//ui.lab_result->setStyleSheet("background-color:white;");
-		}else{
+	
+	if (timeProcess == 0) {
+		ui.lab_result->setText("");
+		ui.lab_result->setStyleSheet("background-color:white;");
+	}
+	else {
+		if (bresult) {
 			ui.lab_result->setText("OK");
 			ui.lab_result->setStyleSheet("background-color:green;");
 		}
+		else {
+			ui.lab_result->setText("NG");
+			ui.lab_result->setStyleSheet("background-color:red;");
+		}
 	}
-	else
-	{
-		ui.lab_result->setText("NG");
-		ui.lab_result->setStyleSheet("background-color:red;");
-	}
-		
+
 
 	if(iPannel)
 		ui.lab_pannel->setText(QString::number(iPannel));

@@ -87,6 +87,7 @@ void Motion_thread::slot_sendChangeIO(int iIoNumber, int iCard) {
 	dmc_write_outbit(iCard, iIoNumber, !status);
 }
 void Motion_thread::slot_resetAxis() {
+	srt_config config = ((AOI*)m_parent)->m_config;
 	emit sig_logOutput(tr("reset..."));
 	short status=0;
 	while (!status) {
@@ -108,14 +109,13 @@ void Motion_thread::slot_resetAxis() {
 	slot_writeOutIO(0, 2, 1, true);
 	slot_writeOutIO(1, 4, 1, true);
 	
-	axis_move(1, 2, 10000, 0, 0, 1,true,true);
+	axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1,true,true);
+	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, false, true);
+	axis_move(0, 1, config.lORG_Speed_TestY, 0, 0, 1, false, true);
+	axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, false, true);
 
-	axis_move(0, 0, 10000, 1, 0, 1, false, true);
-	axis_move(0, 1, 10000, 0, 0, 1, false, true);
-	axis_move(0, 2, 1000, 0, 0, 1, false, true);
-
-	axis_move(1, 1, 80000, 0, 0, 1, false, true);
-	axis_move(1, 0, 80000, 1, 0, 1, false, true);
+	axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, false, true);
+	axis_move(1, 0, config.lORG_Speed_LoadZ, 1, 0, 1, false, true);
 
 	status=0;
 
@@ -162,7 +162,6 @@ void Motion_thread::slot_resetAxis() {
 	m_bES = false;
 	m_bSuspended = false;
 	m_bResetMode = false;
-
 }
 int Motion_thread::slot_writeOutIO(WORD card, WORD bitNo, WORD status,bool bReset) {
 	if (!bReset) {
@@ -454,11 +453,12 @@ void Motion_thread::slot_auto(QStringList listBox) {
 		// ************************** 夹料 ***************************************
 		if (m_bPannelCheck) {
 			m_bPannelCheck = false;
-			axis_move(1, 2, 20000, 0, 0, 1, false);
+			axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1, false);
 			slot_writeOutIO(0, 0, 0);
-			axis_move(0, 2, 2000, 1, -9000);
+			axis_move(0, 2, config.lTestClawSpeed, 1, -9000);
 			slot_writeOutIO(0, 0, 1);
-			axis_move(0, 2, 2000, 0, 0, 1);
+			msleep(500);
+			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1);
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, 1000, 0, -5000, 0, false);
 			do {
@@ -468,12 +468,20 @@ void Motion_thread::slot_auto(QStringList listBox) {
 					UPDATESTATUS(abnormalPannel_Load);
 				}
 			} while (!status);
+
 			dmc_stop(0, 2, 1);
 			msleep(500);
 			slot_writeOutIO(0, 1, 1);
 			msleep(500);
 			slot_writeOutIO(0, 2, 0);
 			slot_writeOutIO(0, 0, 1);
+
+			if (((AOI*)m_parent)->m_actCamPos->isChecked()){
+				emit sig_logOutput(QString::fromLocal8Bit("已运动到摄像机位置，即将退出自动模式！"));
+				return;
+			}
+			
+			
 
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, config.lTestFirstPos_X, 0, false);
 			axis_move(0, 1, config.lORG_Speed_TestY, 1, config.lTestFirstPos_Y, 0, false);
@@ -486,7 +494,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			} while (!status);
 
 			m_markPosition.clear();
-
+			emit sig_testResult(0x00, 0xffff, true);
 			slot_MatrixMove(config.iPlateRows, config.iPlatCols,\
 				int((double)config.iPlatRowPadding/(config.iPlateRows-1)/10*10000+0.5), int((double)config.iPlatColPadding / (config.iPlatCols-1) / 10 * 10000+0.5), listBox.at(loopCount),loadIndex);
 			
@@ -514,6 +522,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, config.lORG_Speed_TestX2, 1, -8000, 0, true);
 			slot_writeOutIO(0, 0, 1);
+			msleep(500);
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, config.lORG_Speed_TestX2, 1, -10500, 0, true);
@@ -536,7 +545,6 @@ void Motion_thread::slot_auto(QStringList listBox) {
 
 			slot_writeOutIO(0, 0, 1);
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
-			axis_move(0, 0, 80000, 1, -20000);
 			axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true);
 		}
 	}
@@ -581,8 +589,9 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 			m_bReceived = false;
 			slot_predict(boxID, pannelID, m_iSampleID+1);
 			mutex1->unlock();
-			QTime reachTime = QTime::currentTime().addMSecs(10000);
-			while (QTime::currentTime() < reachTime&&m_bReceived==false)
+			m_startTime = QTime::currentTime();
+			m_startTime.restart();
+			while (m_startTime.elapsed()<10000&&m_bReceived==false)
 				QApplication::processEvents();
 			
 		}
@@ -622,9 +631,11 @@ void Motion_thread::slot_predict(QString boxID, int pannelID, int sampleID) {
 	//curcol = colCMOS - col + 1;		//以左上角为1,1坐标的列号
 	//sample_id = curcol + colCMOS*(row - 1);//从左到右从上到下计数
 	QString strTime = QDateTime::currentDateTime().toString("yyyyMMddhhmmsszzz");//发送拍照指令时间
-	QString s = strTime;//boxid+pannelid+sampleid+time合并用以生成MD5
+	QString s = boxID+pannelID+sampleID+strTime;//boxid+pannelid+sampleid+time合并用以生成MD5
 	QByteArray b = HTTP_Interface::getMD5(s.toLatin1());
 	QString md5 = HTTP_Interface::UnicodeToString(b);
+
+
 
 	QString strSend(tr("{\"box_id\":\"%1\",\"pannel_id\":\"%2\",\"sample_id\":\"%3\",\"machine_id\":\"%4\",\"time\":\"%5\",\"operator\":\"%6\",\"shift_id\":\"%7\",\"md5\":\"%8\",\"config\":\"%9\"}")
 		.arg(boxID)
@@ -638,7 +649,7 @@ void Motion_thread::slot_predict(QString boxID, int pannelID, int sampleID) {
 		.arg(1)
 	);
 	m_HTTP_Interface->sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/predict"), 6789);
-
+	emit sig_updateResult(true,0,0,0,"", md5);
 }
 void Motion_thread::slot_contour(bool bis) {
 	QString strSend;
@@ -871,7 +882,10 @@ QString Motion_thread1::onReply(QNetworkReply *pReply) {
 			gridColor = 2;
 
 		emit sig_testResult(m_parent->m_iSampleID,0,gridColor);
-		emit sig_updateResult(gridColor, m_parent->m_iPannelID, m_parent->m_iSampleID, 2002, img_path, " ");
+
+		emit sig_updateResult(gridColor, m_parent->m_iPannelID, m_parent->m_iSampleID,\
+			((Motion_thread*)m_parent)->m_startTime.elapsed(),\
+			img_path, "");
 		
 		if(gridColor!=1)
 			m_parent->m_markPosition.push_back(m_parent->m_iSampleID);

@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_widconfig_t {
-    QByteArrayData data[13];
-    char stringdata0[161];
+    QByteArrayData data[14];
+    char stringdata0[187];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,15 +42,16 @@ QT_MOC_LITERAL(7, 79, 4), // "item"
 QT_MOC_LITERAL(8, 84, 14), // "slot_configAdd"
 QT_MOC_LITERAL(9, 99, 14), // "slot_configDel"
 QT_MOC_LITERAL(10, 114, 15), // "slot_configSave"
-QT_MOC_LITERAL(11, 130, 14), // "slot_configFit"
-QT_MOC_LITERAL(12, 145, 15) // "slot_updatelist"
+QT_MOC_LITERAL(11, 130, 25), // "slot_mechanicalConfigSave"
+QT_MOC_LITERAL(12, 156, 14), // "slot_configFit"
+QT_MOC_LITERAL(13, 171, 15) // "slot_updatelist"
 
     },
     "widconfig\0sig_logOutput\0\0text\0color\0"
     "slot_listWidDoubleClicked\0QListWidgetItem*\0"
     "item\0slot_configAdd\0slot_configDel\0"
-    "slot_configSave\0slot_configFit\0"
-    "slot_updatelist"
+    "slot_configSave\0slot_mechanicalConfigSave\0"
+    "slot_configFit\0slot_updatelist"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +61,7 @@ static const uint qt_meta_data_widconfig[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,16 +69,17 @@ static const uint qt_meta_data_widconfig[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   54,    2, 0x06 /* Public */,
-       1,    1,   59,    2, 0x26 /* Public | MethodCloned */,
+       1,    2,   59,    2, 0x06 /* Public */,
+       1,    1,   64,    2, 0x26 /* Public | MethodCloned */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,   62,    2, 0x0a /* Public */,
-       8,    0,   65,    2, 0x0a /* Public */,
-       9,    0,   66,    2, 0x0a /* Public */,
-      10,    0,   67,    2, 0x0a /* Public */,
-      11,    0,   68,    2, 0x0a /* Public */,
-      12,    0,   69,    2, 0x0a /* Public */,
+       5,    1,   67,    2, 0x0a /* Public */,
+       8,    0,   70,    2, 0x0a /* Public */,
+       9,    0,   71,    2, 0x0a /* Public */,
+      10,    0,   72,    2, 0x0a /* Public */,
+      11,    0,   73,    2, 0x0a /* Public */,
+      12,    0,   74,    2, 0x0a /* Public */,
+      13,    0,   75,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, QMetaType::QColor,    3,    4,
@@ -85,6 +87,7 @@ static const uint qt_meta_data_widconfig[] = {
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 6,    7,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -106,8 +109,9 @@ void widconfig::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 3: _t->slot_configAdd(); break;
         case 4: _t->slot_configDel(); break;
         case 5: _t->slot_configSave(); break;
-        case 6: _t->slot_configFit(); break;
-        case 7: _t->slot_updatelist(); break;
+        case 6: _t->slot_mechanicalConfigSave(); break;
+        case 7: _t->slot_configFit(); break;
+        case 8: _t->slot_updatelist(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -148,13 +152,13 @@ int widconfig::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

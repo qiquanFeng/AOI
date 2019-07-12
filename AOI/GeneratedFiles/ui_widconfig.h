@@ -861,7 +861,7 @@ public:
 
         retranslateUi(widconfig);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(widconfig);
@@ -907,7 +907,7 @@ public:
         label_21->setText(QApplication::translate("widconfig", "Z \344\275\215\347\275\256", Q_NULLPTR));
         label_22->setText(QApplication::translate("widconfig", "Z \351\200\237\345\272\246", Q_NULLPTR));
         groupBox_5->setTitle(QApplication::translate("widconfig", "\346\265\213\350\257\225", Q_NULLPTR));
-        label_26->setText(QApplication::translate("widconfig", "Y \351\200\237\345\272\246", Q_NULLPTR));
+        label_26->setText(QApplication::translate("widconfig", "\351\201\215\345\216\206\351\200\237\345\272\246", Q_NULLPTR));
         label_30->setText(QApplication::translate("widconfig", "\345\244\271\345\255\220\351\200\237\345\272\246", Q_NULLPTR));
         groupBox_8->setTitle(QApplication::translate("widconfig", "\345\233\236\351\233\266\351\200\237\345\272\246", Q_NULLPTR));
         label_15->setText(QApplication::translate("widconfig", "\344\270\212\346\226\231", Q_NULLPTR));

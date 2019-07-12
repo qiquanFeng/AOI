@@ -47,6 +47,7 @@ struct srt_config {
 	long lTestFirstPos_X;
 	long lTestFirstPos_Y;
 	long lTestSpeed;
+	long lTestClawSpeed;
 
 	//ªÿ¡„
 	long lORG_Speed_LoadX;

@@ -289,4 +289,5 @@ void widconfig::updateConfig(srt_config &config) {
 	config.lTestFirstPos_X = ui.testFirstPos_X->value();
 	config.lTestFirstPos_Y = ui.testFirstPos_Y->value();
 	config.lTestSpeed = ui.testSpeed->value();
+	config.lTestClawSpeed = ui.testClawSpeed->value();
 }

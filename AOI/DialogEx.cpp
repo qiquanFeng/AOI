@@ -28,6 +28,7 @@ DialogEx::DialogEx(QWidget *parent)
 	lay.addLayout(pHlay,50);
 	pHlay->addWidget(&butCommit);
 	pHlay->addWidget(&butClear);
+	pHlay->setAlignment(Qt::AlignLeft);
 
 	connect(&lab1, SIGNAL(sig_doubleClick(QLabel*)), this, SLOT(slot_clear(QLabel*)));
 	connect(&lab2, SIGNAL(sig_doubleClick(QLabel*)), this, SLOT(slot_clear(QLabel*)));
@@ -53,13 +54,13 @@ void DialogEx::keyPressEvent(QKeyEvent *evt) {
 	if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		return;
 
-	if (bFirstKey) {
+	if (bFirstKey&&strLotNum.size()<3) {
 		mutex_key.lock();
 		bFirstKey = false;
 		mutex_key.unlock();
 		thr1.start();
 	}
-		
+
 	str_temp.append(evt->text());
 	int i;
 }
@@ -131,6 +132,7 @@ void DialogEx::slot_clear() {
 	lab2.clear();
 	lab3.clear();
 	strLotNum.clear();
+	str_temp.clear();
 }
 void DialogEx::slot_commit() {
 	if (strLotNum.size() <= 0) {

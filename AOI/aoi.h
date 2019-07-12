@@ -88,6 +88,7 @@ public:
 	QAction *m_actCameraPosition;
 	QAction *m_actAbout;
 	QAction *m_actContour;
+	QAction *m_actCamPos;
 
 	widconfig *m_widconfig;
 	DialogEx *m_diaAuto;
@@ -147,6 +148,7 @@ private:
 
 	unsigned int uiRows;
 	unsigned int uiColumns;
+	unsigned int uiNGCount;
 
 	__inline void saveLayout() {
 		QSettings settings("layout.ini",QSettings::Format::IniFormat);

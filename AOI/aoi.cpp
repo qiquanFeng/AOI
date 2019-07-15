@@ -475,6 +475,16 @@ void AOI::slot_setStatus(int sta) {
 	QString strText,strStyle;
 	enumStatus status = (enumStatus)sta;
 
+	if (status == abnormalNGCount) {
+		strText = QString(tr("pause NG 50%!"));
+		strStyle = QString("color:red;");
+		dmc_write_outbit(0, 4, 0);
+		dmc_write_outbit(0, 5, 0);
+		dmc_write_outbit(0, 6, 1);
+		dmc_write_outbit(0, 7, 1);
+		return;
+	}
+
 	if (th->m_bES) {
 		dmc_write_outbit(0, 4, 0);
 		dmc_write_outbit(0, 5, 0);
@@ -627,6 +637,7 @@ void AOI::slot_setCameraResult(int row,int cmd,int result) {
 
 	if (uiNGCount > ((double)m_tabCameraStatus.rowCount()*m_tabCameraStatus.columnCount()*0.5f+0.5f)) {
 		slot_butSuspended();
+		slot_setStatus(abnormalNGCount);
 		QMessageBox::warning(this, tr("NG products!"), tr("excessive NG products!"));
 		uiNGCount = 0;
 	}

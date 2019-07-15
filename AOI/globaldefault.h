@@ -17,7 +17,8 @@ enum enumStatus {
 	abnormalBoxBase_unLoad,
 	lotNumber,
 	nextLoop,
-	lotOver
+	lotOver,
+	abnormalNGCount
 
 };
 

@@ -94,6 +94,7 @@ void Motion_thread::slot_resetAxis() {
 		if (!dmc_read_inbit(1, 4) || !dmc_read_inbit(1, 8)) {
 			status = 0;
 			emit sig_setStatus(abnormalPannel_unLoad);
+			return ;
 		}
 		else{
 			status = 1;
@@ -343,6 +344,16 @@ void Motion_thread::slot_auto(QStringList listBox) {
 		axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, true);
 
 		//********** 上下 料盒 *********************************
+		while (!status) {
+			if (!dmc_read_inbit(1, 4) || !dmc_read_inbit(1, 8)) {
+				status = 0;
+				emit sig_setStatus(abnormalPannel_unLoad);
+			}
+			else {
+				status = 1;
+			}
+		}
+
 
 		if (loadIndex &&!(loadIndex % config.iBoxRows)) {
 			loadIndex = 0;
@@ -461,11 +472,13 @@ void Motion_thread::slot_auto(QStringList listBox) {
 			axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1);
 			slot_writeOutIO(0, 0, 0);
 			axis_move(0, 2, 1000, 0, -5000, 0, false);
+
 			do {
 				status = dmc_read_inbit(0, 2);
 				if (dmc_check_done(0, 2)) {
 					emit sig_logOutput(QString::fromLocal8Bit("载板上料检测失败！"));
 					UPDATESTATUS(abnormalPannel_Load);
+					return;
 				}
 			} while (!status);
 

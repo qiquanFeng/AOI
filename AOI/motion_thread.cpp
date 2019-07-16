@@ -136,7 +136,7 @@ void Motion_thread::slot_resetAxis() {
 			{
 				WORD status = dmc_axis_io_status(card, axis);
 				if (card == 1 && axis == 2) {
-					if ((dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
+					if (!(dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
 
 				}
 				else {

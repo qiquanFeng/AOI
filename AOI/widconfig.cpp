@@ -290,4 +290,10 @@ void widconfig::updateConfig(srt_config &config) {
 	config.lTestFirstPos_Y = ui.testFirstPos_Y->value();
 	config.lTestSpeed = ui.testSpeed->value();
 	config.lTestClawSpeed = ui.testClawSpeed->value();
+	config.lORG_Speed_LoadX = ui.org_push_speed->value();
+	config.lORG_Speed_unLoadZ = ui.org_unload_speed->value();
+	config.lORG_Speed_LoadZ = ui.org_load_speed->value();
+	config.lORG_Speed_TestX = ui.org_testX_speed->value();
+	config.lORG_Speed_TestY = ui.org_testY_speed->value();
+	config.lORG_Speed_TestX2 = ui.org_testX2_speed->value();
 }

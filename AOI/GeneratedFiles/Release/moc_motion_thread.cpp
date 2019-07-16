@@ -166,7 +166,7 @@ static const uint qt_meta_data_Motion_thread[] = {
     QMetaType::Void, QMetaType::QStringList,   42,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Bool,    2,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Double, QMetaType::Double, QMetaType::QString, QMetaType::Int,   18,   19,   46,   47,   35,   36,
+    QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Double, QMetaType::Double, QMetaType::QString, QMetaType::Int,   18,   19,   46,   47,   35,   36,
     QMetaType::QString, 0x80000000 | 49,   50,
 
        0        // eod
@@ -201,7 +201,8 @@ void Motion_thread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 18: _t->slot_auto((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
         case 19: _t->slot_Suspended(); break;
         case 20: _t->slot_contour((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 21: _t->slot_MatrixMove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< double(*)>(_a[3])),(*reinterpret_cast< double(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6]))); break;
+        case 21: { int _r = _t->slot_MatrixMove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< double(*)>(_a[3])),(*reinterpret_cast< double(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6])));
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
         case 22: { QString _r = _t->onReply((*reinterpret_cast< QNetworkReply*(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
         default: ;

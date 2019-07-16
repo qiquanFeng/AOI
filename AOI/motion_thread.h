@@ -32,6 +32,8 @@ public:
 	QThread *th1;
 	std::vector<long> m_markPosition;
 
+	int m_CardNum;
+
 	QString m_strBoxID;
 	int m_iPannelID;
 	int m_iSampleID;
@@ -44,7 +46,7 @@ public:
 	bool m_bPannelCheck;
 	QTime m_startTime;
 	int motion_Init();
-	int axis_move(int card, int axis, int speed, int absMode,int target, int orgMode = 0,bool bAck=true,bool bReset=false);
+	int axis_move(int card, int axis, int speed, int absMode,int target, int orgMode = 0,bool bAck=true,bool bReset=false,double tdec=0.1f);
 	int slot_MarkPen(std::vector<long> position,double rowMargin,double colMargin );
 signals:
 	void sig_axisChange(int,int,long);
@@ -72,14 +74,14 @@ signals:
 
 		void slot_contour(bool);
 		
-		void slot_MatrixMove(int row,int col, double rowMargin, double colMargin, QString boxID, int pannelID);
+		int slot_MatrixMove(int row,int col, double rowMargin, double colMargin, QString boxID, int pannelID);
 		QString onReply(QNetworkReply *pReply);
 protected:
 	virtual void run();
 private:
 	
 
-	int m_CardNum;
+	
 	QString configFilePath[2];
 	HTTP_Interface *m_HTTP_Interface;
 };

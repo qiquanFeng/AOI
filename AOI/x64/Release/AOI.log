@@ -1,11 +1,2 @@
-﻿  Moc'ing aoi.h...
-  moc_aoi.cpp
-  moc_motion_thread.cpp
-  aoi.cpp
-  axisDebug.cpp
-  dockwidgetex.cpp
-  main.cpp
-  motion_thread.cpp
-  widconfig.cpp
-  正在生成代码...
+﻿  motion_thread.cpp
   AOI.vcxproj -> D:\projects\AOI\x64\Release\AOI.exe

@@ -74,6 +74,9 @@ AOI::~AOI()
 	th->m_bSuspended = true;
 	slot_setStatus(stop);
 	saveLayout();
+	th->m_CardNum = 0;
+	th->exit();
+	
 }
 
 void AOI::resizeEvent(QResizeEvent *event) {
@@ -246,9 +249,12 @@ void AOI::slot_butRun() {
 }
 void AOI::slot_butReset() {
 	m_actCameraPosition->setEnabled(false);
+	m_butReset.setEnabled(false);
 	m_butAuto.setEnabled(false);
 	th->m_bSuspended = false;
+	th->mutex1->lock();
 	th->m_bES = false;
+	th->mutex1->unlock();
 	th->m_bResetMode = true;
 
 	m_butAuto.setEnabled(false);
@@ -259,6 +265,7 @@ void AOI::slot_butReset() {
 		this->sleep(200);
 	}
 	m_butAuto.setEnabled(true);
+	m_butReset.setEnabled(true);
 	m_actCameraPosition->setEnabled(TRUE);
 	slot_setStatus(success);
 };
@@ -283,15 +290,17 @@ void AOI::slot_butAuto() {
 void AOI::slot_butStop() {
 	m_butAuto.setEnabled(false);
 	emit sig_logOutput(tr("Emergency Stop!"),QColor(255,0,0));
+	th->mutex1->lock();
+	th->m_bES = true;
+	th->mutex1->unlock();
+	th->m_bSuspended = false;
 	dmc_stop(0, 0, 1);
 	dmc_stop(0, 1, 1);
 	dmc_stop(0, 2, 1);
 	dmc_stop(1, 0, 1);
 	dmc_stop(1, 1, 1);
 	dmc_stop(1, 2, 1);
-	th->m_bES = true;
-	th->m_bSuspended = false;
-	
+
 	m_status.clear();
 	slot_setStatus(stop);
 	m_butReset.setEnabled(true);

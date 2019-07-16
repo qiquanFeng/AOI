@@ -28,6 +28,8 @@ Motion_thread::~Motion_thread()
 }
 void Motion_thread::run() {
 	while (1&& m_CardNum==2) {
+
+		DWORD ss=dmc_axis_io_status(1, 2);
 		short inStatus[2][16];
 		short outStatus[2][16];
 
@@ -93,7 +95,13 @@ void Motion_thread::slot_resetAxis() {
 	while (!status) {
 		if (!dmc_read_inbit(1, 4) || !dmc_read_inbit(1, 8)) {
 			status = 0;
-			emit sig_setStatus(abnormalPannel_unLoad);
+			if (!dmc_read_inbit(1, 8)) {
+				emit sig_setStatus(abnormalPannel_unLoad);
+			}
+			else {
+				emit sig_setStatus(abnormalPannel_Load);
+			}
+			
 			return ;
 		}
 		else{
@@ -102,7 +110,6 @@ void Motion_thread::slot_resetAxis() {
 	}
 	
 	slot_writeOutIO(0, 3, 0, true);
-	slot_writeOutIO(0, 0, 1, true);
 	slot_writeOutIO(0, 1, 0, true);
 	slot_writeOutIO(1, 5, 1, true);
 	slot_writeOutIO(1, 6, 1, true);
@@ -111,12 +118,14 @@ void Motion_thread::slot_resetAxis() {
 	slot_writeOutIO(1, 4, 1, true);
 	
 	axis_move(1, 2, config.lORG_Speed_LoadX, 0, 0, 1,true,true);
-	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, false, true);
+	axis_move(0, 0, config.lORG_Speed_TestX, 1, 0, 1, true, true);
 	axis_move(0, 1, config.lORG_Speed_TestY, 0, 0, 1, false, true);
 	axis_move(0, 2, config.lORG_Speed_TestX2, 0, 0, 1, false, true);
 
 	axis_move(1, 1, config.lORG_Speed_unLoadZ, 0, 0, 1, false, true);
 	axis_move(1, 0, config.lORG_Speed_LoadZ, 1, 0, 1, false, true);
+
+	slot_writeOutIO(0, 0, 1, true);
 
 	status=0;
 
@@ -127,8 +136,8 @@ void Motion_thread::slot_resetAxis() {
 			{
 				WORD status = dmc_axis_io_status(card, axis);
 				if (card == 1 && axis == 2) {
-					if (!(dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
-					int kk=0;
+					if ((dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
+
 				}
 				else {
 					if (!(dmc_axis_io_status(card, axis) & 0x10)) { iresult = 0; }
@@ -138,6 +147,13 @@ void Motion_thread::slot_resetAxis() {
 		}
 		status = iresult;
 	}
+
+	do {
+		status = 1;
+		if (dmc_check_done(1, 0) == 0 || dmc_check_done(1, 1) == 0) {
+			status = 0;
+		}
+	} while (!status);
 
 	if (!status) {
 		m_bSuspended = false;
@@ -508,8 +524,8 @@ void Motion_thread::slot_auto(QStringList listBox) {
 
 			m_markPosition.clear();
 			emit sig_testResult(0x00, 0xffff, true);
-			slot_MatrixMove(config.iPlateRows, config.iPlatCols,\
-				int((double)config.iPlatRowPadding/(config.iPlateRows-1)/10*10000+0.5), int((double)config.iPlatColPadding / (config.iPlatCols-1) / 10 * 10000+0.5), listBox.at(loopCount),loadIndex);
+			if (slot_MatrixMove(config.iPlateRows, config.iPlatCols, \
+				int((double)config.iPlatRowPadding / (config.iPlateRows - 1) / 10 * 10000 + 0.5), int((double)config.iPlatColPadding / (config.iPlatCols - 1) / 10 * 10000 + 0.5), listBox.at(loopCount), loadIndex)) return;
 			
 			//***************************************  标记 *******************************************************
 			if(config.bEnablePen)
@@ -568,7 +584,7 @@ void Motion_thread::slot_auto(QStringList listBox) {
 void Motion_thread::slot_Suspended() {
 	
 }
-void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double colMargin,QString boxID,int pannelID) {
+int Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double colMargin,QString boxID,int pannelID) {
 	srt_config config = ((AOI*)m_parent)->m_config;
 	double rowStep = rowMargin;
 	double colStep = colMargin;
@@ -583,20 +599,20 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 		for (int r = 0; r < row; r++)
 		{
 			if (c % 2) {
-				axis_move(0, 1, config.lTestSpeed, 1, (axis_Y+ rowStep*(row-1)) - rowStep*r);
+				if(axis_move(0, 1, config.lTestSpeed, 1, (axis_Y+ rowStep*(row-1)) - rowStep*r)) return -1;
 				if(r)
 					m_iSampleID -= col;
 			}
 			else {
-				axis_move(0, 1, config.lTestSpeed, 1, axis_Y + rowStep*r);
+				if(axis_move(0, 1, config.lTestSpeed, 1, axis_Y + rowStep*r,0, true, false, 0)) return -1;
 				if (r)
 					m_iSampleID += col;
 			}
-			axis_move(0, 0, config.lTestSpeed, 1, axis_X - colStep*c);
+			if(axis_move(0, 0, config.lTestSpeed, 1, axis_X - colStep*c,0,true,false,0)) return -1;
 
 			//**    开始检测  ****
 			if (m_bES)
-				return;
+				return -1;
 
 			mutex1->lock();
 			m_bReceived = false;
@@ -609,6 +625,7 @@ void Motion_thread::slot_MatrixMove(int row, int col, double rowMargin, double c
 			
 		}
 	}
+	return 0;
 }
 int Motion_thread::slot_MarkPen(std::vector<long> position, double rowMargin, double colMargin) {
 	srt_config config = ((AOI*)m_parent)->m_config;
@@ -771,20 +788,29 @@ void Motion_thread1::slot_predict(QString boxID, int pannelID, int sampleID) {
 	slot_sendPost(strSend.toUtf8(), QUrl("http://127.0.0.1:6789/predict"), 6789);
 
 }
-int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int target, int orgMode, bool bAck,bool bReset) {
+int Motion_thread::axis_move(int card, int axis, int speed, int absMode,int target, int orgMode, bool bAck,bool bReset,double tdec) {
 	if (!bReset||!orgMode){
 		while (m_bSuspended) {
 			msleep(20);
 		}
+		mutex1->lock();
 		if (m_bES) {
 			emit sig_logOutput(QString::fromLocal8Bit("急停状态中！"),QColor(255,0,0));
+			mutex1->unlock();
 			return -1;
 		}
+		mutex1->unlock();
 	}
 	if (bReset)
 		m_bResetMode = true;
 
-	dmc_set_profile(card, axis, (double)speed*0.2, speed, 0.1, 0.1, 0);
+	if (tdec == 0) {
+		dmc_set_profile(card, axis, (double)speed, speed, tdec, tdec, 0);
+	}
+	else {
+		dmc_set_profile(card, axis, (double)speed*0.2, speed, tdec, tdec, 0);
+	}
+	
 	if (orgMode) {
 		dmc_set_homemode(card, axis, absMode, 1, 0, 0);
 		dmc_home_move(card, axis);
